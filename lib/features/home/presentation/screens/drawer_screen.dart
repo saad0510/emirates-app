@@ -1,0 +1,150 @@
+import 'dart:ui';
+
+import 'package:flutter/material.dart';
+import 'package:flutter_advanced_drawer/flutter_advanced_drawer.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:provider/provider.dart';
+
+import '../../../../app/routes.dart';
+import '../../../../app/sizes.dart';
+import '../../../../app/theme/colors.dart';
+import '../../../../app/theme/theme.dart';
+import '../../../../core/extensions/context_ext.dart';
+import '../widgets/drawer_item.dart';
+import '../widgets/user_detail_header.dart';
+
+class DrawerScreen extends StatefulWidget {
+  const DrawerScreen({super.key, required this.page, required this.controller});
+
+  final Scaffold page;
+  final AdvancedDrawerController controller;
+
+  @override
+  State<DrawerScreen> createState() => _DrawerScreenState();
+}
+
+class _DrawerScreenState extends State<DrawerScreen> {
+  @override
+  Widget build(BuildContext context) {
+    return SafeArea(
+      child: AdvancedDrawer(
+        openRatio: 0.7,
+        controller: widget.controller,
+        animationCurve: Curves.easeInOutCubic,
+        backdropColor: Theme.of(context).scaffoldBackgroundColor,
+        childDecoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(16),
+          boxShadow: [
+            BoxShadow(
+              blurRadius: 5,
+              spreadRadius: 1,
+              color: AppColors.highlight,
+            ),
+          ],
+        ),
+        drawer: CustomScrollView(
+          slivers: [
+            SliverFillRemaining(
+              hasScrollBody: false,
+              child: Padding(
+                padding: EdgeInsets.only(left: 20.w),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    const Spacer(flex: 2),
+                    AppSizes.normalY,
+                    const UserDetailHeader(),
+                    const Spacer(),
+                    AppSizes.normalY,
+                    DrawerItem(
+                      label: "My Profile",
+                      icon: Icons.person_outline,
+                      onPressed: () {},
+                    ),
+                    DrawerItem(
+                      label: "My Trips",
+                      icon: Icons.calendar_today_outlined,
+                      onPressed: () {},
+                    ),
+                    DrawerItem(
+                      label: "Dark Mode",
+                      isSwitch: true,
+                      icon: Icons.dark_mode_outlined,
+                      switchWidget: Switch.adaptive(
+                        value: context.isDarkMode,
+                        activeColor: context.primaryColor,
+                        onChanged: (_) {
+                          context.read<AppTheme>().toggleTheme();
+                        },
+                      ),
+                    ),
+                    DrawerItem(
+                      label: "Share App",
+                      icon: Icons.share,
+                      onPressed: () {},
+                    ),
+                    DrawerItem(
+                      label: "Settings",
+                      icon: Icons.settings_outlined,
+                      onPressed: () {},
+                    ),
+                    AppSizes.maxY,
+                    TextButton.icon(
+                      style: TextButton.styleFrom(
+                        padding: AppPaddings.smallX,
+                        foregroundColor: context.primaryColor,
+                        textStyle: context.textTheme.bodyText2,
+                      ),
+                      onPressed: logout,
+                      icon: const Icon(Icons.logout_rounded),
+                      label: const Text("Logout"),
+                    ),
+                    AppSizes.normalY,
+                    const Spacer(),
+                  ],
+                ),
+              ),
+            ),
+          ],
+        ),
+        child: Stack(
+          fit: StackFit.expand,
+          children: [
+            widget.page,
+            _PageBlurWidget(controller: widget.controller),
+          ],
+        ),
+      ),
+    );
+  }
+
+  void logout() {
+    context.replaceAll(AppRoutes.auth);
+  }
+}
+
+class _PageBlurWidget extends StatelessWidget {
+  const _PageBlurWidget({required this.controller});
+
+  final AdvancedDrawerController controller;
+
+  @override
+  Widget build(BuildContext context) {
+    return ValueListenableBuilder<AdvancedDrawerValue>(
+      valueListenable: controller,
+      builder: (_, value, __) {
+        return Visibility(
+          visible: controller.value.visible,
+          replacement: Container(),
+          child: BackdropFilter(
+            filter: ImageFilter.blur(sigmaX: 3, sigmaY: 3),
+            child: Container(
+              color: Colors.transparent,
+            ),
+          ),
+        );
+      },
+    );
+  }
+}
