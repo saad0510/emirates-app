@@ -5,11 +5,15 @@ import '../../../../app/assets.dart';
 import '../../../../app/sizes.dart';
 import '../../../../core/extensions/context_ext.dart';
 import '../../../../core/extensions/text_ext.dart';
+import '../../../../core/utils/date_time_service.dart';
 import '../../../common/presentation/widgets/circular_logo.dart';
 import '../../../common/presentation/widgets/ticket_widget.dart';
+import '../../../flights/data/entities/flight.dart';
 
 class FlightTicket extends StatelessWidget {
-  const FlightTicket({super.key});
+  const FlightTicket({super.key, required this.flight});
+
+  final Flight flight;
 
   @override
   Widget build(BuildContext context) {
@@ -22,7 +26,7 @@ class FlightTicket extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Text(
-                "NYC",
+                flight.departureCity.code,
                 style: context.textTheme.headline3,
               ),
               Padding(
@@ -30,7 +34,7 @@ class FlightTicket extends StatelessWidget {
                 child: Image.asset(AppAssets.planeTrace),
               ),
               Text(
-                "SFO",
+                flight.arrivalCity.code,
                 style: context.textTheme.headline3,
               ),
             ],
@@ -39,11 +43,11 @@ class FlightTicket extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Text(
-                "New York City",
+                flight.departureCity.name,
                 style: context.textTheme.subtitle2,
               ),
               Text(
-                "San Fransisco",
+                flight.arrivalCity.name,
                 style: context.textTheme.subtitle2,
               ),
             ],
@@ -69,11 +73,11 @@ class FlightTicket extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Text(
-                "Feb 25, 11:30pm",
+                DateTimeService.dateTimeStr(flight.dateTime),
                 style: context.textTheme.subtitle2,
               ),
               Text(
-                "AB689",
+                flight.fid,
                 style: context.textTheme.subtitle2,
               ),
             ],
@@ -85,7 +89,7 @@ class FlightTicket extends StatelessWidget {
         children: [
           CircularLogo(radius: 20.sp),
           Text(
-            "\$500",
+            "\$${flight.cost.roundToDouble()}",
             style: context.textTheme.headline5?.bold,
           ),
         ],

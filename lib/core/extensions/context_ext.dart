@@ -37,6 +37,10 @@ extension NavExtOnContext on BuildContext {
     return Navigator.of(this).pop(result);
   }
 
+  Future<void> maybePop([bool? result]) async {
+    await Navigator.of(this).maybePop(result);
+  }
+
   bool get canPop {
     return Navigator.of(this).canPop();
   }

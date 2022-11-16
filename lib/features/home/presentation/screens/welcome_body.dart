@@ -1,9 +1,11 @@
+import 'package:emirates/features/flights/data/entities/flight.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import '../../../../app/sizes.dart';
 import '../../../../core/extensions/context_ext.dart';
 import '../../../../core/extensions/text_ext.dart';
+import '../../../flights/presentation/controllers/city_controller.dart';
 import '../widgets/flight_ticket.dart';
 import '../widgets/popular_destinations_short_list.dart';
 import '../widgets/view_all_section.dart';
@@ -31,7 +33,17 @@ class WelcomeBody extends StatelessWidget {
             ViewAllSection(
               title: "Upcoming flights",
               onPressed: () {},
-              child: const Center(child: FlightTicket()),
+              child: Center(
+                child: FlightTicket(
+                  flight: Flight(
+                    fid: "AB689",
+                    departureCity: CityController.cities.first,
+                    arrivalCity: CityController.cities.last,
+                    dateTime: DateTime.now(),
+                    cost: 500.9,
+                  ),
+                ),
+              ),
             ),
             Container(
               height: 360.h,
