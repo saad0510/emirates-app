@@ -2,11 +2,17 @@ class DateTimeService {
   static final minDate = DateTime(2020, 1, 1);
   static final maxDate = DateTime(2030, 12, 31);
 
+  static String timeStr(DateTime dateTime) {
+    final hour = dateTime.hour.toString().padLeft(2, '0');
+    final minute = dateTime.minute.toString().padLeft(2, '0');
+    return '$hour:$minute';
+  }
+
   static String dateStr(DateTime dateTime) {
     final year = dateTime.year.toString();
     final month = _monthStr(dateTime.month);
     final day = dateTime.day.toString();
-    return '$day $month, $year';
+    return '$month $day, $year';
   }
 
   static String dateTimeStr(DateTime dateTime, {bool full = false}) {

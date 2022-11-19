@@ -34,7 +34,7 @@ class _DrawerScreenState extends State<DrawerScreen> {
         backdropColor: Theme.of(context).scaffoldBackgroundColor,
         childDecoration: BoxDecoration(
           borderRadius: BorderRadius.circular(16),
-          boxShadow: [
+          boxShadow: const [
             BoxShadow(
               blurRadius: 5,
               spreadRadius: 1,

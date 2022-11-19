@@ -1,3 +1,5 @@
+import 'flight_class.dart';
+
 import 'city.dart';
 
 class Flight {
@@ -6,6 +8,7 @@ class Flight {
   final City arrivalCity;
   final DateTime dateTime;
   final double cost;
+  final FlightClass flightClass;
 
   const Flight({
     required this.fid,
@@ -13,5 +16,6 @@ class Flight {
     required this.arrivalCity,
     required this.dateTime,
     required this.cost,
+    required this.flightClass,
   });
 }

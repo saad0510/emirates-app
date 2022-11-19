@@ -7,7 +7,7 @@ import '../../../../core/extensions/context_ext.dart';
 import '../../../../core/extensions/text_ext.dart';
 import '../../../flights/presentation/screens/search_body.dart';
 import '../../../flights/presentation/screens/trips_body.dart';
-import '../../../flights/presentation/widgets/flight_filter_sheet.dart';
+import '../../../flights/presentation/widgets/filters/flight_filter_sheet.dart';
 import 'drawer_screen.dart';
 import 'profile_body.dart';
 import 'welcome_body.dart';

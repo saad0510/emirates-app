@@ -10,11 +10,13 @@ class AuthTextField extends StatefulWidget {
     required this.hint,
     this.obscure = false,
     this.validator,
+    this.keyboardType,
   });
 
   final String label;
   final String hint;
   final bool obscure;
+  final TextInputType? keyboardType;
   final String? Function(String?)? validator;
 
   @override
@@ -36,9 +38,10 @@ class _AuthTextFieldState extends State<AuthTextField> {
         ),
         AppSizes.smallY,
         TextFormField(
-          autovalidateMode: AutovalidateMode.onUserInteraction,
           obscureText: widget.obscure && show,
-          style: TextStyle(
+          autovalidateMode: AutovalidateMode.onUserInteraction,
+          keyboardType: widget.keyboardType,
+          style: context.textTheme.bodyText2?.copyWith(
             color: context.contrastColor.withOpacity(0.9),
             letterSpacing: widget.obscure && show ? 3 : null,
           ),

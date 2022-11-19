@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 
 class AppColors {
   static const white = Color(0xFFEAEAEA);
-  static final highlight = Colors.lightBlue.withOpacity(0.1);
+  static const highlight = Color(0xFFE1F2FA);
   static const primary = Color(0xFFD71A21);
 }
 

@@ -18,19 +18,19 @@ extension BasicExtOnContext on BuildContext {
 }
 
 extension NavExtOnContext on BuildContext {
-  Future<void> push(String route) async {
-    Navigator.of(this).pushNamed(route);
+  Future<void> push(String route, {Object? arguments}) async {
+    Navigator.of(this).pushNamed(route, arguments: arguments);
   }
 
   Future<void> replace(String appRoute) async {
     await Navigator.of(this).pushReplacementNamed(appRoute);
   }
 
-  Future<void> replaceAll(String route) async {
+  Future<void> replaceAll(String route, {Object? arguments}) async {
     while (Navigator.of(this).canPop()) {
       Navigator.of(this).pop();
     }
-    await Navigator.of(this).pushReplacementNamed(route);
+    await Navigator.of(this).pushReplacementNamed(route, arguments: arguments);
   }
 
   Future<void> pop([bool? result]) async {

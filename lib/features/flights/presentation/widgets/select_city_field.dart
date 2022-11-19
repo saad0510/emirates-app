@@ -6,8 +6,8 @@ import '../../../../core/extensions/context_ext.dart';
 import '../../data/entities/city.dart';
 import '../controllers/city_controller.dart';
 
-class SelectAirportField extends StatelessWidget {
-  const SelectAirportField({super.key});
+class SelectCityField extends StatelessWidget {
+  const SelectCityField({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -16,7 +16,7 @@ class SelectAirportField extends StatelessWidget {
         return TextField(
           controller: textEditingController,
           focusNode: focusNode,
-          style: TextStyle(
+          style: context.textTheme.bodyText2?.copyWith(
             color: context.contrastColor.withOpacity(0.9),
           ),
           decoration: const InputDecoration(

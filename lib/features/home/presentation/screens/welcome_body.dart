@@ -1,10 +1,11 @@
-import 'package:emirates/features/flights/data/entities/flight.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import '../../../../app/sizes.dart';
 import '../../../../core/extensions/context_ext.dart';
 import '../../../../core/extensions/text_ext.dart';
+import '../../../flights/data/entities/flight.dart';
+import '../../../flights/data/entities/flight_class.dart';
 import '../../../flights/presentation/controllers/city_controller.dart';
 import '../widgets/flight_ticket.dart';
 import '../widgets/popular_destinations_short_list.dart';
@@ -41,6 +42,7 @@ class WelcomeBody extends StatelessWidget {
                     arrivalCity: CityController.cities.last,
                     dateTime: DateTime.now(),
                     cost: 500.9,
+                    flightClass: FlightClass.business,
                   ),
                 ),
               ),

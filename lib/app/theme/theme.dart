@@ -202,7 +202,7 @@ class AppTheme extends BaseChangeNotifier<Brightness> {
 
   late final textThemeLight = TextTheme(
     headline1: AppFonts.headline1.grayDark,
-    headline2: AppFonts.headline2,
+    headline2: AppFonts.headline2.gray,
     headline3: AppFonts.headline3.grayDark,
     headline4: AppFonts.headline4.black,
     headline5: AppFonts.headline5.black,

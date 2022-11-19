@@ -5,17 +5,26 @@ import '../features/auth/presentation/screens/auth_screen.dart';
 import '../features/auth/presentation/screens/login_screen.dart';
 import '../features/auth/presentation/screens/onboarding_screen.dart';
 import '../features/auth/presentation/screens/registration_screen.dart';
+import '../features/flights/data/entities/flight.dart';
+import '../features/flights/presentation/screens/boarding_pass_screen.dart';
+import '../features/flights/presentation/screens/booking_screen.dart';
+import '../features/flights/presentation/screens/choose_seats_screen.dart';
+import '../features/flights/presentation/screens/payment_screen.dart';
 import '../features/home/presentation/screens/home_screen.dart';
 
 class AppRoutes {
-  static const initial = onboard;
+  static const initial = home;
 
   static const onboard = "onboardScreen";
   static const auth = "authScreen";
   static const login = "loginScreen";
   static const register = "registerScreen";
   static const home = "homeScreen";
-  // static const  = "Screen";
+  static const booking = "bookingScreen";
+  static const seats = "seatsScreen";
+  static const payment = "paymentScreen";
+  static const boardingPass = "boardingPassScreen";
+  // static const x = "xScreen";
 
   static Route<dynamic> onGenerateRoute(RouteSettings settings) {
     switch (settings.name) {
@@ -38,6 +47,30 @@ class AppRoutes {
       case home:
         return MaterialPageRoute(
           builder: (_) => const HomeScreen(),
+        );
+      case booking:
+        return MaterialPageRoute(
+          builder: (_) => BookingScreen(
+            flight: settings.arguments as Flight,
+          ),
+        );
+      case seats:
+        return MaterialPageRoute(
+          builder: (_) => ChooseSeatsScreen(
+            flight: settings.arguments as Flight,
+          ),
+        );
+      case payment:
+        return MaterialPageRoute(
+          builder: (_) => PaymentScreen(
+            amount: settings.arguments as double,
+          ),
+        );
+      case boardingPass:
+        return MaterialPageRoute(
+          builder: (_) => BoardingPassScreen(
+            flight: settings.arguments as Flight,
+          ),
         );
 
       default:

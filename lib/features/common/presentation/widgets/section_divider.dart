@@ -23,7 +23,7 @@ class SectionDivider extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.center,
       children: [
         Expanded(
-          child: Divider(color: color),
+          child: Divider(color: color, height: 70),
         ),
         Text(
           text,
@@ -33,7 +33,7 @@ class SectionDivider extends StatelessWidget {
           ),
         ),
         Expanded(
-          child: Divider(color: color),
+          child: Divider(color: color, height: 70),
         ),
       ],
     );

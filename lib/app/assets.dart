@@ -9,6 +9,12 @@ class AppAssets {
   static const googleIcon = "$images/google icon.png";
   static const facebookIcon = "$images/facebook icon.new.png";
   static const planeTrace = "$images/plane in air.png";
+  static const planeView = "$images/plane inner view.png";
+  static const planeWindows = "$images/plane windows.png";
+  static const seat = "$images/seat shape.png";
+  static const creditCard = "$images/credit card.png";
+  static const successMark = "$images/success.png";
+  static const worldMap = "$images/world map.png";
 
   static const mainCover = "$dest/man with bike cover.png";
   static const rockInWater = "$dest/mountain in water.png";

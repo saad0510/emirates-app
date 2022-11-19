@@ -1,6 +1,8 @@
 import 'package:flutter/rendering.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
+import 'colors.dart';
+
 class AppFonts {
   static const fontFamily = 'Poppins';
 
@@ -53,9 +55,9 @@ class AppFonts {
   );
 
   static final subtitle1 = TextStyle(
-    fontSize: 16.sp,
+    fontSize: 12.sp,
     height: 1.5,
-    fontWeight: FontWeight.w400,
+    color: BlackColor.light.withOpacity(0.9),
   );
 
   static final subtitle2 = TextStyle(
