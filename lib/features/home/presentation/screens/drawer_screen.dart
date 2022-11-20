@@ -4,7 +4,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_advanced_drawer/flutter_advanced_drawer.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
+import 'package:share_plus/share_plus.dart';
 
+import '../../../../app/constants.dart';
 import '../../../../app/routes.dart';
 import '../../../../app/sizes.dart';
 import '../../../../app/theme/colors.dart';
@@ -12,6 +14,7 @@ import '../../../../app/theme/theme.dart';
 import '../../../../core/extensions/context_ext.dart';
 import '../widgets/drawer_item.dart';
 import '../widgets/user_detail_header.dart';
+import 'home_screen.dart';
 
 class DrawerScreen extends StatefulWidget {
   const DrawerScreen({super.key, required this.page, required this.controller});
@@ -60,12 +63,16 @@ class _DrawerScreenState extends State<DrawerScreen> {
                     DrawerItem(
                       label: "My Profile",
                       icon: Icons.person_outline,
-                      onPressed: () {},
+                      onPressed: () {
+                        context.replace(AppRoutes.home, arguments: HomeScreen.profileIndex);
+                      },
                     ),
                     DrawerItem(
                       label: "My Trips",
                       icon: Icons.calendar_today_outlined,
-                      onPressed: () {},
+                      onPressed: () {
+                        context.replace(AppRoutes.home, arguments: HomeScreen.tripsIndex);
+                      },
                     ),
                     DrawerItem(
                       label: "Dark Mode",
@@ -82,7 +89,9 @@ class _DrawerScreenState extends State<DrawerScreen> {
                     DrawerItem(
                       label: "Share App",
                       icon: Icons.share,
-                      onPressed: () {},
+                      onPressed: () {
+                        Share.share(AppConstants.shareText);
+                      },
                     ),
                     DrawerItem(
                       label: "Settings",

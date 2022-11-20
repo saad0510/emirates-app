@@ -3,7 +3,7 @@ import 'dart:io';
 import 'package:flutter/services.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:pdf/pdf.dart';
-import 'package:pdf/widgets.dart' as pw;
+import 'package:pdf/widgets.dart';
 import 'package:permission_handler/permission_handler.dart';
 
 import '../../../../app/assets.dart';
@@ -19,40 +19,51 @@ class PdfController {
   }
 
   static Future<String> generateTicket(Flight flight) async {
-    final pdf = pw.Document();
+    final pdf = Document();
 
     final ByteData bytes = await rootBundle.load(AppAssets.logo);
     final Uint8List logoImg = bytes.buffer.asUint8List();
 
-    pw.Widget text(String text, {bool bold = false}) {
-      return pw.Padding(
-        padding: const pw.EdgeInsets.all(10),
-        child: pw.Text(
+    Widget text(String text, {bool bold = false}) {
+      return Padding(
+        padding: const EdgeInsets.all(10),
+        child: Text(
           text,
-          style: pw.TextStyle(
+          style: TextStyle(
             fontSize: 16,
-            fontWeight: bold ? pw.FontWeight.bold : null,
+            fontWeight: bold ? FontWeight.bold : null,
           ),
         ),
       );
     }
 
     pdf.addPage(
-      pw.Page(
+      Page(
         pageFormat: PdfPageFormat.a4,
-        margin: const pw.EdgeInsets.all(50).copyWith(bottom: 0),
+        margin: const EdgeInsets.all(50).copyWith(bottom: 0),
         build: (context) {
-          return pw.Column(
-            crossAxisAlignment: pw.CrossAxisAlignment.center,
+          return Column(
+            crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              pw.Image(pw.MemoryImage(logoImg), width: 200),
-              pw.SizedBox(height: 30),
-              pw.Table(
-                tableWidth: pw.TableWidth.max,
-                border: pw.TableBorder.all(color: PdfColors.red, width: 1),
-                defaultVerticalAlignment: pw.TableCellVerticalAlignment.middle,
+              Image(MemoryImage(logoImg), width: 200),
+              SizedBox(height: 20),
+              Text(
+                'Boarding Pass',
+                style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+              ),
+              SizedBox(height: 30),
+              Table(
+                tableWidth: TableWidth.max,
+                border: TableBorder.all(color: PdfColors.red, width: 1),
+                defaultVerticalAlignment: TableCellVerticalAlignment.middle,
                 children: [
-                  pw.TableRow(
+                  TableRow(
+                    children: [
+                      text('Full Name', bold: true),
+                      text('James Bond'),
+                    ],
+                  ),
+                  TableRow(
                     children: [
                       text('Departure city', bold: true),
                       text(
@@ -60,7 +71,7 @@ class PdfController {
                       )
                     ],
                   ),
-                  pw.TableRow(
+                  TableRow(
                     children: [
                       text('Arrival city', bold: true),
                       text(
@@ -68,43 +79,37 @@ class PdfController {
                       )
                     ],
                   ),
-                  pw.TableRow(
+                  TableRow(
                     children: [
                       text('Date & Time', bold: true),
                       text(DateTimeService.dateTimeStr(flight.dateTime, full: true)),
                     ],
                   ),
-                  pw.TableRow(
-                    children: [
-                      text('Full Name', bold: true),
-                      text('James Bond'),
-                    ],
-                  ),
-                  pw.TableRow(
+                  TableRow(
                     children: [
                       text('Flight Number', bold: true),
                       text(flight.fid),
                     ],
                   ),
-                  pw.TableRow(
+                  TableRow(
                     children: [
                       text('Seat Number', bold: true),
                       text('A2'),
                     ],
                   ),
-                  pw.TableRow(
+                  TableRow(
                     children: [
                       text('Terminal', bold: true),
                       text('5'),
                     ],
                   ),
-                  pw.TableRow(
+                  TableRow(
                     children: [
                       text('Class', bold: true),
                       text(flight.flightClass.name),
                     ],
                   ),
-                  pw.TableRow(
+                  TableRow(
                     children: [
                       text('Passport ID', bold: true),
                       text('58942157'),
@@ -112,18 +117,18 @@ class PdfController {
                   ),
                 ],
               ),
-              pw.Spacer(),
+              Spacer(),
               text('Scan this Barcode'),
-              pw.BarcodeWidget(
+              BarcodeWidget(
                 data: flight.fid,
-                barcode: pw.Barcode.code128(),
+                barcode: Barcode.code128(),
                 height: 50,
                 width: 200,
                 drawText: false,
               ),
-              pw.SizedBox(height: 20),
-              pw.Text(DateTimeService.dateTimeStr(DateTime.now())),
-              pw.SizedBox(height: 20),
+              SizedBox(height: 20),
+              Text(DateTimeService.dateTimeStr(DateTime.now())),
+              SizedBox(height: 20),
             ],
           );
         },
@@ -132,7 +137,7 @@ class PdfController {
     return await savePdf(pdf, flight.fid);
   }
 
-  static Future<String> savePdf(pw.Document doc, String name) async {
+  static Future<String> savePdf(Document doc, String name) async {
     final output = await getExternalStorageDirectory();
     final bytes = await doc.save();
 

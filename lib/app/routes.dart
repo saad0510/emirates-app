@@ -11,9 +11,10 @@ import '../features/flights/presentation/screens/booking_screen.dart';
 import '../features/flights/presentation/screens/choose_seats_screen.dart';
 import '../features/flights/presentation/screens/payment_screen.dart';
 import '../features/home/presentation/screens/home_screen.dart';
+import '../features/home/presentation/screens/popular_destinations_screen.dart';
 
 class AppRoutes {
-  static const initial = home;
+  static const initial = onboard;
 
   static const onboard = "onboardScreen";
   static const auth = "authScreen";
@@ -24,6 +25,7 @@ class AppRoutes {
   static const seats = "seatsScreen";
   static const payment = "paymentScreen";
   static const boardingPass = "boardingPassScreen";
+  static const popularDestinations = "xScreen";
   // static const x = "xScreen";
 
   static Route<dynamic> onGenerateRoute(RouteSettings settings) {
@@ -46,7 +48,9 @@ class AppRoutes {
         );
       case home:
         return MaterialPageRoute(
-          builder: (_) => const HomeScreen(),
+          builder: (_) => HomeScreen(
+            initialIndex: settings.arguments as int? ?? 0,
+          ),
         );
       case booking:
         return MaterialPageRoute(
@@ -71,6 +75,10 @@ class AppRoutes {
           builder: (_) => BoardingPassScreen(
             flight: settings.arguments as Flight,
           ),
+        );
+      case popularDestinations:
+        return MaterialPageRoute(
+          builder: (_) => const PopularDestinationsScreen(),
         );
 
       default:

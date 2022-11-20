@@ -8,34 +8,59 @@ import '../../../../core/extensions/text_ext.dart';
 import '../../../flights/presentation/screens/search_body.dart';
 import '../../../flights/presentation/screens/trips_body.dart';
 import '../../../flights/presentation/widgets/filters/flight_filter_sheet.dart';
+import '../../data/entities/nav_bar_item.dart';
 import 'drawer_screen.dart';
 import 'profile_body.dart';
 import 'welcome_body.dart';
 
 class HomeScreen extends StatefulWidget {
-  const HomeScreen({super.key});
+  const HomeScreen({super.key, required this.initialIndex});
+
+  final int initialIndex;
+
+  static const welcomeIndex = 0;
+  static const searchIndex = 1;
+  static const tripsIndex = 2;
+  static const profileIndex = 3;
 
   @override
   State<HomeScreen> createState() => _HomeScreenState();
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-  int selectedIndex = 0;
+  late int selectedIndex = widget.initialIndex;
 
   final controller = AdvancedDrawerController();
-  final labels = ["Home", "Search", "Trips", "Profile"];
-  final icons = [Icons.home, Icons.search, Icons.calendar_today, Icons.person];
-  final bodies = [
-    const WelcomeBody(),
-    const SearchBody(),
-    const TripsBody(),
-    const ProfileBody(),
-  ];
-  final actions = [
-    const SizedBox(),
-    const FlightFilterButton(),
-    const SizedBox(),
-    const SizedBox(),
+
+  final navBarItems = [
+    NavBarItem(
+      index: HomeScreen.welcomeIndex,
+      label: "Home",
+      icon: Icons.home,
+      appBarAction: const SizedBox(),
+      body: const WelcomeBody(),
+    ),
+    NavBarItem(
+      label: "Search",
+      index: HomeScreen.searchIndex,
+      icon: Icons.search,
+      appBarAction: const FlightFilterButton(),
+      body: const SearchBody(),
+    ),
+    NavBarItem(
+      index: HomeScreen.tripsIndex,
+      label: "Trips",
+      icon: Icons.calendar_today,
+      appBarAction: const SizedBox(),
+      body: const TripsBody(),
+    ),
+    NavBarItem(
+      index: HomeScreen.profileIndex,
+      label: "Profile",
+      icon: Icons.person,
+      appBarAction: const SizedBox(),
+      body: const ProfileBody(),
+    ),
   ];
 
   @override
@@ -51,31 +76,31 @@ class _HomeScreenState extends State<HomeScreen> {
           actions: [
             Padding(
               padding: AppPaddings.extraSmallX,
-              child: actions[selectedIndex],
+              child: navBarItems[selectedIndex].appBarAction,
             ),
           ],
         ),
-        body: bodies[selectedIndex],
+        body: navBarItems[selectedIndex].body,
         bottomNavigationBar: BottomNavigationBar(
           currentIndex: selectedIndex,
           onTap: (i) {
             setState(() => selectedIndex = i);
           },
           items: List<BottomNavigationBarItem>.generate(
-            labels.length,
+            navBarItems.length,
             (i) => BottomNavigationBarItem(
-              label: labels[i],
+              label: navBarItems[i].label,
               backgroundColor: context.isDarkMode ? BlackColor.normal : Colors.transparent,
               icon: Visibility(
                 visible: selectedIndex == i,
-                replacement: Icon(icons[i]),
+                replacement: Icon(navBarItems[i].icon),
                 child: Chip(
-                  label: Text(labels[i]),
+                  label: Text(navBarItems[i].label),
                   visualDensity: VisualDensity.compact,
                   labelStyle: context.textTheme.subtitle2!.light.white,
                   backgroundColor: context.isDarkMode ? BlackColor.dark : context.primaryColor,
                   avatar: Icon(
-                    icons[i],
+                    navBarItems[i].icon,
                     color: context.isDarkMode ? AppColors.primary : AppColors.white,
                   ),
                 ),

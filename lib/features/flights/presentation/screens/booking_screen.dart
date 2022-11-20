@@ -8,7 +8,7 @@ import '../../../../core/utils/date_time_service.dart';
 import '../../../common/presentation/widgets/circular_logo.dart';
 import '../../data/entities/flight.dart';
 import '../widgets/booking_screen_field.dart';
-import '../widgets/booking_trip_type_selector.dart';
+import '../widgets/chip_selector.dart';
 
 class BookingScreen extends StatelessWidget {
   const BookingScreen({super.key, required this.flight});
@@ -27,7 +27,10 @@ class BookingScreen extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
-              const BookingTripTypeSelector(),
+              ChipSelector(
+                onChanged: (i) {},
+                values: const ["One Way", "Round Trip"],
+              ),
               AppSizes.normalY,
               Container(
                 padding: AppPaddings.smallXY,

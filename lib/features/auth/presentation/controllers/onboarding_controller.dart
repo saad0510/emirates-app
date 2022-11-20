@@ -1,6 +1,6 @@
 import '../../../../app/assets.dart';
 import '../../../../core/utils/base_change_notifier.dart';
-import '../../entities/onboarding_item.dart';
+import '../../data/entities/onboarding_item.dart';
 
 class OnBoardingController extends BaseChangeNotifier<int> {
   OnBoardingController() : super(0);

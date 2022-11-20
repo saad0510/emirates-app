@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:open_app_file/open_app_file.dart';
+import 'package:share_plus/share_plus.dart';
 
 import '../../../../app/assets.dart';
 import '../../../../app/sizes.dart';
@@ -9,10 +10,17 @@ import '../../data/entities/flight.dart';
 import '../controllers/pdf_controller.dart';
 import '../widgets/boarding_pass_card.dart';
 
-class BoardingPassScreen extends StatelessWidget {
+class BoardingPassScreen extends StatefulWidget {
   const BoardingPassScreen({super.key, required this.flight});
 
   final Flight flight;
+
+  @override
+  State<BoardingPassScreen> createState() => _BoardingPassScreenState();
+}
+
+class _BoardingPassScreenState extends State<BoardingPassScreen> {
+  String? path;
 
   @override
   Widget build(BuildContext context) {
@@ -20,9 +28,12 @@ class BoardingPassScreen extends StatelessWidget {
       appBar: AppBar(
         title: const Text('Boarding Pass'),
         actions: [
-          IconButton(
-            onPressed: () {},
-            icon: const Icon(Icons.share),
+          Padding(
+            padding: AppPaddings.smallX,
+            child: IconButton(
+              onPressed: shareTicket,
+              icon: const Icon(Icons.share),
+            ),
           ),
         ],
       ),
@@ -56,10 +67,13 @@ class BoardingPassScreen extends StatelessWidget {
               mainAxisSize: MainAxisSize.min,
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
-                BoardingPassCard(flight: flight),
+                BoardingPassCard(flight: widget.flight),
                 AppSizes.normalY,
                 ElevatedButton(
-                  onPressed: generatePdf,
+                  onPressed: () {
+                    generatePdf();
+                    OpenAppFile.open(path!);
+                  },
                   child: const Text("Download ticket"),
                 ),
               ],
@@ -70,10 +84,17 @@ class BoardingPassScreen extends StatelessWidget {
     );
   }
 
-  void generatePdf() async {
+  Future<void> generatePdf() async {
     bool isGranted = await PdfController.isPermitted();
     if (isGranted == false) return;
-    final path = await PdfController.generateTicket(flight);
-    OpenAppFile.open(path);
+    path = await PdfController.generateTicket(widget.flight);
+  }
+
+  void shareTicket() async {
+    if (path == null) await generatePdf();
+    Share.shareXFiles(
+      [XFile(path!)],
+      text: 'My boarding pass for ${widget.flight.fid}',
+    );
   }
 }

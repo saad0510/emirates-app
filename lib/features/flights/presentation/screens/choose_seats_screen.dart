@@ -6,6 +6,7 @@ import '../../../../core/extensions/context_ext.dart';
 import '../../data/entities/flight.dart';
 import '../../data/entities/flight_seats.dart';
 import '../widgets/airplane_seats_image.dart';
+import '../widgets/flight_travel_line.dart';
 
 class ChooseSeatsScreen extends StatelessWidget {
   const ChooseSeatsScreen({super.key, required this.flight});
@@ -37,13 +38,13 @@ class ChooseSeatsScreen extends StatelessWidget {
                     ),
                   ),
                 ),
-                const Spacer(),
-                // Expanded(
-                //   child: FlightTravelLine(
-                //     color: color,
-                //     flight: flight,
-                //   ),
-                // ),
+                // const Spacer(),
+                Expanded(
+                  child: FlightTravelLine(
+                    color: color,
+                    flight: flight,
+                  ),
+                ),
               ],
             ),
           ),

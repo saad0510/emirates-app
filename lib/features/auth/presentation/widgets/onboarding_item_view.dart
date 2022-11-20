@@ -4,7 +4,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import '../../../../app/sizes.dart';
 import '../../../../core/extensions/context_ext.dart';
 import '../../../../core/extensions/text_ext.dart';
-import '../../entities/onboarding_item.dart';
+import '../../data/entities/onboarding_item.dart';
 
 class OnBoardingItemView extends StatelessWidget {
   const OnBoardingItemView({super.key, required this.item});

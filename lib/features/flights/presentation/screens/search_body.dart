@@ -36,8 +36,11 @@ class SearchBody extends StatelessWidget {
                 ),
                 AppSizes.smallY,
                 const SelectCityField(),
-                AppSizes.smallY,
-                const Divider(height: 50),
+                AppSizes.normalY,
+                ElevatedButton(
+                  onPressed: () {},
+                  child: const Text("Search"),
+                ),
                 Expanded(
                   child: Column(
                     children: List.generate(

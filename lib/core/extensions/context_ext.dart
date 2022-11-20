@@ -22,8 +22,8 @@ extension NavExtOnContext on BuildContext {
     Navigator.of(this).pushNamed(route, arguments: arguments);
   }
 
-  Future<void> replace(String appRoute) async {
-    await Navigator.of(this).pushReplacementNamed(appRoute);
+  Future<void> replace(String appRoute, {Object? arguments}) async {
+    await Navigator.of(this).pushReplacementNamed(appRoute, arguments: arguments);
   }
 
   Future<void> replaceAll(String route, {Object? arguments}) async {

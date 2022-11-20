@@ -61,7 +61,7 @@ class _PaymentFormState extends State<PaymentForm> {
               ),
             ],
           ),
-          AppSizes.maxY,
+          AppSizes.normalY,
           ElevatedButton(
             onPressed: submit,
             child: Text("Pay  \$${payAmount.toStringAsFixed(2)}"),
@@ -98,7 +98,9 @@ class _PaymentFormState extends State<PaymentForm> {
       cost: 500,
       flightClass: FlightClass.business,
     );
-
-    context.replaceAll(AppRoutes.boardingPass, arguments: flight);
+    context.pop();
+    context.pop();
+    context.pop();
+    context.push(AppRoutes.boardingPass, arguments: flight);
   }
 }
