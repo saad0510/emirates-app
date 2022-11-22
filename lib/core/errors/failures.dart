@@ -1,7 +1,7 @@
 abstract class Failure {
   final String message;
 
-  Failure([this.message = ""]);
+  const Failure([this.message = ""]);
 
   @override
   bool operator ==(covariant Failure other) {
@@ -10,4 +10,8 @@ abstract class Failure {
 
   @override
   int get hashCode => message.hashCode;
+}
+
+class AuthFailure extends Failure {
+  const AuthFailure(super.message);
 }

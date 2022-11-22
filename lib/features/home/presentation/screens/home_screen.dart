@@ -1,10 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_advanced_drawer/flutter_advanced_drawer.dart';
+import 'package:provider/provider.dart';
 
+import '../../../../app/routes.dart';
 import '../../../../app/sizes.dart';
 import '../../../../app/theme/colors.dart';
 import '../../../../core/extensions/context_ext.dart';
 import '../../../../core/extensions/text_ext.dart';
+import '../../../auth/presentation/controllers/auth/auth_controller.dart';
+import '../../../auth/presentation/controllers/auth/auth_state.dart';
 import '../../../flights/presentation/screens/search_body.dart';
 import '../../../flights/presentation/screens/trips_body.dart';
 import '../../../flights/presentation/widgets/filters/flight_filter_sheet.dart';
@@ -29,8 +33,20 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
   late int selectedIndex = widget.initialIndex;
-
+  late final auth = context.read<AuthController>();
   final controller = AdvancedDrawerController();
+
+  @override
+  void initState() {
+    auth.addListener(handleState);
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    auth.removeListener(handleState);
+    super.dispose();
+  }
 
   final navBarItems = [
     NavBarItem(
@@ -110,5 +126,16 @@ class _HomeScreenState extends State<HomeScreen> {
         ),
       ),
     );
+  }
+
+  void handleState() {
+    if (!mounted) return;
+
+    final state = auth.state;
+    if (state is AuthEmptyState) {
+      context.replaceAll(AppRoutes.auth);
+    } else if (state is AuthErrorState) {
+      context.showErrorSnackBar(message: state.failure.message);
+    }
   }
 }

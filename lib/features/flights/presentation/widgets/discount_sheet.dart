@@ -20,12 +20,13 @@ class _DiscountSheetState extends State<DiscountSheet> {
     return Row(
       crossAxisAlignment: CrossAxisAlignment.end,
       children: [
-        const Expanded(
+        Expanded(
           flex: 5,
           child: AuthTextField(
             label: "Dicount Code",
             hint: 'XXXX',
             keyboardType: TextInputType.number,
+            onSubmit: (x) => x = x,
           ),
         ),
         AppSizes.smallX,

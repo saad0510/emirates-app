@@ -14,7 +14,7 @@ class BlackColor {
 }
 
 class ErrorColor {
-  static const normal = Color(0xFFF5002B);
+  static const normal = Color(0xFFD71A21);
   static const light = Color(0xFFFF6363);
   static const dark = Color(0xFFA9001D);
 }

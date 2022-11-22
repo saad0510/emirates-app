@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
+import '../../app/theme/colors.dart';
 import '../../app/theme/theme.dart';
 
 extension BasicExtOnContext on BuildContext {
@@ -47,7 +48,25 @@ extension NavExtOnContext on BuildContext {
 }
 
 extension WidgetsExtOnContext on BuildContext {
-  void snackBar(SnackBar snackBar) {
-    ScaffoldMessenger.of(this).showSnackBar(snackBar);
+  void showSnackBar({
+    required String message,
+    Color backgroundColor = AppColors.white,
+    Color foregroundColor = Colors.black,
+  }) {
+    ScaffoldMessenger.of(this).showSnackBar(SnackBar(
+      content: Text(
+        message,
+        style: TextStyle(color: foregroundColor),
+      ),
+      backgroundColor: backgroundColor,
+    ));
+  }
+
+  void showErrorSnackBar({required String message}) {
+    showSnackBar(
+      message: message,
+      foregroundColor: AppColors.white,
+      backgroundColor: ErrorColor.normal,
+    );
   }
 }

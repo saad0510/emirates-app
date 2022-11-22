@@ -1,7 +1,7 @@
 abstract class BaseException implements Exception {
   final String message;
 
-  BaseException([this.message = ""]);
+  const BaseException([this.message = ""]);
 
   @override
   bool operator ==(covariant BaseException other) {
@@ -14,5 +14,10 @@ abstract class BaseException implements Exception {
 
 class RouteException extends BaseException {
   final String routeName;
-  RouteException(this.routeName, [super.message]);
+  const RouteException(this.routeName, [super.message]);
+}
+
+class AuthException extends BaseException {
+  final String action;
+  const AuthException(this.action, super.message);
 }

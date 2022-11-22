@@ -12,6 +12,7 @@ import '../../../../app/sizes.dart';
 import '../../../../app/theme/colors.dart';
 import '../../../../app/theme/theme.dart';
 import '../../../../core/extensions/context_ext.dart';
+import '../../../auth/presentation/controllers/auth/auth_controller.dart';
 import '../widgets/drawer_item.dart';
 import '../widgets/user_detail_header.dart';
 import 'home_screen.dart';
@@ -90,7 +91,7 @@ class _DrawerScreenState extends State<DrawerScreen> {
                       label: "Share App",
                       icon: Icons.share,
                       onPressed: () {
-                        Share.share(AppConstants.shareText);
+                        Share.share("Check out this flight booking app on ${AppConstants.playstoreLink}");
                       },
                     ),
                     DrawerItem(
@@ -129,7 +130,7 @@ class _DrawerScreenState extends State<DrawerScreen> {
   }
 
   void logout() {
-    context.replaceAll(AppRoutes.auth);
+    context.read<AuthController>().logout();
   }
 }
 

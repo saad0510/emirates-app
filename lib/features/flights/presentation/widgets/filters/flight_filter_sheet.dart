@@ -61,19 +61,21 @@ class FlightFilterSheet extends StatelessWidget {
           SectionDivider(text: "Departure Date"),
           Row(
             children: [
-              const Expanded(
+              Expanded(
                 child: AuthTextField(
                   label: "From",
                   hint: '17/11/2022',
                   keyboardType: TextInputType.datetime,
+                  onSubmit: (x) => x = x,
                 ),
               ),
               AppSizes.normalX,
-              const Expanded(
+              Expanded(
                 child: AuthTextField(
                   label: "To",
                   hint: '17/11/2022',
                   keyboardType: TextInputType.datetime,
+                  onSubmit: (x) => x = x,
                 ),
               ),
             ],
@@ -81,19 +83,21 @@ class FlightFilterSheet extends StatelessWidget {
           SectionDivider(text: "Departure Time"),
           Row(
             children: [
-              const Expanded(
+              Expanded(
                 child: AuthTextField(
                   label: "From",
                   hint: '14:20',
                   keyboardType: TextInputType.datetime,
+                  onSubmit: (x) => x = x,
                 ),
               ),
               AppSizes.normalX,
-              const Expanded(
+              Expanded(
                 child: AuthTextField(
                   label: "To",
                   hint: '00:12',
                   keyboardType: TextInputType.datetime,
+                  onSubmit: (x) => x = x,
                 ),
               ),
             ],

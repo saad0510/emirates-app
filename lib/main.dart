@@ -8,10 +8,12 @@ import 'app/constants.dart';
 import 'app/theme/theme.dart';
 import 'injections.dart';
 
+final _inject = Injections();
+
 void main() async {
   WidgetsBinding widgetsBinding = WidgetsFlutterBinding.ensureInitialized();
   FlutterNativeSplash.preserve(widgetsBinding: widgetsBinding);
-  await Future.delayed(const Duration(seconds: 1));
+  await _inject.init();
   FlutterNativeSplash.remove();
 
   runApp(const CoreApp());
@@ -30,7 +32,7 @@ class CoreApp extends StatelessWidget {
         splitScreenMode: true,
         builder: (context, child) {
           return MultiProvider(
-            providers: appProviders,
+            providers: _inject.appProviders,
             child: const App(),
           );
         },

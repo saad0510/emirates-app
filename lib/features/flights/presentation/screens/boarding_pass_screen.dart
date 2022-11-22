@@ -70,8 +70,8 @@ class _BoardingPassScreenState extends State<BoardingPassScreen> {
                 BoardingPassCard(flight: widget.flight),
                 AppSizes.normalY,
                 ElevatedButton(
-                  onPressed: () {
-                    generatePdf();
+                  onPressed: () async {
+                    await generatePdf();
                     OpenAppFile.open(path!);
                   },
                   child: const Text("Download ticket"),

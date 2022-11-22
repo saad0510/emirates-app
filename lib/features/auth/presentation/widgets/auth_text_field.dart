@@ -11,6 +11,7 @@ class AuthTextField extends StatefulWidget {
     this.obscure = false,
     this.validator,
     this.keyboardType,
+    required this.onSubmit,
   });
 
   final String label;
@@ -18,6 +19,7 @@ class AuthTextField extends StatefulWidget {
   final bool obscure;
   final TextInputType? keyboardType;
   final String? Function(String?)? validator;
+  final void Function(String) onSubmit;
 
   @override
   State<AuthTextField> createState() => _AuthTextFieldState();
@@ -46,6 +48,7 @@ class _AuthTextFieldState extends State<AuthTextField> {
             letterSpacing: widget.obscure && show ? 3 : null,
           ),
           validator: widget.validator,
+          onSaved: (x) => widget.onSubmit(x ?? ''),
           decoration: InputDecoration(
             hintText: widget.hint,
             suffixIcon: !widget.obscure

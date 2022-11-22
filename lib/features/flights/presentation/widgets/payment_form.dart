@@ -35,28 +35,31 @@ class _PaymentFormState extends State<PaymentForm> {
         mainAxisSize: MainAxisSize.min,
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
-          const AuthTextField(
+          AuthTextField(
             label: "Card Number",
             hint: "XXXX - XXXX - XXXX - XXXX",
             keyboardType: TextInputType.number,
+            onSubmit: (x) => x = x,
           ),
           AppSizes.smallY,
           Row(
             children: [
-              const Expanded(
+              Expanded(
                 flex: 2,
                 child: AuthTextField(
                   label: "Expiry Date",
                   hint: "12-06-2024",
                   keyboardType: TextInputType.datetime,
+                  onSubmit: (x) => x = x,
                 ),
               ),
               AppSizes.normalX,
-              const Expanded(
+              Expanded(
                 child: AuthTextField(
                   label: "CVV",
                   hint: "562",
                   keyboardType: TextInputType.number,
+                  onSubmit: (x) => x = x,
                 ),
               ),
             ],

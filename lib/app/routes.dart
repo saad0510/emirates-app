@@ -5,6 +5,7 @@ import '../features/auth/presentation/screens/auth_screen.dart';
 import '../features/auth/presentation/screens/login_screen.dart';
 import '../features/auth/presentation/screens/onboarding_screen.dart';
 import '../features/auth/presentation/screens/registration_screen.dart';
+import '../features/auth/presentation/screens/setup_screen.dart';
 import '../features/flights/data/entities/flight.dart';
 import '../features/flights/presentation/screens/boarding_pass_screen.dart';
 import '../features/flights/presentation/screens/booking_screen.dart';
@@ -14,8 +15,9 @@ import '../features/home/presentation/screens/home_screen.dart';
 import '../features/home/presentation/screens/popular_destinations_screen.dart';
 
 class AppRoutes {
-  static const initial = onboard;
+  static const initial = setup;
 
+  static const setup = "setupScreen";
   static const onboard = "onboardScreen";
   static const auth = "authScreen";
   static const login = "loginScreen";
@@ -30,6 +32,10 @@ class AppRoutes {
 
   static Route<dynamic> onGenerateRoute(RouteSettings settings) {
     switch (settings.name) {
+      case setup:
+        return MaterialPageRoute(
+          builder: (_) => const SetupScreen(),
+        );
       case onboard:
         return MaterialPageRoute(
           builder: (_) => const OnBoardingScreen(),
