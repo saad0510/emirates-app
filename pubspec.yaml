@@ -23,6 +23,7 @@ dependencies:
   share_plus: ^6.3.0
   supabase_flutter: ^1.2.0
   multiple_result: ^1.0.4
+  shared_preferences: ^2.0.15
 
 dev_dependencies:
   flutter_test:

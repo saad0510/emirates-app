@@ -19,6 +19,8 @@ class AuthController extends BaseChangeNotifier<AuthState> {
     await super.init();
   }
 
+  UserData get user => (state as AuthLoadedState).data;
+
   void login(String email, String password) async {
     state = AuthLoadingState();
 

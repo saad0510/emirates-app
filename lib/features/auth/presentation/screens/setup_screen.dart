@@ -5,6 +5,7 @@ import '../../../../app/routes.dart';
 import '../../../../core/extensions/context_ext.dart';
 import '../controllers/auth/auth_controller.dart';
 import '../controllers/auth/auth_state.dart';
+import '../controllers/onboarding_controller.dart';
 
 class SetupScreen extends StatefulWidget {
   const SetupScreen({super.key});
@@ -37,13 +38,23 @@ class _SetupScreenState extends State<SetupScreen> {
     );
   }
 
-  void handleState() {
+  void handleState() async {
     if (!mounted) return;
+
+    final onboard = context.read<OnBoardingController>();
+    if (!await onboard.isSeen) {
+      context.replaceAll(AppRoutes.onboard);
+      onboard.markAsSeen();
+      return;
+    }
 
     final state = controller.state;
     if (state is AuthLoadedState) {
       context.replaceAll(AppRoutes.home);
-    } else if (state is AuthEmptyState) {
+      return;
+    }
+
+    if (state is AuthEmptyState) {
       context.replaceAll(AppRoutes.auth);
     }
   }

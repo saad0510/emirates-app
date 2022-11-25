@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:provider/provider.dart';
 
 import '../../../../app/routes.dart';
 import '../../../../app/sizes.dart';
 import '../../../../core/extensions/context_ext.dart';
 import '../../../../core/extensions/text_ext.dart';
+import '../../../auth/presentation/controllers/auth/auth_controller.dart';
 import '../../../flights/data/entities/flight.dart';
 import '../../../flights/data/entities/flight_class.dart';
 import '../../../flights/presentation/controllers/city_controller.dart';
@@ -17,6 +19,7 @@ class WelcomeBody extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final user = context.watch<AuthController>().user;
     final flight = Flight(
       fid: "AB689",
       departureCity: CityController.cities.first,
@@ -33,7 +36,7 @@ class WelcomeBody extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
             Text(
-              "Hello! James",
+              "Hello! ${user.name}",
               style: context.textTheme.bodyText1?.colored,
             ),
             Text(
