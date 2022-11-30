@@ -9,6 +9,7 @@ import '../../../../core/utils/date_time_service.dart';
 import '../../../common/presentation/widgets/dashed_line.dart';
 import '../../../common/presentation/widgets/ticket_widget.dart';
 import '../../data/entities/flight.dart';
+import '../../data/entities/flight_class.dart';
 
 class BoardingPassCard extends StatelessWidget {
   const BoardingPassCard({super.key, required this.flight});
@@ -122,7 +123,7 @@ class BoardingPassCard extends StatelessWidget {
               children: [
                 const Text("5"),
                 const Spacer(),
-                Text(flight.flightClass.name),
+                Text(FlightClass.business.name),
               ],
             ),
           ),

@@ -40,6 +40,7 @@ class _LoginFormState extends State<LoginForm> {
             hint: "Enter your email",
             onSubmit: (x) => email = x,
             validator: FormValidations.email,
+            keyboardType: TextInputType.emailAddress,
           ),
           AppSizes.smallY,
           AuthTextField(
@@ -48,6 +49,7 @@ class _LoginFormState extends State<LoginForm> {
             obscure: true,
             onSubmit: (x) => pass = x,
             validator: FormValidations.password,
+            keyboardType: TextInputType.visiblePassword,
           ),
           AppSizes.smallY,
           Align(

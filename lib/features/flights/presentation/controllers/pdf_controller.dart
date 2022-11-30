@@ -9,6 +9,7 @@ import 'package:permission_handler/permission_handler.dart';
 import '../../../../app/assets.dart';
 import '../../../../core/utils/date_time_service.dart';
 import '../../data/entities/flight.dart';
+import '../../data/entities/flight_class.dart';
 
 class PdfController {
   PdfController._();
@@ -106,7 +107,7 @@ class PdfController {
                   TableRow(
                     children: [
                       text('Class', bold: true),
-                      text(flight.flightClass.name),
+                      text(FlightClass.business.name),
                     ],
                   ),
                   TableRow(

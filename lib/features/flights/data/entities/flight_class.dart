@@ -12,4 +12,6 @@ enum FlightClass {
         return 'None';
     }
   }
+
+  String get prefix => name.substring(0, 1);
 }

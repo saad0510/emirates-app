@@ -19,7 +19,12 @@ class AuthController extends BaseChangeNotifier<AuthState> {
     await super.init();
   }
 
-  UserData get user => (state as AuthLoadedState).data;
+  UserData get user {
+    if (state is AuthLoadedState) {
+      return (state as AuthLoadedState).data;
+    }
+    return const UserData(name: 'no name', email: 'no@email.com');
+  }
 
   void login(String email, String password) async {
     state = AuthLoadingState();

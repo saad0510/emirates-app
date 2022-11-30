@@ -19,17 +19,18 @@ class BookingScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text("Ticket Booking"),
+        title: const Text("Book Flight"),
       ),
       body: SingleChildScrollView(
         child: Padding(
           padding: AppPaddings.normalXY,
           child: Column(
+            mainAxisSize: MainAxisSize.min,
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
               ChipSelector(
                 onChanged: (i) {},
-                values: const ["One Way", "Round Trip"],
+                values: const ["For me", "Multiple tickets"],
               ),
               AppSizes.normalY,
               Container(
@@ -42,32 +43,55 @@ class BookingScreen extends StatelessWidget {
                   mainAxisSize: MainAxisSize.min,
                   crossAxisAlignment: CrossAxisAlignment.stretch,
                   children: [
-                    AppSizes.smallY,
                     BookingScreenField(
                       label: "FROM",
-                      title: flight.departureCity.name,
+                      title: flight.departureCity.fullname,
                     ),
-                    AppSizes.smallY,
                     BookingScreenField(
                       label: "TO",
-                      title: flight.arrivalCity.name,
+                      title: flight.arrivalCity.fullname,
                     ),
-                    AppSizes.smallY,
                     BookingScreenField(
                       label: "DATE",
-                      title: DateTimeService.dateStr(flight.dateTime),
+                      title: DateTimeService.dateTimeStr(flight.dateTime),
                     ),
-                    AppSizes.smallY,
                     BookingScreenField(
-                      label: "DEPARTURE TIME",
+                      label: "TIME",
                       title: DateTimeService.timeStr(flight.dateTime),
                     ),
-                    AppSizes.smallY,
-                    BookingScreenField(
-                      label: "CLASS",
-                      title: flight.flightClass.name,
+                    Row(
+                      children: const [
+                        Expanded(
+                          child: BookingScreenField(
+                            label: "ECONOMY",
+                            title: '200 USD',
+                          ),
+                        ),
+                        Expanded(
+                          child: BookingScreenField(
+                            label: "REMAINING SEATS",
+                            title: '0',
+                          ),
+                        ),
+                      ],
                     ),
-                    AppSizes.maxY,
+                    Row(
+                      children: const [
+                        Expanded(
+                          child: BookingScreenField(
+                            label: "BUSINESS",
+                            title: '500 USD',
+                          ),
+                        ),
+                        Expanded(
+                          child: BookingScreenField(
+                            label: "REMAINING SEATS",
+                            title: '15',
+                          ),
+                        ),
+                      ],
+                    ),
+                    AppSizes.normalY,
                     Row(
                       children: [
                         CircularLogo(radius: 22.sp),
@@ -75,7 +99,9 @@ class BookingScreen extends StatelessWidget {
                         AppSizes.normalX,
                         Expanded(
                           child: ElevatedButton(
-                            onPressed: () => context.push(AppRoutes.seats, arguments: flight),
+                            onPressed: () {
+                              context.push(AppRoutes.seats, arguments: flight);
+                            },
                             child: const Text('Continue'),
                           ),
                         ),

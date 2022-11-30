@@ -1,12 +1,12 @@
 import 'flight_class.dart';
 
 class FlightSeats {
-  final int count;
+  final int rows;
   final FlightClass flightClass;
-  final Map<int, bool> occupied;
+  final Set<int> occupied;
 
   FlightSeats({
-    required this.count,
+    required this.rows,
     required this.flightClass,
     required this.occupied,
   });

@@ -8,7 +8,6 @@ import '../../../auth/presentation/widgets/auth_text_field.dart';
 import '../../../common/presentation/widgets/bottom_modal_sheet.dart';
 import '../../../common/presentation/widgets/secondary_button.dart';
 import '../../data/entities/flight.dart';
-import '../../data/entities/flight_class.dart';
 import '../controllers/city_controller.dart';
 import 'discount_sheet.dart';
 
@@ -98,12 +97,7 @@ class _PaymentFormState extends State<PaymentForm> {
       departureCity: CityController.cities.first,
       arrivalCity: CityController.cities.last,
       dateTime: DateTime.now(),
-      cost: 500,
-      flightClass: FlightClass.business,
     );
-    context.pop();
-    context.pop();
-    context.pop();
-    context.push(AppRoutes.boardingPass, arguments: flight);
+    context.replace(AppRoutes.boardingPass, arguments: flight);
   }
 }

@@ -4,31 +4,24 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import '../../../../app/assets.dart';
 import '../../../../app/sizes.dart';
 import '../../../../core/extensions/context_ext.dart';
-import '../../../../core/extensions/text_ext.dart';
 import '../../../../core/utils/date_time_service.dart';
-import '../../../common/presentation/widgets/circular_logo.dart';
-import '../../../common/presentation/widgets/ticket_widget.dart';
 import '../../../flights/data/entities/flight.dart';
-import '../../../flights/data/entities/flight_class.dart';
-import '../../../flights/presentation/controllers/city_controller.dart';
 
-class FlightTicket extends StatelessWidget {
-  const FlightTicket({super.key});
+class FlightView extends StatelessWidget {
+  const FlightView({super.key, required this.flight});
+
+  final Flight flight;
 
   @override
   Widget build(BuildContext context) {
-    // TODO: replace with ticket
-    final flight = Flight(
-      fid: "AB689",
-      departureCity: CityController.cities.first,
-      arrivalCity: CityController.cities.last,
-      dateTime: DateTime.now(),
-    );
-
-    return TicketWidget(
-      upper: Column(
+    return Container(
+      padding: EdgeInsets.symmetric(horizontal: 15.w, vertical: 15.h),
+      decoration: BoxDecoration(
+        color: context.backgroundColor,
+        borderRadius: const BorderRadius.all(Radius.circular(12)),
+      ),
+      child: Column(
         children: [
-          AppSizes.smallY,
           Row(
             crossAxisAlignment: CrossAxisAlignment.end,
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -71,7 +64,7 @@ class FlightTicket extends StatelessWidget {
                   style: context.textTheme.subtitle2,
                 ),
                 Text(
-                  "CLASS",
+                  "FLIGHT ID",
                   style: context.textTheme.subtitle2,
                 ),
               ],
@@ -85,21 +78,12 @@ class FlightTicket extends StatelessWidget {
                 style: context.textTheme.subtitle2,
               ),
               Text(
-                FlightClass.business.name,
+                flight.fid,
                 style: context.textTheme.subtitle2,
               ),
             ],
           ),
-        ],
-      ),
-      lower: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-          CircularLogo(radius: 20.sp),
-          Text(
-            "\$500.0",
-            style: context.textTheme.headline5?.bold,
-          ),
+          AppSizes.smallY,
         ],
       ),
     );

@@ -78,9 +78,7 @@ class AppRoutes {
         );
       case boardingPass:
         return MaterialPageRoute(
-          builder: (_) => BoardingPassScreen(
-            flight: settings.arguments as Flight,
-          ),
+          builder: (_) => const BoardingPassScreen(),
         );
       case popularDestinations:
         return MaterialPageRoute(

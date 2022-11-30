@@ -18,7 +18,7 @@ class DateTimeService {
   static String dateTimeStr(DateTime dateTime, {bool full = false}) {
     final month = _monthStr(dateTime.month);
     final day = dateTime.day.toString();
-    final year = !full ? '' : ' ${dateTime.year}';
+    final year = !full ? '' : ', ${dateTime.year}';
     final hour = dateTime.hour.toString().padLeft(2, '0');
     final minute = dateTime.minute.toString().padLeft(2, '0');
     return '$month $day$year\t\t\t\t$hour:$minute';

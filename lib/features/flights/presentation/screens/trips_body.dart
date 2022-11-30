@@ -5,7 +5,6 @@ import '../../../../app/sizes.dart';
 import '../../../../core/extensions/context_ext.dart';
 import '../../../home/presentation/widgets/flight_ticket.dart';
 import '../../data/entities/flight.dart';
-import '../../data/entities/flight_class.dart';
 import '../controllers/city_controller.dart';
 import '../widgets/chip_selector.dart';
 
@@ -22,9 +21,8 @@ class _TripsBodyState extends State<TripsBody> {
     departureCity: CityController.cities.first,
     arrivalCity: CityController.cities.last,
     dateTime: DateTime.now(),
-    cost: 500,
-    flightClass: FlightClass.business,
   );
+
   late final upcomings = List.filled(3, flight);
   late final past = List.filled(1, flight);
   late final trips = [upcomings, past];
@@ -52,7 +50,7 @@ class _TripsBodyState extends State<TripsBody> {
                 },
                 child: Padding(
                   padding: AppPaddings.normalY.copyWith(top: 0),
-                  child: FlightTicket(flight: e),
+                  child: const FlightTicket(),
                 ),
               ),
             ),

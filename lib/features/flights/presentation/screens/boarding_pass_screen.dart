@@ -7,13 +7,12 @@ import '../../../../app/assets.dart';
 import '../../../../app/sizes.dart';
 import '../../../../core/extensions/context_ext.dart';
 import '../../data/entities/flight.dart';
+import '../controllers/city_controller.dart';
 import '../controllers/pdf_controller.dart';
 import '../widgets/boarding_pass_card.dart';
 
 class BoardingPassScreen extends StatefulWidget {
-  const BoardingPassScreen({super.key, required this.flight});
-
-  final Flight flight;
+  const BoardingPassScreen({super.key});
 
   @override
   State<BoardingPassScreen> createState() => _BoardingPassScreenState();
@@ -21,6 +20,13 @@ class BoardingPassScreen extends StatefulWidget {
 
 class _BoardingPassScreenState extends State<BoardingPassScreen> {
   String? path;
+
+  final flight = Flight(
+    fid: "AB689",
+    departureCity: CityController.cities.first,
+    arrivalCity: CityController.cities.last,
+    dateTime: DateTime.now(),
+  );
 
   @override
   Widget build(BuildContext context) {
@@ -67,7 +73,7 @@ class _BoardingPassScreenState extends State<BoardingPassScreen> {
               mainAxisSize: MainAxisSize.min,
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
-                BoardingPassCard(flight: widget.flight),
+                BoardingPassCard(flight: flight),
                 AppSizes.normalY,
                 ElevatedButton(
                   onPressed: () async {
@@ -87,14 +93,14 @@ class _BoardingPassScreenState extends State<BoardingPassScreen> {
   Future<void> generatePdf() async {
     bool isGranted = await PdfController.isPermitted();
     if (isGranted == false) return;
-    path = await PdfController.generateTicket(widget.flight);
+    path = await PdfController.generateTicket(flight);
   }
 
   void shareTicket() async {
     if (path == null) await generatePdf();
     Share.shareXFiles(
       [XFile(path!)],
-      text: 'My boarding pass for ${widget.flight.fid}',
+      text: 'My boarding pass for ${flight.fid}',
     );
   }
 }

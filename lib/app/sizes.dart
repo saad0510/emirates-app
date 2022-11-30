@@ -20,7 +20,7 @@ class AppPaddings {
   static final smallX = EdgeInsets.symmetric(horizontal: 10.w);
   static final normalX = EdgeInsets.symmetric(horizontal: 16.w);
 
-  static final smallY = EdgeInsets.symmetric(vertical: 10.w);
+  static final smallY = EdgeInsets.symmetric(vertical: 10.h);
   static final normalY = EdgeInsets.symmetric(vertical: 16.h);
   static final largeY = EdgeInsets.symmetric(vertical: 30.h);
 

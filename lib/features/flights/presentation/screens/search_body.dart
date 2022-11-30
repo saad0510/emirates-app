@@ -3,9 +3,8 @@ import 'package:flutter/material.dart';
 import '../../../../app/routes.dart';
 import '../../../../app/sizes.dart';
 import '../../../../core/extensions/context_ext.dart';
-import '../../../home/presentation/widgets/flight_ticket.dart';
+import '../../../home/presentation/widgets/flight_view.dart';
 import '../../data/entities/flight.dart';
-import '../../data/entities/flight_class.dart';
 import '../controllers/city_controller.dart';
 import '../widgets/select_city_field.dart';
 
@@ -14,6 +13,13 @@ class SearchBody extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final flight = Flight(
+      fid: "AB689",
+      departureCity: CityController.cities.first,
+      arrivalCity: CityController.cities.last,
+      dateTime: DateTime.now(),
+    );
+
     return CustomScrollView(
       slivers: [
         SliverFillRemaining(
@@ -41,31 +47,26 @@ class SearchBody extends StatelessWidget {
                   onPressed: () {},
                   child: const Text("Search"),
                 ),
+                AppSizes.smallY,
                 Expanded(
                   child: Column(
                     children: List.generate(
                       3,
                       (i) {
-                        final flight = Flight(
-                          fid: "AB689",
-                          departureCity: CityController.cities.first,
-                          arrivalCity: CityController.cities.last,
-                          dateTime: DateTime.now(),
-                          cost: 500,
-                          flightClass: FlightClass.business,
-                        );
-
                         return InkWell(
-                          onTap: () => context.push(AppRoutes.booking, arguments: flight),
+                          onTap: () {
+                            context.push(AppRoutes.booking, arguments: flight);
+                          },
                           child: Padding(
-                            padding: AppPaddings.normalY,
-                            child: FlightTicket(flight: flight),
+                            padding: AppPaddings.smallY,
+                            child: FlightView(flight: flight),
                           ),
                         );
                       },
                     ),
                   ),
                 ),
+                AppSizes.smallY,
               ],
             ),
           ),

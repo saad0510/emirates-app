@@ -46,6 +46,7 @@ class _RegisterFormState extends State<RegisterForm> {
             hint: "Enter your full name",
             onSubmit: (x) => name = x,
             validator: FormValidations.name,
+            keyboardType: TextInputType.name,
           ),
           AppSizes.smallY,
           AuthTextField(
@@ -53,6 +54,7 @@ class _RegisterFormState extends State<RegisterForm> {
             hint: "Enter your email",
             onSubmit: (x) => email = x,
             validator: FormValidations.email,
+            keyboardType: TextInputType.emailAddress,
           ),
           AppSizes.smallY,
           AuthTextField(
@@ -61,6 +63,7 @@ class _RegisterFormState extends State<RegisterForm> {
             obscure: true,
             onSubmit: (x) => password = x,
             validator: FormValidations.password,
+            keyboardType: TextInputType.visiblePassword,
           ),
           AppSizes.normalY,
           CheckboxListTile(

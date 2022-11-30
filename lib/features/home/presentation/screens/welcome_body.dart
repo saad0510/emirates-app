@@ -7,12 +7,10 @@ import '../../../../app/sizes.dart';
 import '../../../../core/extensions/context_ext.dart';
 import '../../../../core/extensions/text_ext.dart';
 import '../../../auth/presentation/controllers/auth/auth_controller.dart';
-import '../../../flights/data/entities/flight.dart';
-import '../../../flights/data/entities/flight_class.dart';
-import '../../../flights/presentation/controllers/city_controller.dart';
 import '../widgets/flight_ticket.dart';
 import '../widgets/popular_destinations_list.dart';
 import '../widgets/view_all_section.dart';
+import 'home_screen.dart';
 
 class WelcomeBody extends StatelessWidget {
   const WelcomeBody({super.key});
@@ -20,14 +18,6 @@ class WelcomeBody extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final user = context.watch<AuthController>().user;
-    final flight = Flight(
-      fid: "AB689",
-      departureCity: CityController.cities.first,
-      arrivalCity: CityController.cities.last,
-      dateTime: DateTime.now(),
-      cost: 500.9,
-      flightClass: FlightClass.business,
-    );
 
     return SingleChildScrollView(
       child: Padding(
@@ -46,13 +36,13 @@ class WelcomeBody extends StatelessWidget {
             const Divider(height: 50),
             ViewAllSection(
               title: "Upcoming flights",
-              onPressed: () {},
+              onPressed: () {
+                context.replace(AppRoutes.home, arguments: HomeScreen.tripsIndex);
+              },
               child: InkWell(
-                onTap: () {
-                  context.push(AppRoutes.boardingPass, arguments: flight);
-                },
-                child: Center(
-                  child: FlightTicket(flight: flight),
+                onTap: () => context.push(AppRoutes.boardingPass),
+                child: const Center(
+                  child: FlightTicket(),
                 ),
               ),
             ),
@@ -61,9 +51,7 @@ class WelcomeBody extends StatelessWidget {
               margin: AppPaddings.normalY,
               child: ViewAllSection(
                 title: "Popular Places",
-                onPressed: () {
-                  context.push(AppRoutes.popularDestinations);
-                },
+                onPressed: () => context.push(AppRoutes.popularDestinations),
                 child: const Expanded(
                   child: PopularDestinationsList(),
                 ),
