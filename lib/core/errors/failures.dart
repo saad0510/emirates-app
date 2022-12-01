@@ -15,3 +15,8 @@ abstract class Failure {
 class AuthFailure extends Failure {
   const AuthFailure(super.message);
 }
+
+class CityFailure extends Failure {
+  final String name;
+  const CityFailure(this.name, super.message);
+}

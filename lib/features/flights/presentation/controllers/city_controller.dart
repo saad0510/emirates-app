@@ -1,36 +1,31 @@
+import '../../../../core/utils/base_change_notifier.dart';
 import '../../data/entities/city.dart';
+import '../../data/repositories/city_repo.dart';
 
-class CityController {
-  static const cities = [
-    City(code: "SKT", name: "Sialkot", country: "Pakistan"),
-    City(code: "ISB", name: "Islamabad", country: "Pakistan"),
-    City(code: "KHI", name: "Karachi", country: "Pakistan"),
-    City(code: "LHE", name: "Lahore", country: "Pakistan"),
-    City(code: "PEW", name: "Peshawar", country: "Pakistan"),
-    City(code: "MUX", name: "Multan", country: "Pakistan"),
-    City(code: "UET", name: "Quetta", country: "Pakistan"),
-    City(code: "LYP", name: "Faisalabad", country: "Pakistan"),
-    City(code: "SKZ", name: "namepur Khas", country: "Pakistan"),
-    City(code: "BHV", name: "Bahawalpur", country: "Pakistan"),
-    City(code: "DEA", name: " Ghazi Khan", country: "Pakistan"),
-    City(code: "DSK", name: " Ismael Khan", country: "Pakistan"),
-    City(code: "GWD", name: "Gwadar", country: "Pakistan"),
-    City(code: "GIL", name: "Gilgit", country: "Pakistan"),
-    City(code: "MJD", name: "Moenjodaro", country: "Pakistan"),
-    City(code: "PJG", name: "Panjgur", country: "Pakistan"),
-    City(code: "RYK", name: "namem Yar Khan", country: "Pakistan"),
-    City(code: "KDU", name: "Skardu", country: "Pakistan"),
-    City(code: "TUK", name: "Turbat", country: "Pakistan"),
-    City(code: "PZH", name: "namet Sandeman", country: "Pakistan"),
-    City(code: "CJL", name: "Chitral", country: "Pakistan"),
-    City(code: "MFG", name: "Muzaffarabad", country: "Pakistan"),
-    City(code: "WNS", name: "Nawabashah", country: "Pakistan"),
-    City(code: "PSI", name: "Pasni", country: "Pakistan"),
-    City(code: "RAZ", name: "Rawalakot", country: "Pakistan"),
-    City(code: "SYW", name: "namewan Sharif", country: "Pakistan"),
-    City(code: "SDT", name: "namedu Sharif", country: "Pakistan"),
-    City(code: "DBA", name: "Dalbandin", country: "Pakistan"),
-    City(code: "JIW", name: "Jiwani", country: "Pakistan"),
-    City(code: "HDD", name: "Hyderabad", country: "Pakistan"),
+class CityController extends BaseChangeNotifier<bool> {
+  final CityRepo repo;
+
+  // TODO: remove this
+  static const List<City> cities = [
+    City(code: 'ISL', name: 'Islamabad', airport: 'Islamabad International Airport', country: 'Pakistan'),
   ];
+
+  CityController({required this.repo}) : super(false);
+
+  Future<Iterable<City>> search(String city) async {
+    final res = await repo.search(city);
+    if (res.isSuccess()) {
+      return res.getSuccess()!;
+    }
+
+    final error = res.getError()!;
+    return [
+      City(
+        code: error.name,
+        name: 'An error occured',
+        airport: error.message,
+        country: '',
+      ),
+    ];
+  }
 }

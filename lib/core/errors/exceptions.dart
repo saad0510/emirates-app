@@ -21,3 +21,8 @@ class AuthException extends BaseException {
   final String action;
   const AuthException(this.action, super.message);
 }
+
+class CityException extends BaseException {
+  final String name;
+  const CityException(this.name, super.message);
+}

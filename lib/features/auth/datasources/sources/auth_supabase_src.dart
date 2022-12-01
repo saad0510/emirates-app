@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 import '../../../../core/errors/exceptions.dart' as err;
@@ -37,6 +39,8 @@ class AuthSupabaseSrc extends AuthRemoteSrc {
 
       return UserDataModel.fromSupabaseUser(res.user!);
     } on AuthException catch (e) {
+      log('signInWithPassword: $e', name: 'AuthSupabaseSrc');
+
       throw err.AuthException(
         e.statusCode ?? 'signInWithPassword($email, $password)',
         e.message,
@@ -60,6 +64,8 @@ class AuthSupabaseSrc extends AuthRemoteSrc {
         );
       }
     } on AuthException catch (e) {
+      log('signUp: $e', name: 'AuthSupabaseSrc');
+
       throw err.AuthException(
         e.statusCode ?? 'signUp($data, $password)',
         e.message,
@@ -72,6 +78,8 @@ class AuthSupabaseSrc extends AuthRemoteSrc {
     try {
       await client.auth.signOut();
     } on AuthException catch (e) {
+      log('signOut: $e', name: 'AuthSupabaseSrc');
+
       throw err.AuthException(
         e.statusCode ?? 'signOut()',
         e.message,

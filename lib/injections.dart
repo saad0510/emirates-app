@@ -8,6 +8,11 @@ import 'features/auth/datasources/sources/auth_remote_src.dart';
 import 'features/auth/datasources/sources/auth_supabase_src.dart';
 import 'features/auth/presentation/controllers/auth/auth_controller.dart';
 import 'features/auth/presentation/controllers/onboarding_controller.dart';
+import 'features/flights/data/repositories/city_repo.dart';
+import 'features/flights/datasources/repositories/city_repo_imp.dart';
+import 'features/flights/datasources/sources/city_remote_src.dart';
+import 'features/flights/datasources/sources/city_supabase_src.dart';
+import 'features/flights/presentation/controllers/city_controller.dart';
 
 class Injections {
   static const supabaseUrl = "https://owquxhlxmutcrcifvfsy.supabase.co";
@@ -23,6 +28,9 @@ class Injections {
     ChangeNotifierProvider<AuthController>(
       create: (_) => AuthController(repo: inject()),
     ),
+    ChangeNotifierProvider<CityController>(
+      create: (_) => CityController(repo: inject()),
+    ),
   ];
 
   Future<void> init() async {
@@ -35,10 +43,16 @@ class Injections {
     inject.registerLazySingleton<AuthRepo>(
       () => AuthRepoImp(remoteSrc: inject()),
     );
+    inject.registerLazySingleton<CityRepo>(
+      () => CityRepoImp(remoteSrc: inject()),
+    );
 
     // sources
     inject.registerLazySingleton<AuthRemoteSrc>(
       () => AuthSupabaseSrc(client: supabase.client),
+    );
+    inject.registerLazySingleton<CityRemoteSrc>(
+      () => CitySupabaseSrc(client: supabase.client),
     );
 
     // third-party

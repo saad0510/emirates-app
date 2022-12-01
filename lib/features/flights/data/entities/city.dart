@@ -1,11 +1,13 @@
 class City {
-  final String name;
   final String code;
+  final String name;
+  final String airport;
   final String country;
 
   const City({
-    required this.name,
     required this.code,
+    required this.name,
+    required this.airport,
     required this.country,
   });
 

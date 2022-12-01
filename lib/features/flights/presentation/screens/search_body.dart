@@ -34,14 +34,18 @@ class SearchBody extends StatelessWidget {
                   style: context.textTheme.bodyText1,
                 ),
                 AppSizes.smallY,
-                const SelectCityField(),
+                SelectCityField(
+                  onSelected: (value) {},
+                ),
                 AppSizes.smallY,
                 Text(
                   "Arrival City",
                   style: context.textTheme.bodyText1,
                 ),
                 AppSizes.smallY,
-                const SelectCityField(),
+                SelectCityField(
+                  onSelected: (value) {},
+                ),
                 AppSizes.normalY,
                 ElevatedButton(
                   onPressed: () {},
