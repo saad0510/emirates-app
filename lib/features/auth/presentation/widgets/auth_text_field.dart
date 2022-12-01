@@ -12,11 +12,13 @@ class AuthTextField extends StatefulWidget {
     this.validator,
     this.keyboardType,
     required this.onSubmit,
+    this.controller,
   });
 
   final String label;
   final String hint;
   final bool obscure;
+  final TextEditingController? controller;
   final TextInputType? keyboardType;
   final String? Function(String?)? validator;
   final void Function(String) onSubmit;
@@ -40,6 +42,7 @@ class _AuthTextFieldState extends State<AuthTextField> {
         ),
         AppSizes.smallY,
         TextFormField(
+          controller: widget.controller,
           obscureText: widget.obscure && show,
           autovalidateMode: AutovalidateMode.onUserInteraction,
           keyboardType: widget.keyboardType,
@@ -48,7 +51,7 @@ class _AuthTextFieldState extends State<AuthTextField> {
             letterSpacing: widget.obscure && show ? 3 : null,
           ),
           validator: widget.validator,
-          onSaved: (x) => widget.onSubmit(x ?? ''),
+          onSaved: (x) => widget.onSubmit(x?.trim() ?? ''),
           decoration: InputDecoration(
             hintText: widget.hint,
             suffixIcon: !widget.obscure

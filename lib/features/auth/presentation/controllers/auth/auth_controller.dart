@@ -23,7 +23,11 @@ class AuthController extends BaseChangeNotifier<AuthState> {
     if (state is AuthLoadedState) {
       return (state as AuthLoadedState).data;
     }
-    return const UserData(name: 'no name', email: 'no@email.com');
+    return UserData(
+      name: 'no name',
+      email: 'no@email.com',
+      birthDate: DateTime.now(),
+    );
   }
 
   void login(String email, String password) async {

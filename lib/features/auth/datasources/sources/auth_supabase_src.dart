@@ -49,7 +49,7 @@ class AuthSupabaseSrc extends AuthRemoteSrc {
     try {
       final res = await client.auth.signUp(
         email: data.email,
-        data: {'name': data.name},
+        data: data.toSupabaseMetadata(),
         password: password,
       );
 

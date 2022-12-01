@@ -4,8 +4,9 @@ import '../../../../app/sizes.dart';
 import '../../../../core/utils/form_validations.dart';
 import '../../data/entities/user_data.dart';
 import '../controllers/auth/auth_controller.dart';
-import 'auth_text_field.dart';
 import '../controllers/auth/auth_widget.dart';
+import 'auth_text_field.dart';
+import 'date_picker_field.dart';
 import 'text_action_button.dart';
 
 class RegisterForm extends StatefulWidget {
@@ -18,10 +19,12 @@ class RegisterForm extends StatefulWidget {
 class _RegisterFormState extends State<RegisterForm> {
   final formKey = GlobalKey<FormState>();
   bool checked = false;
+  final controller = TextEditingController();
 
   String name = '';
   String email = '';
   String password = '';
+  late DateTime dob;
 
   void submit(AuthController auth) {
     if (!mounted) return;
@@ -29,7 +32,11 @@ class _RegisterFormState extends State<RegisterForm> {
     if (!validated) return;
     formKey.currentState!.save();
     auth.register(
-      UserData(name: name, email: email),
+      UserData(
+        name: name,
+        email: email,
+        birthDate: dob,
+      ),
       password,
     );
   }
@@ -64,6 +71,11 @@ class _RegisterFormState extends State<RegisterForm> {
             onSubmit: (x) => password = x,
             validator: FormValidations.password,
             keyboardType: TextInputType.visiblePassword,
+          ),
+          AppSizes.smallY,
+          DatePickerField(
+            onChanged: (x) => dob = x,
+            controller: controller,
           ),
           AppSizes.normalY,
           CheckboxListTile(
