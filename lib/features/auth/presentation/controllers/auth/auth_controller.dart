@@ -24,6 +24,7 @@ class AuthController extends BaseChangeNotifier<AuthState> {
       return (state as AuthLoadedState).data;
     }
     return UserData(
+      uid: '',
       name: 'no name',
       email: 'no@email.com',
       birthDate: DateTime.now(),

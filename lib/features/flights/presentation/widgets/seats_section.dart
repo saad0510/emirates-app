@@ -1,26 +1,29 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
-import '../../../../app/assets.dart';
+import '../../../../app/routes.dart';
 import '../../../../app/sizes.dart';
 import '../../../../core/extensions/context_ext.dart';
 import '../../../../core/extensions/text_ext.dart';
+import '../../../common/presentation/widgets/bottom_modal_sheet.dart';
 import '../../data/entities/flight_class.dart';
+import '../controllers/seats/seat_widget.dart';
+import '../controllers/seats/seats_controller.dart';
+import 'confirm_seat_dialog.dart';
 
 class SeatsSection extends StatelessWidget {
   const SeatsSection({
     super.key,
     required this.rowsNo,
     required this.rowSize,
+    required this.price,
     required this.flightClass,
-    required this.occupied,
-    required this.onSelected,
   });
 
   final int rowSize;
   final int rowsNo;
+  final double price;
   final FlightClass flightClass;
-  final Set<int> occupied;
-  final void Function(String) onSelected;
 
   @override
   Widget build(BuildContext context) {
@@ -41,18 +44,12 @@ class SeatsSection extends StatelessWidget {
             children: List.generate(
               rowSize,
               (col) {
-                bool isOccupied = occupied.contains(row * rowSize + col);
-                final sid = flightClass.prefix + getId(row + 1, col + 1);
+                final sid = getId(row, col);
 
                 return Expanded(
-                  flex: 1,
-                  child: InkWell(
-                    onTap: isOccupied ? null : () => onSelected(sid),
-                    child: Image.asset(
-                      AppAssets.seat,
-                      fit: BoxFit.fitWidth,
-                      color: isOccupied ? Colors.grey.shade600 : Colors.greenAccent.shade700,
-                    ),
+                  child: SeatWidget(
+                    seatId: sid,
+                    onSelected: (sid) => showSeatDialog(sid, context),
                   ),
                 );
               },
@@ -72,11 +69,28 @@ class SeatsSection extends StatelessWidget {
       ],
     );
   }
-}
 
-String getId(int row, int col) {
-  row--;
-  final row1 = row ~/ 26 + 1;
-  final row2 = String.fromCharCode(row % 26 + 65);
-  return '$row1$row2$col';
+  void showSeatDialog(String sid, BuildContext context) {
+    BottomModalSheet.show(
+      context,
+      child: ConfirmSeatDialog(
+        seatId: sid,
+        price: price,
+        flightClass: flightClass,
+        onConfirm: () async {
+          await context
+              .read<SeatsController>() //
+              .reserve(sid)
+              .then(
+                (_) => context.push(AppRoutes.payment, arguments: sid),
+              );
+        },
+      ),
+    );
+  }
+
+  String getId(int row, int col) {
+    final c = String.fromCharCode(col % rowSize + 65);
+    return '${flightClass.prefix}$c${row + 1}';
+  }
 }

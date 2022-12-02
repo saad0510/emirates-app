@@ -1,20 +1,21 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
-import '../../../../app/routes.dart';
 import '../../../../app/sizes.dart';
-import '../../../../core/extensions/context_ext.dart';
 import '../../../auth/presentation/widgets/auth_text_field.dart';
 import '../../../common/presentation/widgets/bottom_modal_sheet.dart';
 import '../../../common/presentation/widgets/secondary_button.dart';
-import '../../data/entities/flight.dart';
-import '../controllers/city_controller.dart';
 import 'discount_sheet.dart';
 
 class PaymentForm extends StatefulWidget {
-  const PaymentForm({super.key, required this.amount});
+  const PaymentForm({
+    super.key,
+    required this.amount,
+    required this.onSubmit,
+  });
 
   final double amount;
+  final VoidCallback onSubmit;
 
   @override
   State<PaymentForm> createState() => _PaymentFormState();
@@ -65,7 +66,7 @@ class _PaymentFormState extends State<PaymentForm> {
           ),
           AppSizes.normalY,
           ElevatedButton(
-            onPressed: submit,
+            onPressed: widget.onSubmit,
             child: Text("Pay  \$${payAmount.toStringAsFixed(2)}"),
           ),
           AppSizes.smallY,
@@ -89,21 +90,5 @@ class _PaymentFormState extends State<PaymentForm> {
         ],
       ),
     );
-  }
-
-  void submit() {
-    final flight = Flight(
-      fid: "AB689",
-      departureCity: CityController.cities.first,
-      arrivalCity: CityController.cities.last,
-      arrivalTime: DateTime.now(),
-      departureTime: DateTime.now(),
-      rowSize: 6,
-      businesCost: 12,
-      economyCost: 8,
-      businessRows: 4,
-      economyRows: 10,
-    );
-    context.replace(AppRoutes.boardingPass, arguments: flight);
   }
 }

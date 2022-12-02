@@ -33,6 +33,7 @@ class _RegisterFormState extends State<RegisterForm> {
     formKey.currentState!.save();
     auth.register(
       UserData(
+        uid: '',
         name: name,
         email: email,
         birthDate: dob,

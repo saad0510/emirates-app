@@ -68,7 +68,7 @@ class AppRoutes {
       case payment:
         return MaterialPageRoute(
           builder: (_) => PaymentScreen(
-            amount: settings.arguments as double,
+            seatId: settings.arguments as String,
           ),
         );
       case boardingPass:

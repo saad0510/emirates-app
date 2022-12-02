@@ -10,11 +10,17 @@ import '../../../common/presentation/widgets/dashed_line.dart';
 import '../../../common/presentation/widgets/ticket_widget.dart';
 import '../../data/entities/flight.dart';
 import '../../data/entities/flight_class.dart';
+import '../../data/entities/ticket.dart';
 
 class BoardingPassCard extends StatelessWidget {
-  const BoardingPassCard({super.key, required this.flight});
+  const BoardingPassCard({
+    super.key,
+    required this.ticket,
+    required this.flight,
+  });
 
   final Flight flight;
+  final Ticket ticket;
 
   @override
   Widget build(BuildContext context) {
@@ -88,7 +94,7 @@ class BoardingPassCard extends StatelessWidget {
                 children: const [
                   Text("FULLNAME"),
                   Spacer(),
-                  Text("SEAT NUMBER"),
+                  Text("FLIGHT ID"),
                 ],
               ),
             ),
@@ -96,10 +102,10 @@ class BoardingPassCard extends StatelessWidget {
           DefaultTextStyle(
             style: context.textTheme.bodyText1!,
             child: Row(
-              children: const [
-                Text("James Bond"),
-                Spacer(),
-                Text("A2"),
+              children: [
+                Text(ticket.name),
+                const Spacer(),
+                Text(ticket.flightId),
               ],
             ),
           ),
@@ -110,7 +116,7 @@ class BoardingPassCard extends StatelessWidget {
               style: context.textTheme.subtitle2!,
               child: Row(
                 children: const [
-                  Text("TERMINAL"),
+                  Text("SEAT NUMBER"),
                   Spacer(),
                   Text("CLASS"),
                 ],
@@ -121,7 +127,7 @@ class BoardingPassCard extends StatelessWidget {
             style: context.textTheme.bodyText1!,
             child: Row(
               children: [
-                const Text("5"),
+                Text(ticket.seatId),
                 const Spacer(),
                 Text(FlightClass.business.name),
               ],
@@ -136,7 +142,7 @@ class BoardingPassCard extends StatelessWidget {
                 children: const [
                   Text("DEPARTURE"),
                   Spacer(),
-                  Text("PASSPORT ID"),
+                  Text("ARRIVAL"),
                 ],
               ),
             ),
@@ -145,9 +151,9 @@ class BoardingPassCard extends StatelessWidget {
             style: context.textTheme.bodyText1!,
             child: Row(
               children: [
-                Text(DateTimeService.dateTimeStr(flight.departureTime, full: true)),
+                Text(DateTimeService.dateTimeStr(flight.departureTime)),
                 const Spacer(),
-                const Text("58942157"),
+                Text(DateTimeService.dateTimeStr(flight.arrivalTime)),
               ],
             ),
           ),

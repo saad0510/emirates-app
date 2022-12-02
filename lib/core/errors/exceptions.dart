@@ -30,3 +30,8 @@ class CityException extends BaseException {
 class FlightException extends BaseException {
   const FlightException(super.message);
 }
+
+class TicketException extends BaseException {
+  final String tid;
+  const TicketException(this.tid, super.message);
+}

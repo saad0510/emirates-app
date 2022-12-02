@@ -5,10 +5,12 @@ import 'package:supabase_flutter/supabase_flutter.dart';
 import '../../../../core/errors/exceptions.dart';
 import '../models/city_model.dart';
 import '../models/flight_model.dart';
+import '../models/seat_model.dart';
 import 'flight_remote_src.dart';
 
 class FlightSupabaseSrc implements FlightRemoteSrc {
   static const tableName = 'flights';
+  static const seatsTableName = 'seats';
 
   final SupabaseClient client;
 
@@ -37,6 +39,39 @@ class FlightSupabaseSrc implements FlightRemoteSrc {
       throw FlightException(e.message);
     } catch (e) {
       log('search: $e', name: 'FlightSupabaseSrc');
+      rethrow;
+    }
+  }
+
+  @override
+  Stream<Iterable<SeatModel>> seatsOf(String fid) {
+    try {
+      final stream = client.from(seatsTableName) //
+          .stream(primaryKey: ['fid', 'seat_no']) //
+          .eq('fid', fid);
+
+      return stream.asyncMap(
+        (seats) => seats.map((e) => SeatModel.fromMap(e)),
+      );
+    } on PostgrestException catch (e) {
+      log('seatsOf: $e', name: 'FlightSupabaseSrc');
+      throw FlightException(e.message);
+    } catch (e) {
+      log('seatsOf: $e', name: 'FlightSupabaseSrc');
+      rethrow;
+    }
+  }
+
+  @override
+  Future<void> reserveSeat(SeatModel seatModel) async {
+    try {
+      final query = client.from(seatsTableName).insert(seatModel.toMap());
+      await query;
+    } on PostgrestException catch (e) {
+      log('seatsOf: $e', name: 'FlightSupabaseSrc');
+      throw FlightException(e.message);
+    } catch (e) {
+      log('seatsOf: $e', name: 'FlightSupabaseSrc');
       rethrow;
     }
   }

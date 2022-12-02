@@ -3,8 +3,8 @@ import 'package:flutter/material.dart';
 import '../../../../app/sizes.dart';
 import '../../../../core/utils/form_validations.dart';
 import '../controllers/auth/auth_controller.dart';
-import 'auth_text_field.dart';
 import '../controllers/auth/auth_widget.dart';
+import 'auth_text_field.dart';
 import 'text_action_button.dart';
 
 class LoginForm extends StatefulWidget {

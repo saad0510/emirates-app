@@ -24,3 +24,8 @@ class CityFailure extends Failure {
 class FlightFailure extends Failure {
   const FlightFailure(super.message);
 }
+
+class TicketFailure extends Failure {
+  final String tid;
+  const TicketFailure(this.tid, super.message);
+}

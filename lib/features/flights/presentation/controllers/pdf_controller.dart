@@ -10,6 +10,7 @@ import '../../../../app/assets.dart';
 import '../../../../core/utils/date_time_service.dart';
 import '../../data/entities/flight.dart';
 import '../../data/entities/flight_class.dart';
+import '../../data/entities/ticket.dart';
 
 class PdfController {
   PdfController._();
@@ -19,7 +20,10 @@ class PdfController {
     return isGranted && Platform.isAndroid;
   }
 
-  static Future<String> generateTicket(Flight flight) async {
+  static Future<String> generateTicket({
+    required Flight flight,
+    required Ticket ticket,
+  }) async {
     final pdf = Document();
 
     final ByteData bytes = await rootBundle.load(AppAssets.logo);
@@ -61,7 +65,7 @@ class PdfController {
                   TableRow(
                     children: [
                       text('Full Name', bold: true),
-                      text('James Bond'),
+                      text(ticket.name),
                     ],
                   ),
                   TableRow(
@@ -82,6 +86,12 @@ class PdfController {
                   ),
                   TableRow(
                     children: [
+                      text('Flight ID', bold: true),
+                      text(flight.fid),
+                    ],
+                  ),
+                  TableRow(
+                    children: [
                       text('Date & Time', bold: true),
                       text(DateTimeService.dateTimeStr(flight.departureTime, full: true)),
                     ],
@@ -95,25 +105,13 @@ class PdfController {
                   TableRow(
                     children: [
                       text('Seat Number', bold: true),
-                      text('A2'),
-                    ],
-                  ),
-                  TableRow(
-                    children: [
-                      text('Terminal', bold: true),
-                      text('5'),
+                      text(ticket.seatId),
                     ],
                   ),
                   TableRow(
                     children: [
                       text('Class', bold: true),
                       text(FlightClass.business.name),
-                    ],
-                  ),
-                  TableRow(
-                    children: [
-                      text('Passport ID', bold: true),
-                      text('58942157'),
                     ],
                   ),
                 ],
