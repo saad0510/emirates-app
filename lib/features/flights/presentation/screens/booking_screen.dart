@@ -1,22 +1,23 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:provider/provider.dart';
 
 import '../../../../app/routes.dart';
 import '../../../../app/sizes.dart';
 import '../../../../core/extensions/context_ext.dart';
 import '../../../../core/utils/date_time_service.dart';
 import '../../../common/presentation/widgets/circular_logo.dart';
-import '../../data/entities/flight.dart';
+import '../controllers/flight/flight_controller.dart';
 import '../widgets/booking_screen_field.dart';
 import '../widgets/chip_selector.dart';
 
 class BookingScreen extends StatelessWidget {
-  const BookingScreen({super.key, required this.flight});
-
-  final Flight flight;
+  const BookingScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
+    final flight = context.watch<FlightController>().bookedFlight;
+
     return Scaffold(
       appBar: AppBar(
         title: const Text("Book Flight"),
@@ -52,41 +53,43 @@ class BookingScreen extends StatelessWidget {
                       title: flight.arrivalCity.fullname,
                     ),
                     BookingScreenField(
-                      label: "DATE",
-                      title: DateTimeService.dateTimeStr(flight.dateTime),
+                      label: "DEPARTURE DATE",
+                      title: DateTimeService.dateTimeStr(flight.departureTime),
                     ),
                     BookingScreenField(
-                      label: "TIME",
-                      title: DateTimeService.timeStr(flight.dateTime),
+                      label: "ARRIVAL DATE",
+                      title: DateTimeService.dateTimeStr(flight.arrivalTime),
                     ),
                     Row(
-                      children: const [
+                      children: [
                         Expanded(
+                          flex: 2,
                           child: BookingScreenField(
                             label: "ECONOMY",
-                            title: '200 USD',
+                            title: '${flight.economyCost} USD',
                           ),
                         ),
                         Expanded(
                           child: BookingScreenField(
-                            label: "REMAINING SEATS",
-                            title: '0',
+                            label: "SEATS",
+                            title: '${flight.economySeats}',
                           ),
                         ),
                       ],
                     ),
                     Row(
-                      children: const [
+                      children: [
                         Expanded(
+                          flex: 2,
                           child: BookingScreenField(
                             label: "BUSINESS",
-                            title: '500 USD',
+                            title: '${flight.businesCost} USD',
                           ),
                         ),
                         Expanded(
                           child: BookingScreenField(
-                            label: "REMAINING SEATS",
-                            title: '15',
+                            label: "SEATS",
+                            title: '${flight.businessSeats}',
                           ),
                         ),
                       ],
@@ -99,9 +102,7 @@ class BookingScreen extends StatelessWidget {
                         AppSizes.normalX,
                         Expanded(
                           child: ElevatedButton(
-                            onPressed: () {
-                              context.push(AppRoutes.seats, arguments: flight);
-                            },
+                            onPressed: () => onPressed(context),
                             child: const Text('Continue'),
                           ),
                         ),
@@ -115,5 +116,9 @@ class BookingScreen extends StatelessWidget {
         ),
       ),
     );
+  }
+
+  void onPressed(BuildContext context) {
+    context.push(AppRoutes.seats);
   }
 }

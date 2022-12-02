@@ -22,7 +22,13 @@ class FlightTicket extends StatelessWidget {
       fid: "AB689",
       departureCity: CityController.cities.first,
       arrivalCity: CityController.cities.last,
-      dateTime: DateTime.now(),
+      arrivalTime: DateTime.now(),
+      departureTime: DateTime.now(),
+      rowSize: 6,
+      businesCost: 12,
+      economyCost: 8,
+      businessRows: 4,
+      economyRows: 10,
     );
 
     return TicketWidget(
@@ -81,7 +87,7 @@ class FlightTicket extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Text(
-                DateTimeService.dateTimeStr(flight.dateTime),
+                DateTimeService.dateTimeStr(flight.departureTime),
                 style: context.textTheme.subtitle2,
               ),
               Text(

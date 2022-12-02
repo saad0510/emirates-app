@@ -3,16 +3,20 @@ import 'package:flutter/material.dart';
 import '../../../../app/sizes.dart';
 import '../../../../core/extensions/context_ext.dart';
 import '../../../../core/extensions/text_ext.dart';
-import '../../data/entities/seat.dart';
+import '../../data/entities/flight_class.dart';
 
 class ConfirmSeatDialog extends StatelessWidget {
   const ConfirmSeatDialog({
     super.key,
-    required this.seat,
+    required this.seatId,
+    required this.price,
+    required this.flightClass,
     required this.onConfirm,
   });
 
-  final Seat seat;
+  final String seatId;
+  final double price;
+  final FlightClass flightClass;
   final VoidCallback onConfirm;
 
   @override
@@ -34,9 +38,9 @@ class ConfirmSeatDialog extends StatelessWidget {
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Text(seat.flightClass.name),
-              Text(seat.seatId),
-              Text('\$${seat.price.roundToDouble()}'),
+              Text(flightClass.name),
+              Text(seatId),
+              Text('\$${price.roundToDouble()}'),
             ],
           ),
         ),

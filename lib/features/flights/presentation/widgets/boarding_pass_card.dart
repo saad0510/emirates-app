@@ -145,7 +145,7 @@ class BoardingPassCard extends StatelessWidget {
             style: context.textTheme.bodyText1!,
             child: Row(
               children: [
-                Text(DateTimeService.dateTimeStr(flight.dateTime, full: true)),
+                Text(DateTimeService.dateTimeStr(flight.departureTime, full: true)),
                 const Spacer(),
                 const Text("58942157"),
               ],

@@ -96,7 +96,13 @@ class _PaymentFormState extends State<PaymentForm> {
       fid: "AB689",
       departureCity: CityController.cities.first,
       arrivalCity: CityController.cities.last,
-      dateTime: DateTime.now(),
+      arrivalTime: DateTime.now(),
+      departureTime: DateTime.now(),
+      rowSize: 6,
+      businesCost: 12,
+      economyCost: 8,
+      businessRows: 4,
+      economyRows: 10,
     );
     context.replace(AppRoutes.boardingPass, arguments: flight);
   }

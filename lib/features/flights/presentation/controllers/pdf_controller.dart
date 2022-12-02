@@ -83,7 +83,7 @@ class PdfController {
                   TableRow(
                     children: [
                       text('Date & Time', bold: true),
-                      text(DateTimeService.dateTimeStr(flight.dateTime, full: true)),
+                      text(DateTimeService.dateTimeStr(flight.departureTime, full: true)),
                     ],
                   ),
                   TableRow(

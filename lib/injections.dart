@@ -9,10 +9,15 @@ import 'features/auth/datasources/sources/auth_supabase_src.dart';
 import 'features/auth/presentation/controllers/auth/auth_controller.dart';
 import 'features/auth/presentation/controllers/onboarding_controller.dart';
 import 'features/flights/data/repositories/city_repo.dart';
+import 'features/flights/data/repositories/flight_repo.dart';
 import 'features/flights/datasources/repositories/city_repo_imp.dart';
+import 'features/flights/datasources/repositories/flight_repo_imp.dart';
 import 'features/flights/datasources/sources/city_remote_src.dart';
 import 'features/flights/datasources/sources/city_supabase_src.dart';
+import 'features/flights/datasources/sources/flight_remote_src.dart';
+import 'features/flights/datasources/sources/flight_supabase_src.dart';
 import 'features/flights/presentation/controllers/city_controller.dart';
+import 'features/flights/presentation/controllers/flight/flight_controller.dart';
 
 class Injections {
   static const supabaseUrl = "https://owquxhlxmutcrcifvfsy.supabase.co";
@@ -31,6 +36,9 @@ class Injections {
     ChangeNotifierProvider<CityController>(
       create: (_) => CityController(repo: inject()),
     ),
+    ChangeNotifierProvider<FlightController>(
+      create: (_) => FlightController(repo: inject()),
+    ),
   ];
 
   Future<void> init() async {
@@ -46,6 +54,9 @@ class Injections {
     inject.registerLazySingleton<CityRepo>(
       () => CityRepoImp(remoteSrc: inject()),
     );
+    inject.registerLazySingleton<FlightRepo>(
+      () => FlightRepoImp(remoteSrc: inject()),
+    );
 
     // sources
     inject.registerLazySingleton<AuthRemoteSrc>(
@@ -53,6 +64,9 @@ class Injections {
     );
     inject.registerLazySingleton<CityRemoteSrc>(
       () => CitySupabaseSrc(client: supabase.client),
+    );
+    inject.registerLazySingleton<FlightRemoteSrc>(
+      () => FlightSupabaseSrc(client: supabase.client),
     );
 
     // third-party

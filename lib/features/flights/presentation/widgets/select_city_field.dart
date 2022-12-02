@@ -11,7 +11,7 @@ import '../controllers/city_controller.dart';
 class SelectCityField extends StatefulWidget {
   const SelectCityField({super.key, required this.onSelected});
 
-  final void Function(String value) onSelected;
+  final void Function(City value) onSelected;
 
   @override
   State<SelectCityField> createState() => _SelectCityFieldState();
@@ -70,7 +70,7 @@ class _SelectCityFieldState extends State<SelectCityField> {
       ),
       onSuggestionSelected: (city) {
         controller.text = city.name;
-        widget.onSelected(city.name);
+        widget.onSelected(city);
       },
     );
   }

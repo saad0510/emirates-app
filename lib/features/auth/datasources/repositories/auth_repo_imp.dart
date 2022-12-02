@@ -7,7 +7,7 @@ import '../../data/repositories/auth_repo.dart';
 import '../models/user_data_model.dart';
 import '../sources/auth_remote_src.dart';
 
-class AuthRepoImp extends AuthRepo {
+class AuthRepoImp implements AuthRepo {
   final AuthRemoteSrc remoteSrc;
 
   AuthRepoImp({required this.remoteSrc});

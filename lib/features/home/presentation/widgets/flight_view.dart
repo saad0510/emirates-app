@@ -74,7 +74,7 @@ class FlightView extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Text(
-                DateTimeService.dateTimeStr(flight.dateTime),
+                DateTimeService.dateTimeStr(flight.departureTime),
                 style: context.textTheme.subtitle2,
               ),
               Text(

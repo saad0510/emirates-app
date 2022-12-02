@@ -20,7 +20,13 @@ class _TripsBodyState extends State<TripsBody> {
     fid: "AB689",
     departureCity: CityController.cities.first,
     arrivalCity: CityController.cities.last,
-    dateTime: DateTime.now(),
+    arrivalTime: DateTime.now(),
+    departureTime: DateTime.now(),
+    rowSize: 6,
+    businesCost: 12,
+    economyCost: 8,
+    businessRows: 4,
+    economyRows: 10,
   );
 
   late final upcomings = List.filled(3, flight);

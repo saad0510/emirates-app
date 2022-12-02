@@ -15,6 +15,9 @@ class AppAssets {
   static const creditCard = "$images/credit card.png";
   static const successMark = "$images/success.png";
   static const worldMap = "$images/world map.png";
+  static const startTravel = "$images/suitcase world.png";
+  static const noResults = "$images/paper plane.png";
+  static const error = "$images/plane crash.png";
 
   static const mainCover = "$dest/man with bike cover.png";
   static const rockInWater = "$dest/mountain in water.png";

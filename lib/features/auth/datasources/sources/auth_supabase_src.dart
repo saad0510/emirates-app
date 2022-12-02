@@ -7,7 +7,7 @@ import '../../data/entities/user_data.dart';
 import '../models/user_data_model.dart';
 import 'auth_remote_src.dart';
 
-class AuthSupabaseSrc extends AuthRemoteSrc {
+class AuthSupabaseSrc implements AuthRemoteSrc {
   final SupabaseClient client;
 
   AuthSupabaseSrc({required this.client});
@@ -45,6 +45,9 @@ class AuthSupabaseSrc extends AuthRemoteSrc {
         e.statusCode ?? 'signInWithPassword($email, $password)',
         e.message,
       );
+    } catch (e) {
+      log('signInWithPassword: $e', name: 'AuthSupabaseSrc');
+      rethrow;
     }
   }
 
@@ -70,6 +73,9 @@ class AuthSupabaseSrc extends AuthRemoteSrc {
         e.statusCode ?? 'signUp($data, $password)',
         e.message,
       );
+    } catch (e) {
+      log('signUp: $e', name: 'AuthSupabaseSrc');
+      rethrow;
     }
   }
 
@@ -84,6 +90,9 @@ class AuthSupabaseSrc extends AuthRemoteSrc {
         e.statusCode ?? 'signOut()',
         e.message,
       );
+    } catch (e) {
+      log('signOut: $e', name: 'AuthSupabaseSrc');
+      rethrow;
     }
   }
 }

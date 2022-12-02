@@ -4,19 +4,22 @@ import '../../../../app/assets.dart';
 import '../../../../app/sizes.dart';
 import '../../../../core/extensions/context_ext.dart';
 import '../../../../core/extensions/text_ext.dart';
-import '../../data/entities/flight_seats.dart';
-import '../../data/entities/seat.dart';
+import '../../data/entities/flight_class.dart';
 
 class SeatsSection extends StatelessWidget {
   const SeatsSection({
     super.key,
-    required this.seats,
+    required this.rowsNo,
     required this.rowSize,
+    required this.flightClass,
+    required this.occupied,
     required this.onSelected,
   });
 
   final int rowSize;
-  final FlightSeats seats;
+  final int rowsNo;
+  final FlightClass flightClass;
+  final Set<int> occupied;
   final void Function(String) onSelected;
 
   @override
@@ -26,20 +29,20 @@ class SeatsSection extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
         Text(
-          '${seats.flightClass.name} class',
+          '${flightClass.name} class',
           textAlign: TextAlign.center,
           style: context.textTheme.subtitle2,
         ),
         AppSizes.normalY,
         ...List.generate(
-          seats.rows,
+          rowsNo,
           (row) => Row(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: List.generate(
               rowSize,
               (col) {
-                bool isOccupied = seats.occupied.contains(row * rowSize + col);
-                final sid = seats.flightClass.prefix + Seat.getId(row + 1, col + 1);
+                bool isOccupied = occupied.contains(row * rowSize + col);
+                final sid = flightClass.prefix + getId(row + 1, col + 1);
 
                 return Expanded(
                   flex: 1,
@@ -48,7 +51,7 @@ class SeatsSection extends StatelessWidget {
                     child: Image.asset(
                       AppAssets.seat,
                       fit: BoxFit.fitWidth,
-                      color: isOccupied ? Colors.grey.shade600 : Colors.green.shade600,
+                      color: isOccupied ? Colors.grey.shade600 : Colors.greenAccent.shade700,
                     ),
                   ),
                 );
@@ -69,4 +72,11 @@ class SeatsSection extends StatelessWidget {
       ],
     );
   }
+}
+
+String getId(int row, int col) {
+  row--;
+  final row1 = row ~/ 26 + 1;
+  final row2 = String.fromCharCode(row % 26 + 65);
+  return '$row1$row2$col';
 }

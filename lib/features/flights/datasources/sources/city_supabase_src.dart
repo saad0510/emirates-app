@@ -6,7 +6,9 @@ import '../../../../core/errors/exceptions.dart';
 import '../models/city_model.dart';
 import 'city_remote_src.dart';
 
-class CitySupabaseSrc extends CityRemoteSrc {
+class CitySupabaseSrc implements CityRemoteSrc {
+  static const tableName = 'cities';
+
   final SupabaseClient client;
 
   CitySupabaseSrc({required this.client});
@@ -15,9 +17,9 @@ class CitySupabaseSrc extends CityRemoteSrc {
   Future<Iterable<CityModel>> search(String cityName) async {
     try {
       final query = client //
-          .from(CityModel.table)
+          .from(tableName)
           .select()
-          .ilike(CityModel.name_col, '$cityName%');
+          .ilike('name', '$cityName%');
 
       final List cities = await query;
       return cities.map((e) => CityModel.fromMap(e));
@@ -25,6 +27,9 @@ class CitySupabaseSrc extends CityRemoteSrc {
       log('search: $e', name: 'CitySupabaseSrc');
 
       throw CityException(cityName, e.message);
+    } catch (e) {
+      log('search: $e', name: 'CitySupabaseSrc');
+      rethrow;
     }
   }
 }

@@ -11,5 +11,11 @@ class City {
     required this.country,
   });
 
+  const City.empty()
+      : code = '',
+        name = '',
+        airport = '',
+        country = '';
+
   String get fullname => "$name, $country";
 }

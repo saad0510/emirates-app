@@ -6,7 +6,6 @@ import '../features/auth/presentation/screens/login_screen.dart';
 import '../features/auth/presentation/screens/onboarding_screen.dart';
 import '../features/auth/presentation/screens/registration_screen.dart';
 import '../features/auth/presentation/screens/setup_screen.dart';
-import '../features/flights/data/entities/flight.dart';
 import '../features/flights/presentation/screens/boarding_pass_screen.dart';
 import '../features/flights/presentation/screens/booking_screen.dart';
 import '../features/flights/presentation/screens/choose_seats_screen.dart';
@@ -60,15 +59,11 @@ class AppRoutes {
         );
       case booking:
         return MaterialPageRoute(
-          builder: (_) => BookingScreen(
-            flight: settings.arguments as Flight,
-          ),
+          builder: (_) => const BookingScreen(),
         );
       case seats:
         return MaterialPageRoute(
-          builder: (_) => ChooseSeatsScreen(
-            flight: settings.arguments as Flight,
-          ),
+          builder: (_) => const ChooseSeatsScreen(),
         );
       case payment:
         return MaterialPageRoute(

@@ -26,3 +26,7 @@ class CityException extends BaseException {
   final String name;
   const CityException(this.name, super.message);
 }
+
+class FlightException extends BaseException {
+  const FlightException(super.message);
+}

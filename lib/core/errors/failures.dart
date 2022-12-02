@@ -20,3 +20,7 @@ class CityFailure extends Failure {
   final String name;
   const CityFailure(this.name, super.message);
 }
+
+class FlightFailure extends Failure {
+  const FlightFailure(super.message);
+}

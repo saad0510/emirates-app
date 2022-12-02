@@ -4,16 +4,17 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import '../../../../app/sizes.dart';
 import '../../../../core/extensions/context_ext.dart';
 import '../../../common/presentation/widgets/dashed_line.dart';
-import '../../data/entities/flight.dart';
 
 class FlightTravelLine extends StatelessWidget {
   const FlightTravelLine({
     super.key,
-    required this.flight,
+    required this.from,
+    required this.to,
     required this.color,
   });
 
-  final Flight flight;
+  final String from;
+  final String to;
   final Color color;
 
   @override
@@ -24,7 +25,7 @@ class FlightTravelLine extends StatelessWidget {
       children: [
         AppSizes.maxY,
         Text(
-          flight.arrivalCity.code,
+          from,
           style: context.textTheme.headline2,
         ),
         AppSizes.smallY,
@@ -37,7 +38,10 @@ class FlightTravelLine extends StatelessWidget {
           children: [
             SizedBox(
               height: 400.h,
-              child: const DashedLine(count: 30, axis: Axis.vertical),
+              child: const DashedLine(
+                count: 30,
+                axis: Axis.vertical,
+              ),
             ),
             StatefulBuilder(
               builder: (context, setState) {
@@ -50,11 +54,7 @@ class FlightTravelLine extends StatelessWidget {
                   duration: const Duration(seconds: 30),
                   alignment: alignment,
                   heightFactor: 12,
-                  child: Icon(
-                    Icons.flight,
-                    size: 32.sp,
-                    color: color,
-                  ),
+                  child: Icon(Icons.flight, size: 32.sp, color: color),
                 );
               },
             ),
@@ -65,7 +65,7 @@ class FlightTravelLine extends StatelessWidget {
           backgroundColor: context.primaryColor,
         ),
         Text(
-          flight.departureCity.code,
+          to,
           style: context.textTheme.headline2,
         ),
       ],

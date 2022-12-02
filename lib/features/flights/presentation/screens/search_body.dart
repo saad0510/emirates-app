@@ -1,24 +1,32 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 import '../../../../app/routes.dart';
 import '../../../../app/sizes.dart';
 import '../../../../core/extensions/context_ext.dart';
 import '../../../home/presentation/widgets/flight_view.dart';
-import '../../data/entities/flight.dart';
-import '../controllers/city_controller.dart';
+import '../../data/entities/city.dart';
+import '../controllers/flight/flight_controller.dart';
+import '../controllers/flight/flight_state.dart';
 import '../widgets/select_city_field.dart';
+import '../widgets/state_icons.dart';
 
-class SearchBody extends StatelessWidget {
+class SearchBody extends StatefulWidget {
   const SearchBody({super.key});
 
   @override
+  State<SearchBody> createState() => _SearchBodyState();
+}
+
+class _SearchBodyState extends State<SearchBody> {
+  late final controller = context.read<FlightController>();
+
+  City departureCity = const City.empty();
+  City arrivalCity = const City.empty();
+
+  @override
   Widget build(BuildContext context) {
-    final flight = Flight(
-      fid: "AB689",
-      departureCity: CityController.cities.first,
-      arrivalCity: CityController.cities.last,
-      dateTime: DateTime.now(),
-    );
+    late final state = context.watch<FlightController>().state;
 
     return CustomScrollView(
       slivers: [
@@ -35,7 +43,7 @@ class SearchBody extends StatelessWidget {
                 ),
                 AppSizes.smallY,
                 SelectCityField(
-                  onSelected: (value) {},
+                  onSelected: (city) => departureCity = city,
                 ),
                 AppSizes.smallY,
                 Text(
@@ -44,32 +52,44 @@ class SearchBody extends StatelessWidget {
                 ),
                 AppSizes.smallY,
                 SelectCityField(
-                  onSelected: (value) {},
+                  onSelected: (city) => arrivalCity = city,
                 ),
                 AppSizes.normalY,
                 ElevatedButton(
-                  onPressed: () {},
+                  onPressed: () => controller.search(departureCity, arrivalCity),
                   child: const Text("Search"),
                 ),
                 AppSizes.smallY,
-                Expanded(
-                  child: Column(
-                    children: List.generate(
-                      3,
-                      (i) {
-                        return InkWell(
-                          onTap: () {
-                            context.push(AppRoutes.booking, arguments: flight);
-                          },
-                          child: Padding(
-                            padding: AppPaddings.smallY,
-                            child: FlightView(flight: flight),
-                          ),
-                        );
-                      },
+                if (state is FlightEmptyState)
+                  const WelcomeIcon()
+                else if (state is FlightLoadingState)
+                  const Center(
+                    heightFactor: 5,
+                    child: CircularProgressIndicator(),
+                  )
+                else if (state is FlightErrorState)
+                  ErrorIcon(errorMsg: state.failure.message)
+                else if (state is FlightLoadedState && state.flights.isEmpty)
+                  const NotFoundIcon()
+                else if (state is FlightLoadedState)
+                  Expanded(
+                    child: Column(
+                      children: List.generate(
+                        state.flights.length,
+                        (i) {
+                          return InkWell(
+                            onTap: () => onSelected(i),
+                            child: Padding(
+                              padding: AppPaddings.smallY,
+                              child: FlightView(
+                                flight: state.flights.elementAt(i),
+                              ),
+                            ),
+                          );
+                        },
+                      ),
                     ),
                   ),
-                ),
                 AppSizes.smallY,
               ],
             ),
@@ -77,5 +97,10 @@ class SearchBody extends StatelessWidget {
         ),
       ],
     );
+  }
+
+  void onSelected(int index) {
+    controller.bookingIndex = index;
+    context.push(AppRoutes.booking);
   }
 }
