@@ -21,5 +21,7 @@ class FlightController extends BaseChangeNotifier<FlightState> {
     );
   }
 
-  Flight get bookedFlight => (state as FlightLoadedState).flights.elementAt(bookingIndex);
+  Flight get bookedFlight {
+    return (state as FlightLoadedState).flights.elementAt(bookingIndex);
+  }
 }

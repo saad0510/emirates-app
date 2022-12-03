@@ -9,6 +9,7 @@ import '../../../../core/extensions/context_ext.dart';
 import '../../../../core/extensions/text_ext.dart';
 import '../../../auth/presentation/controllers/auth/auth_controller.dart';
 import '../../../auth/presentation/controllers/auth/auth_state.dart';
+import '../../../flights/presentation/controllers/ticket/trips_refresh_button.dart';
 import '../../../flights/presentation/screens/search_body.dart';
 import '../../../flights/presentation/screens/trips_body.dart';
 import '../../../flights/presentation/widgets/filters/flight_filter_sheet.dart';
@@ -67,7 +68,7 @@ class _HomeScreenState extends State<HomeScreen> {
       index: HomeScreen.tripsIndex,
       label: "Trips",
       icon: Icons.calendar_today,
-      appBarAction: const SizedBox(),
+      appBarAction: const TripsRefreshButton(),
       body: const TripsBody(),
     ),
     NavBarItem(

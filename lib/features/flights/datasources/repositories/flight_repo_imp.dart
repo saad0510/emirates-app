@@ -52,4 +52,16 @@ class FlightRepoImp implements FlightRepo {
       return Error(FlightFailure(e.message));
     }
   }
+
+  @override
+  Future<Result<FlightFailure, Void>> cancelSeat(Seat seat) async {
+    try {
+      await remoteSrc.cancelSeat(
+        SeatModel.fromSeat(seat),
+      );
+      return const Success(success);
+    } on FlightException catch (e) {
+      return Error(FlightFailure(e.message));
+    }
+  }
 }

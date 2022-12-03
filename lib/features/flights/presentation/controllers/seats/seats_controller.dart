@@ -48,6 +48,20 @@ class SeatsController extends BaseChangeNotifier<SeatsState> {
     );
   }
 
+  Future<void> cancel(String seatId) async {
+    final res = await repo.cancelSeat(
+      Seat(flightId: fid, seatNo: seatId),
+    );
+
+    res.when(
+      (failure) => state = SeatsErrorState(failure),
+      (success) {
+        final s = state as SeatsLoadedState;
+        s.seats.remove(seatId);
+      },
+    );
+  }
+
   @override
   void dispose() {
     stream?.cancel();

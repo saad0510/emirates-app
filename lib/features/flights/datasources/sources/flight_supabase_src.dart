@@ -75,4 +75,24 @@ class FlightSupabaseSrc implements FlightRemoteSrc {
       rethrow;
     }
   }
+
+  @override
+  Future<void> cancelSeat(SeatModel seatModel) async {
+    try {
+      final query = client
+          .from(seatsTableName) //
+          .delete()
+          .match({
+        'fid': seatModel.flightId,
+        'seat_no': seatModel.seatNo,
+      });
+      await query;
+    } on PostgrestException catch (e) {
+      log('seatsOf: $e', name: 'FlightSupabaseSrc');
+      throw FlightException(e.message);
+    } catch (e) {
+      log('seatsOf: $e', name: 'FlightSupabaseSrc');
+      rethrow;
+    }
+  }
 }

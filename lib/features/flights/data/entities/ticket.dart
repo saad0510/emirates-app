@@ -1,17 +1,25 @@
+import 'flight.dart';
 import 'flight_class.dart';
 
+enum TicketListState { old, upcoming, all }
+
 class Ticket {
-  final String flightId;
-  final String seatId;
+  final String ticketId;
   final String name;
   final String createdBy;
-  final FlightClass flightClass;
+  final String seatId;
+  final Flight flight;
 
   const Ticket({
-    required this.flightId,
+    required this.ticketId,
+    required this.flight,
     required this.seatId,
     required this.name,
     required this.createdBy,
-    required this.flightClass,
   });
+
+  FlightClass get flightClass => FlightClass.fromId(seatId);
+  double get price => flightClass == FlightClass.business //
+      ? flight.businesCost
+      : flight.economyCost;
 }

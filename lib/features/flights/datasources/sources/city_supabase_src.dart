@@ -32,4 +32,24 @@ class CitySupabaseSrc implements CityRemoteSrc {
       rethrow;
     }
   }
+
+  @override
+  Future<CityModel> fetchCity(String code) async {
+    try {
+      final query = client //
+          .from(tableName)
+          .select()
+          .eq('code', code)
+          .single();
+
+      final Map<String, dynamic> city = await query;
+      return CityModel.fromMap(city);
+    } on PostgrestException catch (e) {
+      log('fetchCity: $e', name: 'CitySupabaseSrc');
+      throw CityException(code, e.message);
+    } catch (e) {
+      log('fetchCity: $e', name: 'CitySupabaseSrc');
+      rethrow;
+    }
+  }
 }

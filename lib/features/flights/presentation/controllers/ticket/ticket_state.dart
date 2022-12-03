@@ -7,20 +7,15 @@ class TicketEmptyState extends TicketState {}
 
 class TicketLoadingState extends TicketState {}
 
+class TicketLoadedState extends TicketState {
+  final TicketListState state;
+  final Iterable<Ticket> tickets;
+
+  TicketLoadedState(this.tickets, this.state);
+}
+
 class TicketErrorState extends TicketState {
   final TicketFailure failure;
 
   TicketErrorState(this.failure);
-}
-
-class TicketUpcomingState extends TicketState {
-  final Iterable<Ticket> tickets;
-
-  TicketUpcomingState(this.tickets);
-}
-
-class TicketHistoryState extends TicketState {
-  final Iterable<Ticket> tickets;
-
-  TicketHistoryState(this.tickets);
 }

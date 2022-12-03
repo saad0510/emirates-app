@@ -23,4 +23,17 @@ class TicketRepoImp implements TicketRepo {
       return Error(TicketFailure(e.tid, e.message));
     }
   }
+
+  @override
+  Future<Result<TicketFailure, Iterable<Ticket>>> getTickets(
+    String uid,
+    TicketListState state,
+  ) async {
+    try {
+      final tickets = await remoteSrc.getAllTickets(uid, state);
+      return Success(tickets);
+    } on TicketException catch (e) {
+      return Error(TicketFailure(e.tid, e.message));
+    }
+  }
 }

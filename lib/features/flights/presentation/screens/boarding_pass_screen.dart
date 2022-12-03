@@ -1,19 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:open_app_file/open_app_file.dart';
-import 'package:provider/provider.dart';
 import 'package:share_plus/share_plus.dart';
 
 import '../../../../app/assets.dart';
 import '../../../../app/sizes.dart';
 import '../../../../core/extensions/context_ext.dart';
-import '../controllers/flight/flight_controller.dart';
+import '../../data/entities/ticket.dart';
 import '../controllers/pdf_controller.dart';
-import '../controllers/ticket/ticket_controller.dart';
 import '../widgets/boarding_pass_card.dart';
 
 class BoardingPassScreen extends StatefulWidget {
-  const BoardingPassScreen({super.key});
+  const BoardingPassScreen({super.key, required this.ticket});
+
+  final Ticket ticket;
 
   @override
   State<BoardingPassScreen> createState() => _BoardingPassScreenState();
@@ -21,9 +21,6 @@ class BoardingPassScreen extends StatefulWidget {
 
 class _BoardingPassScreenState extends State<BoardingPassScreen> {
   String? path;
-
-  late final ticket = context.watch<TicketController>().bookedTicket;
-  late final flight = context.watch<FlightController>().bookedFlight;
 
   @override
   Widget build(BuildContext context) {
@@ -70,10 +67,7 @@ class _BoardingPassScreenState extends State<BoardingPassScreen> {
               mainAxisSize: MainAxisSize.min,
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
-                BoardingPassCard(
-                  flight: flight,
-                  ticket: ticket,
-                ),
+                BoardingPassCard(ticket: widget.ticket),
                 AppSizes.normalY,
                 ElevatedButton(
                   onPressed: () async {
@@ -93,17 +87,14 @@ class _BoardingPassScreenState extends State<BoardingPassScreen> {
   Future<void> generatePdf() async {
     bool isGranted = await PdfController.isPermitted();
     if (isGranted == false) return;
-    path = await PdfController.generateTicket(
-      flight: flight,
-      ticket: ticket,
-    );
+    path = await PdfController.generateTicket(ticket: widget.ticket);
   }
 
   void shareTicket() async {
     if (path == null) await generatePdf();
     Share.shareXFiles(
       [XFile(path!)],
-      text: 'My boarding pass for ${ticket.flightId}',
+      text: 'My boarding pass for ${widget.ticket.flight.fid}',
     );
   }
 }

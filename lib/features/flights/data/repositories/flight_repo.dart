@@ -15,6 +15,9 @@ abstract class FlightRepo {
   /// opens a stream on seats of given flight id
   Result<FlightFailure, Stream<Iterable<Seat>>> listenSeatsFor(String fid);
 
-  /// reserves given seat for this user
+  /// reserves given seat
   Future<Result<FlightFailure, Void>> reserveSeat(Seat seat);
+
+  /// cancels given seat
+  Future<Result<FlightFailure, Void>> cancelSeat(Seat seat);
 }

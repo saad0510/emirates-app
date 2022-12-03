@@ -7,10 +7,8 @@ import '../../../../app/sizes.dart';
 import '../../../../core/extensions/context_ext.dart';
 import '../../../../core/extensions/text_ext.dart';
 import '../../../auth/presentation/controllers/auth/auth_controller.dart';
-import '../widgets/flight_ticket.dart';
 import '../widgets/popular_destinations_list.dart';
 import '../widgets/view_all_section.dart';
-import 'home_screen.dart';
 
 class WelcomeBody extends StatelessWidget {
   const WelcomeBody({super.key});
@@ -34,18 +32,6 @@ class WelcomeBody extends StatelessWidget {
               style: context.textTheme.headline1,
             ),
             const Divider(height: 50),
-            ViewAllSection(
-              title: "Upcoming flights",
-              onPressed: () {
-                context.replace(AppRoutes.home, arguments: HomeScreen.tripsIndex);
-              },
-              child: InkWell(
-                onTap: () => context.push(AppRoutes.boardingPass),
-                child: const Center(
-                  child: FlightTicket(),
-                ),
-              ),
-            ),
             Container(
               height: 360.h,
               margin: AppPaddings.normalY,

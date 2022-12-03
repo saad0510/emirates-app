@@ -6,6 +6,7 @@ import '../features/auth/presentation/screens/login_screen.dart';
 import '../features/auth/presentation/screens/onboarding_screen.dart';
 import '../features/auth/presentation/screens/registration_screen.dart';
 import '../features/auth/presentation/screens/setup_screen.dart';
+import '../features/flights/data/entities/ticket.dart';
 import '../features/flights/presentation/screens/boarding_pass_screen.dart';
 import '../features/flights/presentation/screens/booking_screen.dart';
 import '../features/flights/presentation/screens/choose_seats_screen.dart';
@@ -68,12 +69,14 @@ class AppRoutes {
       case payment:
         return MaterialPageRoute(
           builder: (_) => PaymentScreen(
-            seatId: settings.arguments as String,
+            args: settings.arguments as PaymentScreenArguments,
           ),
         );
       case boardingPass:
         return MaterialPageRoute(
-          builder: (_) => const BoardingPassScreen(),
+          builder: (_) => BoardingPassScreen(
+            ticket: settings.arguments as Ticket,
+          ),
         );
       case popularDestinations:
         return MaterialPageRoute(

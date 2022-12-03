@@ -9,6 +9,7 @@ import '../../../common/presentation/widgets/bottom_modal_sheet.dart';
 import '../../data/entities/flight_class.dart';
 import '../controllers/seats/seat_widget.dart';
 import '../controllers/seats/seats_controller.dart';
+import '../screens/payment_screen.dart';
 import 'confirm_seat_dialog.dart';
 
 class SeatsSection extends StatelessWidget {
@@ -78,12 +79,18 @@ class SeatsSection extends StatelessWidget {
         price: price,
         flightClass: flightClass,
         onConfirm: () async {
-          await context
-              .read<SeatsController>() //
-              .reserve(sid)
-              .then(
-                (_) => context.push(AppRoutes.payment, arguments: sid),
+          final controller = context.read<SeatsController>();
+
+          await controller.reserve(sid).then(
+            (_) {
+              final args = PaymentScreenArguments(
+                seatId: sid,
+                onCancel: () => controller.cancel(sid),
               );
+
+              return context.push(AppRoutes.payment, arguments: args);
+            },
+          );
         },
       ),
     );

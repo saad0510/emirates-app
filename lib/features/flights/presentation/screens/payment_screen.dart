@@ -6,78 +6,92 @@ import '../../../../app/routes.dart';
 import '../../../../app/sizes.dart';
 import '../../../../core/extensions/context_ext.dart';
 import '../../../auth/presentation/controllers/auth/auth_controller.dart';
-import '../../data/entities/flight_class.dart';
 import '../../data/entities/ticket.dart';
 import '../controllers/flight/flight_controller.dart';
 import '../controllers/ticket/ticket_controller.dart';
 import '../widgets/payment_form.dart';
 
-class PaymentScreen extends StatefulWidget {
-  const PaymentScreen({super.key, required this.seatId});
-
+class PaymentScreenArguments {
   final String seatId;
+  final VoidCallback onCancel;
+
+  const PaymentScreenArguments({
+    required this.seatId,
+    required this.onCancel,
+  });
+}
+
+class PaymentScreen extends StatefulWidget {
+  const PaymentScreen({super.key, required this.args});
+
+  final PaymentScreenArguments args;
 
   @override
   State<PaymentScreen> createState() => _PaymentScreenState();
 }
 
 class _PaymentScreenState extends State<PaymentScreen> {
-  late final flightClass = FlightClass.fromId(widget.seatId);
+  late final user = context.watch<AuthController>().user;
   late final flight = context.watch<FlightController>().bookedFlight;
-  late final price = flightClass == FlightClass.business //
-      ? flight.businesCost
-      : flight.economyCost;
+  late final ticket = Ticket(
+    ticketId: '',
+    seatId: widget.args.seatId,
+    name: user.name,
+    createdBy: user.uid,
+    flight: flight,
+  );
 
   double? discountedAmount;
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text("Payment"),
-      ),
-      body: SingleChildScrollView(
-        child: Padding(
-          padding: AppPaddings.normalXY,
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.stretch,
-            children: [
-              Text(
-                "Add your\npayment details",
-                style: context.textTheme.headline1,
-              ),
-              AppSizes.normalY,
-              Image.asset(AppAssets.creditCard),
-              AppSizes.normalY,
-              PaymentForm(
-                amount: price,
-                onSubmit: () async {
-                  final user = context.read<AuthController>().user;
-
-                  await context
-                      .read<TicketController>()
-                      .generate(
-                        Ticket(
-                          flightId: flight.fid,
-                          seatId: widget.seatId,
-                          name: user.name,
-                          createdBy: user.uid,
-                          flightClass: flightClass,
-                        ),
-                      )
-                      .then(
-                    (_) {
-                      context.pop();
-                      context.pop();
-                      context.replace(AppRoutes.boardingPass);
-                    },
-                  );
-                },
-              ),
-            ],
+    return WillPopScope(
+      onWillPop: () async {
+        widget.args.onCancel();
+        return true;
+      },
+      child: Scaffold(
+        appBar: AppBar(
+          title: const Text("Payment"),
+        ),
+        body: SingleChildScrollView(
+          child: Padding(
+            padding: AppPaddings.normalXY,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: [
+                Text(
+                  "Add your\npayment details",
+                  style: context.textTheme.headline1,
+                ),
+                AppSizes.normalY,
+                Image.asset(AppAssets.creditCard),
+                AppSizes.normalY,
+                PaymentForm(
+                  amount: ticket.price,
+                  onSubmit: onSubmit,
+                ),
+              ],
+            ),
           ),
         ),
       ),
+    );
+  }
+
+  void onSubmit() async {
+    await context
+        .read<TicketController>() //
+        .generate(ticket)
+        .then(
+      (_) {
+        context.pop();
+        context.pop();
+        context.replace(
+          AppRoutes.boardingPass,
+          arguments: ticket,
+        );
+      },
     );
   }
 }

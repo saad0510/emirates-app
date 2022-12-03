@@ -5,10 +5,11 @@ import 'ticket_state.dart';
 
 class TicketController extends BaseChangeNotifier<TicketState> {
   final TicketRepo repo;
-  int upcomingIndex = -1;
-  int historyIndex = -1;
+  TicketListState listState = TicketListState.all;
+  Iterable<Ticket> upcoming = [];
+  Iterable<Ticket> history = [];
 
-  TicketController({required this.repo}) : super(TicketEmptyState());
+  TicketController({required this.repo}) : super(TicketEmptyState(), debugMode: true);
 
   Future<void> generate(Ticket ticket) async {
     state = TicketLoadingState();
@@ -17,12 +18,39 @@ class TicketController extends BaseChangeNotifier<TicketState> {
 
     res.when(
       (failure) => state = TicketErrorState(failure),
-      (_) {
-        upcomingIndex = 0;
-        state = TicketUpcomingState([ticket]);
-      },
+      (_) => state = TicketEmptyState(),
     );
   }
 
-  Ticket get bookedTicket => (state as TicketUpcomingState).tickets.first;
+  void getTickets(String uid, {bool refresh = false}) async {
+    final isEmpty = listState == TicketListState.old //
+        ? history.isEmpty
+        : upcoming.isEmpty;
+
+    if (refresh || isEmpty) {
+      this.refresh(uid);
+      return;
+    }
+    if (listState == TicketListState.old) {
+      state = TicketLoadedState(history, listState);
+    } else {
+      state = TicketLoadedState(upcoming, listState);
+    }
+  }
+
+  void refresh(String uid) async {
+    state = TicketLoadingState();
+    final res = await repo.getTickets(uid, listState);
+    res.when(
+      (failure) => state = TicketErrorState(failure),
+      (tickets) {
+        if (listState == TicketListState.old) {
+          history = tickets;
+        } else {
+          upcoming = tickets;
+        }
+        state = TicketLoadedState(tickets, listState);
+      },
+    );
+  }
 }

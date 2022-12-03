@@ -16,6 +16,21 @@ class FlightModel extends Flight {
     required super.departureTime,
   });
 
+  factory FlightModel.fromFlight(Flight flight) {
+    return FlightModel(
+      fid: flight.fid,
+      rowSize: flight.rowSize,
+      economyRows: flight.economyRows,
+      businessRows: flight.businessRows,
+      economyCost: flight.economyCost,
+      businesCost: flight.businesCost,
+      arrivalCity: flight.arrivalCity,
+      departureCity: flight.departureCity,
+      arrivalTime: flight.arrivalTime,
+      departureTime: flight.departureTime,
+    );
+  }
+
   factory FlightModel.fromMapSearched(
     Map<String, dynamic> map,
     CityModel departureCity,
@@ -28,8 +43,23 @@ class FlightModel extends Flight {
       businessRows: map['business_rows'],
       economyCost: (map['economy_cost'] as int).toDouble(),
       businesCost: (map['business_cost'] as int).toDouble(),
-      arrivalCity: departureCity,
-      departureCity: arrivalCity,
+      arrivalCity: arrivalCity,
+      departureCity: departureCity,
+      arrivalTime: DateTimeService.fromIsoString(map['arrival_time']),
+      departureTime: DateTimeService.fromIsoString(map['departure_time']),
+    );
+  }
+
+  factory FlightModel.fromMap(Map<String, dynamic> map) {
+    return FlightModel(
+      fid: map['fid'],
+      rowSize: map['rows_per_seat'],
+      economyRows: map['economy_rows'],
+      businessRows: map['business_rows'],
+      economyCost: (map['economy_cost'] as int).toDouble(),
+      businesCost: (map['business_cost'] as int).toDouble(),
+      arrivalCity: CityModel.fromMap(map['arrival_city_data']),
+      departureCity: CityModel.fromMap(map['departure_city_data']),
       arrivalTime: DateTimeService.fromIsoString(map['arrival_time']),
       departureTime: DateTimeService.fromIsoString(map['departure_time']),
     );

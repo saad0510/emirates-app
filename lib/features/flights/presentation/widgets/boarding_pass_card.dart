@@ -8,27 +8,23 @@ import '../../../../core/extensions/context_ext.dart';
 import '../../../../core/utils/date_time_service.dart';
 import '../../../common/presentation/widgets/dashed_line.dart';
 import '../../../common/presentation/widgets/ticket_widget.dart';
-import '../../data/entities/flight.dart';
 import '../../data/entities/flight_class.dart';
 import '../../data/entities/ticket.dart';
 
 class BoardingPassCard extends StatelessWidget {
-  const BoardingPassCard({
-    super.key,
-    required this.ticket,
-    required this.flight,
-  });
+  const BoardingPassCard({super.key, required this.ticket});
 
-  final Flight flight;
   final Ticket ticket;
 
   @override
   Widget build(BuildContext context) {
+    final flight = ticket.flight;
+
     return TicketWidget(
       lower: Center(
         child: BarcodeWidget(
           barcode: Barcode.code128(),
-          data: flight.fid,
+          data: ticket.ticketId,
           color: context.contrastColor,
           drawText: false,
           height: 100.h,
@@ -105,7 +101,7 @@ class BoardingPassCard extends StatelessWidget {
               children: [
                 Text(ticket.name),
                 const Spacer(),
-                Text(ticket.flightId),
+                Text(flight.fid),
               ],
             ),
           ),

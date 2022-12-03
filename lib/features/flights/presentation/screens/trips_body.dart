@@ -1,12 +1,16 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 import '../../../../app/routes.dart';
 import '../../../../app/sizes.dart';
 import '../../../../core/extensions/context_ext.dart';
+import '../../../auth/presentation/controllers/auth/auth_controller.dart';
 import '../../../home/presentation/widgets/flight_ticket.dart';
-import '../../data/entities/flight.dart';
-import '../controllers/city_controller.dart';
+import '../../data/entities/ticket.dart';
+import '../controllers/ticket/ticket_controller.dart';
+import '../controllers/ticket/ticket_state.dart';
 import '../widgets/chip_selector.dart';
+import '../widgets/state_icons.dart';
 
 class TripsBody extends StatefulWidget {
   const TripsBody({super.key});
@@ -16,50 +20,69 @@ class TripsBody extends StatefulWidget {
 }
 
 class _TripsBodyState extends State<TripsBody> {
-  final flight = Flight(
-    fid: "AB689",
-    departureCity: CityController.cities.first,
-    arrivalCity: CityController.cities.last,
-    arrivalTime: DateTime.now(),
-    departureTime: DateTime.now(),
-    rowSize: 6,
-    businesCost: 12,
-    economyCost: 8,
-    businessRows: 4,
-    economyRows: 10,
-  );
+  @override
+  void initState() {
+    Future.delayed(
+      Duration.zero,
+      () => onChanged(0),
+    );
+    super.initState();
+  }
 
-  late final upcomings = List.filled(3, flight);
-  late final past = List.filled(1, flight);
-  late final trips = [upcomings, past];
+  void onChanged(int selected) {
+    final uid = context.read<AuthController>().user.uid;
+    final controller = context.read<TicketController>();
 
-  int selected = 0;
+    controller.listState = selected == 0 //
+        ? TicketListState.upcoming
+        : TicketListState.old;
+    controller.getTickets(uid);
+  }
 
   @override
   Widget build(BuildContext context) {
+    final state = context.watch<TicketController>().state;
+
     return SingleChildScrollView(
       child: Padding(
         padding: AppPaddings.normalX,
         child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
+          mainAxisSize: MainAxisSize.min,
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
             ChipSelector(
-              onChanged: (i) => setState(() => selected = i),
+              onChanged: onChanged,
               values: const ['Upcoming trips', 'Past trips'],
             ),
             AppSizes.normalY,
-            ...trips[selected].map<Widget>(
-              (e) => InkWell(
-                onTap: () {
-                  context.push(AppRoutes.boardingPass, arguments: flight);
-                },
-                child: Padding(
-                  padding: AppPaddings.normalY.copyWith(top: 0),
-                  child: const FlightTicket(),
+            if (state is TicketEmptyState) //
+              const Center(
+                heightFactor: 1.5,
+                child: WelcomeIcon(),
+              )
+            else if (state is TicketLoadingState)
+              const Center(
+                heightFactor: 10,
+                child: CircularProgressIndicator(),
+              )
+            else if (state is TicketErrorState)
+              Center(
+                heightFactor: 1.5,
+                child: ErrorIcon(errorMsg: state.failure.message),
+              )
+            else if (state is TicketLoadedState)
+              ...state.tickets.map<Widget>(
+                (ticket) => InkWell(
+                  onTap: () => context.push(
+                    AppRoutes.boardingPass,
+                    arguments: ticket,
+                  ),
+                  child: Padding(
+                    padding: AppPaddings.normalY.copyWith(top: 0),
+                    child: FlightTicket(ticket: ticket),
+                  ),
                 ),
               ),
-            ),
           ],
         ),
       ),

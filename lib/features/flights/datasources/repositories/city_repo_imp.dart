@@ -20,4 +20,14 @@ class CityRepoImp implements CityRepo {
       return Error(CityFailure(e.name, e.message));
     }
   }
+
+  @override
+  Future<Result<CityFailure, City>> fetchCity(String code) async {
+    try {
+      final city = await remoteSrc.fetchCity(code);
+      return Success(city);
+    } on CityException catch (e) {
+      return Error(CityFailure(e.name, e.message));
+    }
+  }
 }

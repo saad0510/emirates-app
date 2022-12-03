@@ -11,4 +11,6 @@ abstract class FlightRemoteSrc {
   Stream<Iterable<SeatModel>> seatsOf(String fid);
 
   Future<void> reserveSeat(SeatModel seatModel);
+
+  Future<void> cancelSeat(SeatModel seatModel);
 }

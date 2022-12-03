@@ -8,8 +8,6 @@ import 'package:permission_handler/permission_handler.dart';
 
 import '../../../../app/assets.dart';
 import '../../../../core/utils/date_time_service.dart';
-import '../../data/entities/flight.dart';
-import '../../data/entities/flight_class.dart';
 import '../../data/entities/ticket.dart';
 
 class PdfController {
@@ -20,10 +18,8 @@ class PdfController {
     return isGranted && Platform.isAndroid;
   }
 
-  static Future<String> generateTicket({
-    required Flight flight,
-    required Ticket ticket,
-  }) async {
+  static Future<String> generateTicket({required Ticket ticket}) async {
+    final flight = ticket.flight;
     final pdf = Document();
 
     final ByteData bytes = await rootBundle.load(AppAssets.logo);
@@ -86,20 +82,20 @@ class PdfController {
                   ),
                   TableRow(
                     children: [
-                      text('Flight ID', bold: true),
+                      text('Flight Number', bold: true),
                       text(flight.fid),
                     ],
                   ),
                   TableRow(
                     children: [
-                      text('Date & Time', bold: true),
+                      text('Departure Time', bold: true),
                       text(DateTimeService.dateTimeStr(flight.departureTime, full: true)),
                     ],
                   ),
                   TableRow(
                     children: [
-                      text('Flight Number', bold: true),
-                      text(flight.fid),
+                      text('Arrival Time', bold: true),
+                      text(DateTimeService.dateTimeStr(flight.arrivalTime, full: true)),
                     ],
                   ),
                   TableRow(
@@ -111,7 +107,13 @@ class PdfController {
                   TableRow(
                     children: [
                       text('Class', bold: true),
-                      text(FlightClass.business.name),
+                      text(ticket.flightClass.name),
+                    ],
+                  ),
+                  TableRow(
+                    children: [
+                      text('Bill', bold: true),
+                      text('${ticket.price} USD'),
                     ],
                   ),
                 ],
@@ -119,7 +121,7 @@ class PdfController {
               Spacer(),
               text('Scan this Barcode'),
               BarcodeWidget(
-                data: flight.fid,
+                data: ticket.ticketId,
                 barcode: Barcode.code128(),
                 height: 50,
                 width: 200,
