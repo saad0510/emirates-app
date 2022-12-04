@@ -4,6 +4,8 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 class UserImageCard extends StatelessWidget {
   const UserImageCard({super.key, this.height});
 
+  static const imageUrl = "https://i.pravatar.cc/150?img=69";
+
   final double? height;
 
   @override
@@ -11,7 +13,7 @@ class UserImageCard extends StatelessWidget {
     return ClipRRect(
       borderRadius: BorderRadius.circular(10),
       child: Image.network(
-        "https://i.pravatar.cc/150?img=69",
+        imageUrl,
         height: height ?? 40.h,
       ),
     );

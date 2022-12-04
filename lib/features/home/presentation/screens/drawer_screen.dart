@@ -56,7 +56,7 @@ class _DrawerScreenState extends State<DrawerScreen> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    const Spacer(flex: 2),
+                    const Spacer(flex: 3),
                     AppSizes.normalY,
                     const UserDetailHeader(),
                     const Spacer(),
@@ -73,6 +73,13 @@ class _DrawerScreenState extends State<DrawerScreen> {
                       icon: Icons.calendar_today_outlined,
                       onPressed: () {
                         context.replace(AppRoutes.home, arguments: HomeScreen.tripsIndex);
+                      },
+                    ),
+                    DrawerItem(
+                      label: "Book a flight",
+                      icon: Icons.flight,
+                      onPressed: () {
+                        context.replace(AppRoutes.home, arguments: HomeScreen.searchIndex);
                       },
                     ),
                     DrawerItem(
@@ -94,11 +101,6 @@ class _DrawerScreenState extends State<DrawerScreen> {
                         Share.share("Check out this flight booking app on ${AppConstants.playstoreLink}");
                       },
                     ),
-                    DrawerItem(
-                      label: "Settings",
-                      icon: Icons.settings_outlined,
-                      onPressed: () {},
-                    ),
                     AppSizes.maxY,
                     TextButton.icon(
                       style: TextButton.styleFrom(
@@ -111,7 +113,7 @@ class _DrawerScreenState extends State<DrawerScreen> {
                       label: const Text("Logout"),
                     ),
                     AppSizes.normalY,
-                    const Spacer(),
+                    const Spacer(flex: 2),
                   ],
                 ),
               ),

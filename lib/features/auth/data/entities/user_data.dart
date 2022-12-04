@@ -10,4 +10,8 @@ class UserData {
     required this.email,
     required this.birthDate,
   });
+
+  int get age {
+    return DateTime.now().difference(birthDate).inDays ~/ (30 * 12);
+  }
 }

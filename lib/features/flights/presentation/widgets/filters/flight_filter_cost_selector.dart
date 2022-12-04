@@ -4,14 +4,16 @@ import '../../../../../app/sizes.dart';
 import '../../../../../core/extensions/context_ext.dart';
 
 class FlightFilterCostSelector extends StatefulWidget {
-  const FlightFilterCostSelector({super.key});
+  const FlightFilterCostSelector({super.key, required this.onChange});
+
+  final void Function(RangeValues) onChange;
 
   @override
   State<FlightFilterCostSelector> createState() => _FlightFilterCostSelectorState();
 }
 
 class _FlightFilterCostSelectorState extends State<FlightFilterCostSelector> {
-  RangeValues values = const RangeValues(2, 10);
+  RangeValues values = const RangeValues(0, 1000);
 
   @override
   Widget build(BuildContext context) {
@@ -26,14 +28,17 @@ class _FlightFilterCostSelectorState extends State<FlightFilterCostSelector> {
         AppSizes.smallY,
         RangeSlider(
           values: values,
-          min: 1,
-          max: 100,
+          min: 0,
+          max: 1000,
           divisions: 100,
           labels: RangeLabels(
             '\$${values.start.round()}',
             '\$${values.end.round()}',
           ),
-          onChanged: (x) => setState(() => values = x),
+          onChanged: (x) {
+            setState(() => values = x);
+            widget.onChange(x);
+          },
         ),
       ],
     );

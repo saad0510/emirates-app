@@ -6,8 +6,8 @@ import '../../../../app/theme/colors.dart';
 import '../../../../core/extensions/context_ext.dart';
 import '../../../../core/extensions/text_ext.dart';
 
-class DestinationCad extends StatelessWidget {
-  const DestinationCad({
+class DestinationCard extends StatelessWidget {
+  const DestinationCard({
     super.key,
     required this.city,
     required this.country,

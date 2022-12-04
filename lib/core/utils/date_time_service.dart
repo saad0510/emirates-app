@@ -1,5 +1,5 @@
 class DateTimeService {
-  static final minDate = DateTime(2020, 1, 1);
+  static final minDate = DateTime(2000, 1, 1);
   static final maxDate = DateTime(2030, 12, 31);
 
   static String timeStr(DateTime dateTime) {

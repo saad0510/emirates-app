@@ -75,6 +75,7 @@ class _RegisterFormState extends State<RegisterForm> {
           ),
           AppSizes.smallY,
           DatePickerField(
+            title: "Date of Birth",
             onChanged: (x) => dob = x,
             controller: controller,
           ),

@@ -15,7 +15,6 @@ import '../features/flights/presentation/screens/order_summary_screen.dart';
 import '../features/flights/presentation/screens/payment_screen.dart';
 import '../features/home/presentation/screens/home_screen.dart';
 import '../features/home/presentation/screens/notification_screen.dart';
-import '../features/home/presentation/screens/popular_destinations_screen.dart';
 
 class AppRoutes {
   static const initial = setup;
@@ -91,10 +90,7 @@ class AppRoutes {
             tickets: settings.arguments as List<Ticket>,
           ),
         );
-      case popularDestinations:
-        return MaterialPageRoute(
-          builder: (_) => const PopularDestinationsScreen(),
-        );
+
       case notification:
         return MaterialPageRoute(
           builder: (_) => const NotificationScreen(),

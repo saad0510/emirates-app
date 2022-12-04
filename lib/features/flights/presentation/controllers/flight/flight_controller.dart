@@ -24,4 +24,8 @@ class FlightController extends BaseChangeNotifier<FlightState> {
   Flight get bookedFlight {
     return (state as FlightLoadedState).flights.elementAt(bookingIndex);
   }
+
+  void filterNewFlights(Iterable<Flight> filtered) {
+    state = FlightLoadedState(filtered);
+  }
 }

@@ -25,10 +25,11 @@ class FlightSupabaseSrc implements FlightRemoteSrc {
       final query = client
           .from(tableName) //
           .select()
+          .gt('departure_time', DateTime.now().toIso8601String())
           .match({
         'departure_city': departureCity.code,
         'arrival_city': arrivalCity.code,
-      });
+      }).order('departure_time', ascending: true);
 
       final List flights = await query;
       return flights.map(

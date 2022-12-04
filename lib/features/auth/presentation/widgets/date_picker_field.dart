@@ -4,8 +4,14 @@ import '../../../../core/utils/date_time_service.dart';
 import 'auth_text_field.dart';
 
 class DatePickerField extends StatelessWidget {
-  const DatePickerField({super.key, required this.onChanged, required this.controller});
+  const DatePickerField({
+    super.key,
+    required this.onChanged,
+    required this.controller,
+    required this.title,
+  });
 
+  final String title;
   final void Function(DateTime) onChanged;
   final TextEditingController controller;
 
@@ -26,7 +32,7 @@ class DatePickerField extends StatelessWidget {
               context: context,
               initialDate: now,
               firstDate: DateTimeService.minDate,
-              lastDate: now,
+              lastDate: DateTimeService.maxDate,
             );
             if (d != null) {
               onChanged(d);
@@ -36,7 +42,7 @@ class DatePickerField extends StatelessWidget {
           child: AbsorbPointer(
             absorbing: true,
             child: AuthTextField(
-              label: "Date of Birth",
+              label: title,
               hint: "1999-02-28",
               onSubmit: (x) {},
               keyboardType: TextInputType.none,

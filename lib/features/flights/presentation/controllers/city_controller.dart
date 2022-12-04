@@ -1,6 +1,9 @@
+import 'package:supabase_flutter/supabase_flutter.dart';
+
 import '../../../../core/utils/base_change_notifier.dart';
 import '../../data/entities/city.dart';
 import '../../data/repositories/city_repo.dart';
+import '../../datasources/models/city_model.dart';
 
 class CityController extends BaseChangeNotifier<bool> {
   final CityRepo repo;
@@ -22,5 +25,13 @@ class CityController extends BaseChangeNotifier<bool> {
         country: '',
       ),
     ];
+  }
+
+  Future<List<City>> getPopularDestinations([int limit = 3]) async {
+    state = true;
+    final List x = await Supabase.instance.client.rpc('popular_destinations');
+    final citites = x.map((e) => CityModel.fromMap(e)).toList();
+    state = false;
+    return citites;
   }
 }
