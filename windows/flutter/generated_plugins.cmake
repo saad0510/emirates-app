@@ -4,6 +4,7 @@
 
 list(APPEND FLUTTER_PLUGIN_LIST
   app_links_windows
+  awesome_notifications
   permission_handler_windows
   share_plus
   url_launcher_windows

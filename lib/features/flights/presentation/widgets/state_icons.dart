@@ -7,7 +7,9 @@ import '../../../../core/extensions/context_ext.dart';
 import '../../../../core/extensions/text_ext.dart';
 
 class NotFoundIcon extends StatelessWidget {
-  const NotFoundIcon({super.key});
+  const NotFoundIcon({super.key, required this.message});
+
+  final String message;
 
   @override
   Widget build(BuildContext context) {
@@ -21,7 +23,7 @@ class NotFoundIcon extends StatelessWidget {
         ),
         AppSizes.normalY,
         Text(
-          'No results found',
+          message,
           style: context.textTheme.headline5!.regular,
         ),
       ],

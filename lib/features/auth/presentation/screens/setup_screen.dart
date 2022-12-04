@@ -1,8 +1,10 @@
+import 'package:awesome_notifications/awesome_notifications.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import '../../../../app/routes.dart';
 import '../../../../core/extensions/context_ext.dart';
+import '../../../home/presentation/controllers/notification_controller.dart';
 import '../controllers/auth/auth_controller.dart';
 import '../controllers/auth/auth_state.dart';
 import '../controllers/onboarding_controller.dart';
@@ -20,6 +22,14 @@ class _SetupScreenState extends State<SetupScreen> {
   @override
   void initState() {
     controller.addListener(handleState);
+    final notify = context.read<NotificationController>();
+
+    notify.requestPermission();
+    AwesomeNotifications().setListeners(
+      onActionReceivedMethod: NotificationController.ignoreAction,
+      onNotificationDisplayedMethod: notify.onNotificationDisplayed,
+    );
+
     super.initState();
   }
 

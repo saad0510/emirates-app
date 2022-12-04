@@ -29,3 +29,8 @@ class TicketFailure extends Failure {
   final String tid;
   const TicketFailure(this.tid, super.message);
 }
+
+class NotificationFailure extends Failure {
+  final String nid;
+  const NotificationFailure(this.nid, super.message);
+}

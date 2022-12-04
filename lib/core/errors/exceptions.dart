@@ -35,3 +35,8 @@ class TicketException extends BaseException {
   final String tid;
   const TicketException(this.tid, super.message);
 }
+
+class NotificationException extends BaseException {
+  final String nid;
+  const NotificationException(this.nid, super.message);
+}

@@ -14,6 +14,7 @@ import '../../../flights/presentation/screens/search_body.dart';
 import '../../../flights/presentation/screens/trips_body.dart';
 import '../../../flights/presentation/widgets/filters/flight_filter_sheet.dart';
 import '../../data/entities/nav_bar_item.dart';
+import '../controllers/notification_button.dart';
 import 'drawer_screen.dart';
 import 'profile_body.dart';
 import 'welcome_body.dart';
@@ -54,7 +55,7 @@ class _HomeScreenState extends State<HomeScreen> {
       index: HomeScreen.welcomeIndex,
       label: "Home",
       icon: Icons.home,
-      appBarAction: const SizedBox(),
+      appBarAction: const NotificationButton(),
       body: const WelcomeBody(),
     ),
     NavBarItem(

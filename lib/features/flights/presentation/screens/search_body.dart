@@ -70,7 +70,7 @@ class _SearchBodyState extends State<SearchBody> {
                 else if (state is FlightErrorState)
                   ErrorIcon(errorMsg: state.failure.message)
                 else if (state is FlightLoadedState && state.flights.isEmpty)
-                  const NotFoundIcon()
+                  const NotFoundIcon(message: 'No flights found')
                 else if (state is FlightLoadedState)
                   Expanded(
                     child: Column(

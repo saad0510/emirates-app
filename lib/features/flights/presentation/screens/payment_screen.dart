@@ -6,6 +6,8 @@ import '../../../../app/sizes.dart';
 import '../../../../core/extensions/context_ext.dart';
 import '../../../common/presentation/widgets/bottom_modal_sheet.dart';
 import '../../../common/presentation/widgets/secondary_button.dart';
+import '../../../home/data/entities/notification_data.dart';
+import '../../../home/presentation/controllers/notification_controller.dart';
 import '../../data/entities/credit_card_details.dart';
 import '../controllers/booking/booking_controller.dart';
 import '../controllers/ticket/ticket_controller.dart';
@@ -86,18 +88,26 @@ class _PaymentScreenState extends State<PaymentScreen> {
 
   void onSubmit(CreditCardDetails details) async {
     setState(() => loading = true);
+    final tickets = widget.controller.tickets;
+    final scheduler = context.read<NotificationController>();
+    final ticketController = context.read<TicketController>();
 
-    Future.wait(
-      widget.controller.tickets.map(
-        (ticket) async => await context
-            .read<TicketController>() //
-            .generate(ticket),
-      ),
-    ).then(
-      (_) {
-        widget.controller.completeBooking();
-        context.pop();
-      },
-    );
+    List<Future<void>> tasks = [];
+
+    for (final ticket in tickets) {
+      tasks.add(
+        ticketController.generate(ticket),
+      );
+
+      tasks.add(
+        scheduler.scheduleNotification(
+          NotificationData.fromTicket(ticket),
+        ),
+      );
+    }
+
+    await Future.wait(tasks);
+    widget.controller.completeBooking();
+    if (mounted) context.pop();
   }
 }

@@ -14,13 +14,11 @@ class AppAssets {
   static const planeWindows = "$images/plane windows.png";
   static const seat = "$images/seat shape.png";
   static const creditCard = "$images/credit card.png";
-  static const successMark = "$images/success.png";
   static const worldMap = "$images/world map.png";
 
   static const startTravel = "$images/suitcase world.png";
   static const noResults = "$images/paper plane.png";
   static const error = "$images/plane crash.png";
-
   static const confirmOrder = "$images/confirm_order.png";
 
   static const mainCover = "$dest/man with bike cover.png";

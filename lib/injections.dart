@@ -1,7 +1,9 @@
+import 'package:awesome_notifications/awesome_notifications.dart';
 import 'package:get_it/get_it.dart';
 import 'package:provider/provider.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
+import 'app/constants.dart';
 import 'features/auth/data/repositories/auth_repo.dart';
 import 'features/auth/datasources/repositories/auth_repo_imp.dart';
 import 'features/auth/datasources/sources/auth_remote_src.dart';
@@ -23,12 +25,10 @@ import 'features/flights/datasources/sources/ticket_supabase_src.dart';
 import 'features/flights/presentation/controllers/city_controller.dart';
 import 'features/flights/presentation/controllers/flight/flight_controller.dart';
 import 'features/flights/presentation/controllers/ticket/ticket_controller.dart';
+import 'features/home/data/entities/notification_data.dart';
+import 'features/home/presentation/controllers/notification_controller.dart';
 
 class Injections {
-  static const supabaseUrl = "https://owquxhlxmutcrcifvfsy.supabase.co";
-  static const supabaseAnonKey =
-      "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im93cXV4aGx4bXV0Y3JjaWZ2ZnN5Iiwicm9sZSI6ImFub24iLCJpYXQiOjE2NjkxMDMwOTUsImV4cCI6MTk4NDY3OTA5NX0._hxo7zlCRr1FPYSu19l61sAva6KTEQuWv7VwDEbAsk8";
-
   static final inject = GetIt.instance;
 
   final appProviders = <ChangeNotifierProvider>[
@@ -47,14 +47,18 @@ class Injections {
     ChangeNotifierProvider<TicketController>(
       create: (_) => TicketController(repo: inject()),
     ),
+    ChangeNotifierProvider<NotificationController>(
+      create: (_) => NotificationController(
+        notify: AwesomeNotifications(),
+      ),
+    ),
   ];
 
   Future<void> init() async {
     final supabase = await Supabase.initialize(
-      url: supabaseUrl,
-      anonKey: supabaseAnonKey,
+      url: AppConstants.supabaseUrl,
+      anonKey: AppConstants.supabaseAnonKey,
     );
-
     // repos
     inject.registerLazySingleton<AuthRepo>(
       () => AuthRepoImp(remoteSrc: inject()),
@@ -83,6 +87,19 @@ class Injections {
       () => TicketSupabaseSrc(client: supabase.client),
     );
 
-    // third-party
+    // for notifications
+    await AwesomeNotifications().initialize(
+      "resource://drawable/logo",
+      [
+        NotificationChannel(
+          channelKey: NotificationData.basicChannel,
+          channelName: 'Flight notifications',
+          channelDescription: 'Notification channel for flight reminders',
+          channelShowBadge: true,
+          importance: NotificationImportance.High,
+        ),
+      ],
+      debug: true,
+    );
   }
 }
