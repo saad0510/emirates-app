@@ -1,5 +1,7 @@
+import '../../../../app/constants.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 
 import '../../../../app/assets.dart';
 import '../../../../app/routes.dart';
@@ -46,20 +48,13 @@ class AuthScreen extends StatelessWidget {
                     },
                     child: const Text("Sign up"),
                   ),
-                  Padding(
-                    padding: AppPaddings.normalY,
-                    child: SectionDivider(text: "or"),
-                  ),
+                  SectionDivider(text: "or"),
                   SocialAuthButton(
                     label: "Continue with Google",
                     iconPath: AppAssets.googleIcon,
-                    onPressed: () {},
-                  ),
-                  AppSizes.smallY,
-                  SocialAuthButton(
-                    label: "Continue with Facebook",
-                    iconPath: AppAssets.facebookIcon,
-                    onPressed: () {},
+                    onPressed: () {
+                      GoogleSignIn(serverClientId: AppConstants.oAuthKey).signIn();
+                    },
                   ),
                 ],
               ),

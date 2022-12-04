@@ -3,6 +3,7 @@ import 'package:flutter/rendering.dart';
 class AppConstants {
   static const designSize = Size(375, 812);
   static const title = "Emirates";
+  static const oAuthKey = "887969691409-dj3aa9tpa9guk5mbt65tkmg6ubcqoum0.apps.googleusercontent.com";
   static const playstoreLink = "git@github.com:saad0510/emirates-app.git";
   static const supabaseUrl = "https://owquxhlxmutcrcifvfsy.supabase.co";
   static const supabaseAnonKey =

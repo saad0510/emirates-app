@@ -2,14 +2,21 @@ import 'package:card_swiper/card_swiper.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:open_app_file/open_app_file.dart';
+import 'package:provider/provider.dart';
 import 'package:share_plus/share_plus.dart';
+import 'package:supabase_flutter/supabase_flutter.dart';
 
 import '../../../../app/assets.dart';
 import '../../../../app/sizes.dart';
 import '../../../../core/extensions/context_ext.dart';
+import '../../../auth/presentation/controllers/auth/auth_controller.dart';
+import '../../../common/presentation/widgets/bottom_modal_sheet.dart';
+import '../../../common/presentation/widgets/secondary_button.dart';
 import '../../data/entities/ticket.dart';
+import '../../data/entities/user_feedback.dart';
 import '../controllers/pdf_controller.dart';
 import '../widgets/boarding_pass_card.dart';
+import '../widgets/rating_form.dart';
 
 class BoardingPassScreen extends StatefulWidget {
   const BoardingPassScreen({super.key, required this.tickets});
@@ -28,6 +35,7 @@ class _BoardingPassScreenState extends State<BoardingPassScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      resizeToAvoidBottomInset: false,
       appBar: AppBar(
         title: const Text('Boarding Pass'),
         actions: [
@@ -111,6 +119,19 @@ class _BoardingPassScreenState extends State<BoardingPassScreen> {
                     child: const Text("Download ticket"),
                   ),
                 ),
+                AppSizes.smallY,
+                Padding(
+                  padding: AppPaddings.normalX,
+                  child: SecondaryButton(
+                    onPressed: () {
+                      BottomModalSheet.show(
+                        context,
+                        child: RatingForm(onSubmit: submitFeedback),
+                      );
+                    },
+                    child: const Text("Rate this flight"),
+                  ),
+                ),
               ],
             ),
           )
@@ -133,5 +154,17 @@ class _BoardingPassScreenState extends State<BoardingPassScreen> {
       [XFile(path!)],
       text: 'My boarding pass for ${widget.tickets[selected].flight.fid}',
     );
+  }
+
+  void submitFeedback(int rating, String comment) async {
+    final feed = UserFeedback(
+      uid: context.read<AuthController>().user.uid,
+      fid: widget.tickets[selected].flight.fid,
+      rating: rating,
+      comment: comment,
+    );
+    await Supabase.instance.client //
+        .from("feedback")
+        .upsert(feed.toMap());
   }
 }

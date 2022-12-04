@@ -27,6 +27,8 @@ dependencies:
   flutter_typeahead: ^4.1.1
   card_swiper: ^2.0.4
   awesome_notifications: ^0.7.4+1
+  google_sign_in: ^5.4.2
+  flutter_rating_bar: ^4.0.1
 
 dev_dependencies:
   flutter_test:
