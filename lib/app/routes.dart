@@ -7,9 +7,11 @@ import '../features/auth/presentation/screens/onboarding_screen.dart';
 import '../features/auth/presentation/screens/registration_screen.dart';
 import '../features/auth/presentation/screens/setup_screen.dart';
 import '../features/flights/data/entities/ticket.dart';
+import '../features/flights/presentation/controllers/booking/booking_controller.dart';
 import '../features/flights/presentation/screens/boarding_pass_screen.dart';
 import '../features/flights/presentation/screens/booking_screen.dart';
 import '../features/flights/presentation/screens/choose_seats_screen.dart';
+import '../features/flights/presentation/screens/order_summary_screen.dart';
 import '../features/flights/presentation/screens/payment_screen.dart';
 import '../features/home/presentation/screens/home_screen.dart';
 import '../features/home/presentation/screens/popular_destinations_screen.dart';
@@ -25,6 +27,7 @@ class AppRoutes {
   static const home = "homeScreen";
   static const booking = "bookingScreen";
   static const seats = "seatsScreen";
+  static const orderSummary = "orderSummaryScreen";
   static const payment = "paymentScreen";
   static const boardingPass = "boardingPassScreen";
   static const popularDestinations = "xScreen";
@@ -64,18 +67,26 @@ class AppRoutes {
         );
       case seats:
         return MaterialPageRoute(
-          builder: (_) => const ChooseSeatsScreen(),
+          builder: (_) => ChooseSeatsScreen(
+            onSelect: settings.arguments as void Function(String),
+          ),
+        );
+      case orderSummary:
+        return MaterialPageRoute(
+          builder: (_) => OrderSummaryScreen(
+            controller: settings.arguments as BookingController,
+          ),
         );
       case payment:
         return MaterialPageRoute(
           builder: (_) => PaymentScreen(
-            args: settings.arguments as PaymentScreenArguments,
+            controller: settings.arguments as BookingController,
           ),
         );
       case boardingPass:
         return MaterialPageRoute(
           builder: (_) => BoardingPassScreen(
-            ticket: settings.arguments as Ticket,
+            tickets: settings.arguments as List<Ticket>,
           ),
         );
       case popularDestinations:

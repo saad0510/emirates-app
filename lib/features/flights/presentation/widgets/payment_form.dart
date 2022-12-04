@@ -1,11 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import '../../../../app/sizes.dart';
+import '../../../../core/utils/date_time_service.dart';
 import '../../../auth/presentation/widgets/auth_text_field.dart';
-import '../../../common/presentation/widgets/bottom_modal_sheet.dart';
-import '../../../common/presentation/widgets/secondary_button.dart';
-import 'discount_sheet.dart';
+import '../../data/entities/credit_card_details.dart';
 
 class PaymentForm extends StatefulWidget {
   const PaymentForm({
@@ -15,17 +13,17 @@ class PaymentForm extends StatefulWidget {
   });
 
   final double amount;
-  final VoidCallback onSubmit;
+  final void Function(CreditCardDetails) onSubmit;
 
   @override
   State<PaymentForm> createState() => _PaymentFormState();
 }
 
 class _PaymentFormState extends State<PaymentForm> {
-  double? discountedAmount;
   final formKey = GlobalKey<FormState>();
 
-  double get payAmount => widget.amount - (discountedAmount ?? 0);
+  String cardNo = '', cvv = '';
+  DateTime date = DateTimeService.minDate;
 
   @override
   Widget build(BuildContext context) {
@@ -39,7 +37,7 @@ class _PaymentFormState extends State<PaymentForm> {
             label: "Card Number",
             hint: "XXXX - XXXX - XXXX - XXXX",
             keyboardType: TextInputType.number,
-            onSubmit: (x) => x = x,
+            onSubmit: (x) => cardNo = x,
           ),
           AppSizes.smallY,
           Row(
@@ -48,7 +46,7 @@ class _PaymentFormState extends State<PaymentForm> {
                 flex: 2,
                 child: AuthTextField(
                   label: "Expiry Date",
-                  hint: "12-06-2024",
+                  hint: "2024-12-06",
                   keyboardType: TextInputType.datetime,
                   onSubmit: (x) => x = x,
                 ),
@@ -59,35 +57,29 @@ class _PaymentFormState extends State<PaymentForm> {
                   label: "CVV",
                   hint: "562",
                   keyboardType: TextInputType.number,
-                  onSubmit: (x) => x = x,
+                  onSubmit: (x) => cvv = x,
                 ),
               ),
             ],
           ),
           AppSizes.normalY,
           ElevatedButton(
-            onPressed: widget.onSubmit,
-            child: Text("Pay  \$${payAmount.toStringAsFixed(2)}"),
-          ),
-          AppSizes.smallY,
-          SecondaryButton(
-            onPressed: () {
-              if (discountedAmount != null) return;
-              BottomModalSheet.show(
-                context,
-                child: Container(
-                  height: 330.h,
-                  alignment: Alignment.topCenter,
-                  child: const DiscountSheet(),
-                ),
-              );
-              setState(() => discountedAmount = 500);
-            },
-            child: discountedAmount != null //
-                ? const Text('XYZTYFS code applied')
-                : const Text("Use a Discount Code"),
+            onPressed: submit,
+            child: Text("Pay  \$${widget.amount}"),
           ),
         ],
+      ),
+    );
+  }
+
+  void submit() {
+    if (!mounted) return;
+    formKey.currentState!.save();
+    widget.onSubmit(
+      CreditCardDetails(
+        cardNo: cardNo,
+        expiryDate: date,
+        cvv: cvv,
       ),
     );
   }

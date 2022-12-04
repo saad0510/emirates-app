@@ -2,95 +2,101 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import '../../../../app/assets.dart';
-import '../../../../app/routes.dart';
 import '../../../../app/sizes.dart';
 import '../../../../core/extensions/context_ext.dart';
-import '../../../auth/presentation/controllers/auth/auth_controller.dart';
-import '../../data/entities/ticket.dart';
-import '../controllers/flight/flight_controller.dart';
+import '../../../common/presentation/widgets/bottom_modal_sheet.dart';
+import '../../../common/presentation/widgets/secondary_button.dart';
+import '../../data/entities/credit_card_details.dart';
+import '../controllers/booking/booking_controller.dart';
 import '../controllers/ticket/ticket_controller.dart';
+import '../widgets/discount_sheet.dart';
 import '../widgets/payment_form.dart';
 
-class PaymentScreenArguments {
-  final String seatId;
-  final VoidCallback onCancel;
-
-  const PaymentScreenArguments({
-    required this.seatId,
-    required this.onCancel,
-  });
-}
-
 class PaymentScreen extends StatefulWidget {
-  const PaymentScreen({super.key, required this.args});
+  const PaymentScreen({super.key, required this.controller});
 
-  final PaymentScreenArguments args;
+  final BookingController controller;
 
   @override
   State<PaymentScreen> createState() => _PaymentScreenState();
 }
 
 class _PaymentScreenState extends State<PaymentScreen> {
-  late final user = context.watch<AuthController>().user;
-  late final flight = context.watch<FlightController>().bookedFlight;
-  late final ticket = Ticket(
-    ticketId: '',
-    seatId: widget.args.seatId,
-    name: user.name,
-    createdBy: user.uid,
-    flight: flight,
-  );
-
   double? discountedAmount;
+  bool loading = false;
+
+  double get amount {
+    return widget.controller.totalPrice - (discountedAmount ?? 0);
+  }
 
   @override
   Widget build(BuildContext context) {
-    return WillPopScope(
-      onWillPop: () async {
-        widget.args.onCancel();
-        return true;
-      },
-      child: Scaffold(
-        appBar: AppBar(
-          title: const Text("Payment"),
-        ),
-        body: SingleChildScrollView(
-          child: Padding(
-            padding: AppPaddings.normalXY,
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.stretch,
-              children: [
-                Text(
-                  "Add your\npayment details",
-                  style: context.textTheme.headline1,
-                ),
-                AppSizes.normalY,
-                Image.asset(AppAssets.creditCard),
-                AppSizes.normalY,
-                PaymentForm(
-                  amount: ticket.price,
-                  onSubmit: onSubmit,
-                ),
-              ],
-            ),
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text("Payment"),
+      ),
+      body: SingleChildScrollView(
+        child: Padding(
+          padding: AppPaddings.normalXY,
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: [
+              Text(
+                "Add your\nPayment Details",
+                style: context.textTheme.headline1,
+              ),
+              AppSizes.normalY,
+              Image.asset(AppAssets.creditCard),
+              AppSizes.normalY,
+              ...loading
+                  ? [
+                      const Center(
+                        heightFactor: 5,
+                        child: CircularProgressIndicator(),
+                      ),
+                    ]
+                  : [
+                      PaymentForm(
+                        amount: amount,
+                        onSubmit: onSubmit,
+                      ),
+                      AppSizes.smallY,
+                      SecondaryButton(
+                        onPressed: () {
+                          BottomModalSheet.show(
+                            context,
+                            child: DiscountSheet(
+                              onDiscounted: (x) {
+                                setState(() => discountedAmount = x);
+                              },
+                            ),
+                          );
+                        },
+                        child: discountedAmount != null //
+                            ? const Text('XYZTYFS code applied')
+                            : const Text("Use a Discount Code"),
+                      ),
+                    ],
+            ],
           ),
         ),
       ),
     );
   }
 
-  void onSubmit() async {
-    await context
-        .read<TicketController>() //
-        .generate(ticket)
-        .then(
+  void onSubmit(CreditCardDetails details) async {
+    setState(() => loading = true);
+
+    Future.wait(
+      widget.controller.tickets.map(
+        (ticket) async => await context
+            .read<TicketController>() //
+            .generate(ticket),
+      ),
+    ).then(
       (_) {
+        widget.controller.completeBooking();
         context.pop();
-        context.pop();
-        context.replace(
-          AppRoutes.boardingPass,
-          arguments: ticket,
-        );
       },
     );
   }

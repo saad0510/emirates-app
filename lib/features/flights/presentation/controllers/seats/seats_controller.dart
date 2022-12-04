@@ -38,13 +38,17 @@ class SeatsController extends BaseChangeNotifier<SeatsState> {
   }
 
   Future<void> reserve(String seatId) async {
+    final seatState = (state as SeatsLoadedState);
+    seatState.lock = true;
+    notifyListeners();
+
     final res = await repo.reserveSeat(
       Seat(flightId: fid, seatNo: seatId),
     );
 
     res.when(
       (failure) => state = SeatsErrorState(failure),
-      (success) => null,
+      (success) => seatState.lock = false,
     );
   }
 

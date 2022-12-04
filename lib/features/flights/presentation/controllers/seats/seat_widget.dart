@@ -17,21 +17,24 @@ class SeatWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final occupied = context.select<SeatsController, bool>(
+    final bool? occupied = context.select<SeatsController, bool?>(
       (c) {
         final state = (c.state as SeatsLoadedState);
+        if (state.lock) return null;
         return state.seats.containsKey(seatId);
       },
     );
 
-    print('seat $seatId selected');
+    Color color = Colors.blueAccent;
+    if (occupied == true) color = Colors.grey.shade600;
+    if (occupied == false) color = Colors.greenAccent.shade700;
 
     return InkWell(
-      onTap: occupied ? null : () => onSelected(seatId),
+      onTap: occupied == null || occupied ? null : () => onSelected(seatId),
       child: Image.asset(
         AppAssets.seat,
         fit: BoxFit.fitWidth,
-        color: occupied ? Colors.grey.shade600 : Colors.greenAccent.shade700,
+        color: color,
       ),
     );
   }

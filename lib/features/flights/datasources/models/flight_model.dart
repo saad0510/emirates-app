@@ -38,7 +38,7 @@ class FlightModel extends Flight {
   ) {
     return FlightModel(
       fid: map['fid'],
-      rowSize: map['rows_per_seat'],
+      rowSize: map['seats_per_row'],
       economyRows: map['economy_rows'],
       businessRows: map['business_rows'],
       economyCost: (map['economy_cost'] as int).toDouble(),
@@ -53,7 +53,7 @@ class FlightModel extends Flight {
   factory FlightModel.fromMap(Map<String, dynamic> map) {
     return FlightModel(
       fid: map['fid'],
-      rowSize: map['rows_per_seat'],
+      rowSize: map['seats_per_row'],
       economyRows: map['economy_rows'],
       businessRows: map['business_rows'],
       economyCost: (map['economy_cost'] as int).toDouble(),

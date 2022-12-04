@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-import '../../../../app/routes.dart';
 import '../../../../app/sizes.dart';
 import '../../../../core/extensions/context_ext.dart';
 import '../../../../core/extensions/text_ext.dart';
@@ -9,7 +8,6 @@ import '../../../common/presentation/widgets/bottom_modal_sheet.dart';
 import '../../data/entities/flight_class.dart';
 import '../controllers/seats/seat_widget.dart';
 import '../controllers/seats/seats_controller.dart';
-import '../screens/payment_screen.dart';
 import 'confirm_seat_dialog.dart';
 
 class SeatsSection extends StatelessWidget {
@@ -19,12 +17,14 @@ class SeatsSection extends StatelessWidget {
     required this.rowSize,
     required this.price,
     required this.flightClass,
+    required this.onConfirm,
   });
 
   final int rowSize;
   final int rowsNo;
   final double price;
   final FlightClass flightClass;
+  final void Function(String seatId) onConfirm;
 
   @override
   Widget build(BuildContext context) {
@@ -44,16 +44,12 @@ class SeatsSection extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: List.generate(
               rowSize,
-              (col) {
-                final sid = getId(row, col);
-
-                return Expanded(
-                  child: SeatWidget(
-                    seatId: sid,
-                    onSelected: (sid) => showSeatDialog(sid, context),
-                  ),
-                );
-              },
+              (col) => Expanded(
+                child: SeatWidget(
+                  seatId: getId(row, col),
+                  onSelected: (sid) => showSeatDialog(sid, context),
+                ),
+              ),
             )..insert(
                 rowSize ~/ 2,
                 Expanded(
@@ -79,18 +75,8 @@ class SeatsSection extends StatelessWidget {
         price: price,
         flightClass: flightClass,
         onConfirm: () async {
-          final controller = context.read<SeatsController>();
-
-          await controller.reserve(sid).then(
-            (_) {
-              final args = PaymentScreenArguments(
-                seatId: sid,
-                onCancel: () => controller.cancel(sid),
-              );
-
-              return context.push(AppRoutes.payment, arguments: args);
-            },
-          );
+          await context.read<SeatsController>().reserve(sid);
+          onConfirm(sid);
         },
       ),
     );

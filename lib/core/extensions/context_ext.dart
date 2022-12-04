@@ -19,6 +19,12 @@ extension BasicExtOnContext on BuildContext {
 }
 
 extension NavExtOnContext on BuildContext {
+  Future<void> to(Widget screen) async {
+    Navigator.of(this).push(
+      MaterialPageRoute(builder: (_) => screen),
+    );
+  }
+
   Future<void> push(String route, {Object? arguments}) async {
     Navigator.of(this).pushNamed(route, arguments: arguments);
   }

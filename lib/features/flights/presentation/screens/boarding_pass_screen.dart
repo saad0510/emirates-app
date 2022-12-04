@@ -1,3 +1,4 @@
+import 'package:card_swiper/card_swiper.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:open_app_file/open_app_file.dart';
@@ -11,9 +12,9 @@ import '../controllers/pdf_controller.dart';
 import '../widgets/boarding_pass_card.dart';
 
 class BoardingPassScreen extends StatefulWidget {
-  const BoardingPassScreen({super.key, required this.ticket});
+  const BoardingPassScreen({super.key, required this.tickets});
 
-  final Ticket ticket;
+  final List<Ticket> tickets;
 
   @override
   State<BoardingPassScreen> createState() => _BoardingPassScreenState();
@@ -21,6 +22,8 @@ class BoardingPassScreen extends StatefulWidget {
 
 class _BoardingPassScreenState extends State<BoardingPassScreen> {
   String? path;
+  int selected = 0;
+  bool lockTransition = false;
 
   @override
   Widget build(BuildContext context) {
@@ -61,20 +64,52 @@ class _BoardingPassScreenState extends State<BoardingPassScreen> {
           ),
           Positioned(
             bottom: 20.h,
-            left: 20.w,
-            right: 20.w,
+            left: 0.w,
+            right: 0.w,
             child: Column(
               mainAxisSize: MainAxisSize.min,
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
-                BoardingPassCard(ticket: widget.ticket),
+                SizedBox(
+                  width: context.width,
+                  height: context.height,
+                  child: Swiper(
+                    itemCount: widget.tickets.length,
+                    autoplay: !lockTransition,
+                    autoplayDelay: 1500,
+                    loop: widget.tickets.length > 1,
+                    onIndexChanged: (i) {
+                      selected = i;
+                      if (lockTransition == true) {
+                        setState(() => lockTransition = false);
+                      }
+                    },
+                    onTap: (i) {
+                      setState(() => lockTransition = true);
+                    },
+                    itemBuilder: (_, i) {
+                      return Column(
+                        children: [
+                          const Spacer(),
+                          Padding(
+                            padding: AppPaddings.normalX,
+                            child: BoardingPassCard(ticket: widget.tickets[i]),
+                          ),
+                        ],
+                      );
+                    },
+                  ),
+                ),
                 AppSizes.normalY,
-                ElevatedButton(
-                  onPressed: () async {
-                    await generatePdf();
-                    OpenAppFile.open(path!);
-                  },
-                  child: const Text("Download ticket"),
+                Padding(
+                  padding: AppPaddings.normalX,
+                  child: ElevatedButton(
+                    onPressed: () async {
+                      await generatePdf();
+                      OpenAppFile.open(path!);
+                    },
+                    child: const Text("Download ticket"),
+                  ),
                 ),
               ],
             ),
@@ -87,14 +122,16 @@ class _BoardingPassScreenState extends State<BoardingPassScreen> {
   Future<void> generatePdf() async {
     bool isGranted = await PdfController.isPermitted();
     if (isGranted == false) return;
-    path = await PdfController.generateTicket(ticket: widget.ticket);
+    path = await PdfController.generateTicket(
+      ticket: widget.tickets[selected],
+    );
   }
 
   void shareTicket() async {
     if (path == null) await generatePdf();
     Share.shareXFiles(
       [XFile(path!)],
-      text: 'My boarding pass for ${widget.ticket.flight.fid}',
+      text: 'My boarding pass for ${widget.tickets[selected].flight.fid}',
     );
   }
 }

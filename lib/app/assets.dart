@@ -8,6 +8,7 @@ class AppAssets {
   static const onboard3 = "$images/plane cartoon.png";
   static const googleIcon = "$images/google icon.png";
   static const facebookIcon = "$images/facebook icon.new.png";
+
   static const planeTrace = "$images/plane in air.png";
   static const planeView = "$images/plane inner view.png";
   static const planeWindows = "$images/plane windows.png";
@@ -15,9 +16,12 @@ class AppAssets {
   static const creditCard = "$images/credit card.png";
   static const successMark = "$images/success.png";
   static const worldMap = "$images/world map.png";
+
   static const startTravel = "$images/suitcase world.png";
   static const noResults = "$images/paper plane.png";
   static const error = "$images/plane crash.png";
+
+  static const confirmOrder = "$images/confirm_order.png";
 
   static const mainCover = "$dest/man with bike cover.png";
   static const rockInWater = "$dest/mountain in water.png";

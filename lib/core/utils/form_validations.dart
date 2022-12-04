@@ -1,6 +1,6 @@
 class FormValidations {
   static const emailError = "Enter a valid email";
-  static const nameError = "Enter a name of atleast 4 characters";
+  static const nameError = "Enter atleast 4 characters";
   static const passError = "Enter a password of atleast 6 characters";
 
   static final emailRegex = RegExp(r"^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$");

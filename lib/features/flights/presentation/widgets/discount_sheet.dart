@@ -6,7 +6,9 @@ import '../../../../core/extensions/context_ext.dart';
 import '../../../auth/presentation/widgets/auth_text_field.dart';
 
 class DiscountSheet extends StatefulWidget {
-  const DiscountSheet({super.key});
+  const DiscountSheet({super.key, required this.onDiscounted});
+
+  final void Function(double) onDiscounted;
 
   @override
   State<DiscountSheet> createState() => _DiscountSheetState();
@@ -49,6 +51,8 @@ class _DiscountSheetState extends State<DiscountSheet> {
   void submit() async {
     setState(() => loading = true);
     await Future.delayed(const Duration(seconds: 2));
-    if (mounted) context.pop();
+    if (!mounted) return;
+    widget.onDiscounted(500);
+    context.pop();
   }
 }

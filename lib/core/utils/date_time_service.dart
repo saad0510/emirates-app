@@ -24,13 +24,16 @@ class DateTimeService {
     return '$month $day$year\t\t\t\t$hour:$minute';
   }
 
-  static DateTime fromIsoString(String iso) {
+  static DateTime fromIsoString(String iso, {bool full = true}) {
     final year = int.parse(iso.substring(0, 4));
     final month = int.parse(iso.substring(5, 7));
     final day = int.parse(iso.substring(8, 10));
-    final hour = int.parse(iso.substring(11, 13));
-    final min = int.parse(iso.substring(14, 16));
-
+    int hour = 0;
+    int min = 0;
+    if (full) {
+      hour = int.parse(iso.substring(11, 13));
+      min = int.parse(iso.substring(14, 16));
+    }
     return DateTime(year, month, day, hour, min);
   }
 

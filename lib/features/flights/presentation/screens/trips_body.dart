@@ -75,7 +75,7 @@ class _TripsBodyState extends State<TripsBody> {
                 (ticket) => InkWell(
                   onTap: () => context.push(
                     AppRoutes.boardingPass,
-                    arguments: ticket,
+                    arguments: [ticket],
                   ),
                   child: Padding(
                     padding: AppPaddings.normalY.copyWith(top: 0),

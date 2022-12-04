@@ -5,11 +5,6 @@ import '../../data/repositories/city_repo.dart';
 class CityController extends BaseChangeNotifier<bool> {
   final CityRepo repo;
 
-  // TODO: remove this
-  static const List<City> cities = [
-    City(code: 'ISL', name: 'Islamabad', airport: 'Islamabad International Airport', country: 'Pakistan'),
-  ];
-
   CityController({required this.repo}) : super(false);
 
   Future<Iterable<City>> search(String city) async {

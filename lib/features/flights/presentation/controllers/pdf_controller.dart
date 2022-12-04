@@ -135,7 +135,7 @@ class PdfController {
         },
       ),
     );
-    return await savePdf(pdf, flight.fid);
+    return await savePdf(pdf, ticket.ticketId);
   }
 
   static Future<String> savePdf(Document doc, String name) async {
