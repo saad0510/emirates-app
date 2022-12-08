@@ -27,11 +27,11 @@ class CityController extends BaseChangeNotifier<bool> {
     ];
   }
 
-  Future<List<City>> getPopularDestinations([int limit = 3]) async {
+  Future<List<Destination>> getPopularDestinations([int limit = 3]) async {
     state = true;
     final List x = await Supabase.instance.client.rpc('popular_destinations');
-    final citites = x.map((e) => CityModel.fromMap(e)).toList();
+    final dests = x.map((e) => DestinationModel.fromMap(e)).toList();
     state = false;
-    return citites;
+    return dests;
   }
 }

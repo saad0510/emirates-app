@@ -35,6 +35,7 @@ class _LoginScreenState extends State<LoginScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        // systemOverlayStyle: SystemUiOverlayStyle.dark,
         centerTitle: false,
         title: const Text("Login"),
       ),

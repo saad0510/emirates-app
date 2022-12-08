@@ -19,3 +19,15 @@ class City {
 
   String get fullname => "$name, $country";
 }
+
+class Destination extends City {
+  final String image;
+
+  const Destination({
+    required super.code,
+    required super.name,
+    required super.airport,
+    required super.country,
+    required this.image,
+  });
+}

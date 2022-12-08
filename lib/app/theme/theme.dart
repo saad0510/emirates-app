@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
+import 'package:flutter/services.dart';
 
 import '../../core/extensions/text_ext.dart';
 import '../../core/utils/base_change_notifier.dart';
@@ -35,6 +36,18 @@ class AppTheme extends BaseChangeNotifier<Brightness> {
     contrastColor = isDark ? AppColors.white : BlackColor.normal;
     highlightColor = isDark ? BlackColor.light : AppColors.highlight;
     backgroundColor = isDark ? BlackColor.medium : AppColors.highlight;
+
+    final invertedBrightness = isDark ? Brightness.light : Brightness.dark;
+    final canvasColor = isDark ? BlackColor.dark : Colors.white;
+    SystemChrome.setSystemUIOverlayStyle(
+      SystemUiOverlayStyle(
+        statusBarColor: canvasColor,
+        systemNavigationBarColor: canvasColor,
+        statusBarIconBrightness: invertedBrightness,
+        systemNavigationBarIconBrightness: invertedBrightness,
+        statusBarBrightness: invertedBrightness,
+      ),
+    );
   }
 
   Color contrastColor = AppColors.white;
@@ -83,8 +96,10 @@ class AppTheme extends BaseChangeNotifier<Brightness> {
 
   late final lightTheme = basetheme.copyWith(
     brightness: Brightness.light,
+    scaffoldBackgroundColor: Colors.white,
     textTheme: textThemeLight,
     appBarTheme: appBar.copyWith(
+      systemOverlayStyle: SystemUiOverlayStyle.dark,
       foregroundColor: BlackColor.normal,
       titleTextStyle: AppFonts.headline6.gray,
     ),
@@ -107,6 +122,7 @@ class AppTheme extends BaseChangeNotifier<Brightness> {
     scaffoldBackgroundColor: BlackColor.dark,
     textTheme: textThemeDark,
     appBarTheme: appBar.copyWith(
+      systemOverlayStyle: SystemUiOverlayStyle.light,
       foregroundColor: AppColors.white,
       titleTextStyle: AppFonts.headline6.white,
     ),

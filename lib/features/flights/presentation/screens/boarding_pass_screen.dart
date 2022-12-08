@@ -84,7 +84,6 @@ class _BoardingPassScreenState extends State<BoardingPassScreen> {
                   child: Swiper(
                     itemCount: widget.tickets.length,
                     autoplay: !lockTransition,
-                    autoplayDelay: 1500,
                     loop: widget.tickets.length > 1,
                     onIndexChanged: (i) {
                       selected = i;

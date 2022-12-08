@@ -63,7 +63,7 @@ class FlightTicket extends StatelessWidget {
                   style: context.textTheme.subtitle2,
                 ),
                 Text(
-                  "DEARTURE",
+                  "DEPARTURE",
                   style: context.textTheme.subtitle2,
                 ),
               ],

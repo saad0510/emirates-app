@@ -43,12 +43,16 @@ class _BookingFormState extends State<BookingForm> {
         mainAxisSize: MainAxisSize.min,
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
-          AppSizes.normalY,
+          Text(
+            "Number of Passengers",
+            style: context.textTheme.bodyText1,
+          ),
+          AppSizes.smallY,
           TextField(
             style: context.textTheme.bodyText2,
             keyboardType: TextInputType.number,
             decoration: const InputDecoration(
-              hintText: "Number of tickets (1 to 10)",
+              hintText: "Max 10",
             ),
             onChanged: (x) {
               quantity = int.tryParse(x) ?? 0;
@@ -73,7 +77,7 @@ class _BookingFormState extends State<BookingForm> {
                       decoration: const InputDecoration(
                         hintText: "Full Name",
                       ),
-                      onSaved: (x) => controller.names[i] = x!,
+                      onSaved: (x) => controller.names[i] = x!.trim(),
                       keyboardType: TextInputType.name,
                       validator: FormValidations.name,
                     ),

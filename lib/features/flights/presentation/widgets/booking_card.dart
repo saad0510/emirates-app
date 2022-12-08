@@ -47,52 +47,26 @@ class BookingCard extends StatelessWidget {
             label: "TO",
             title: flight.arrivalCity.fullname,
           ),
-          Row(
-            children: [
-              Expanded(
-                child: BookingScreenField(
-                  label: "DEPARTURE",
-                  title: DateTimeService.dateStr(flight.departureTime),
-                ),
-              ),
-              Expanded(
-                child: BookingScreenField(
-                  label: "ARRIVAL",
-                  title: DateTimeService.dateStr(flight.arrivalTime),
-                ),
-              ),
-            ],
+          BookingScreenField(
+            label: "DEPARTURE",
+            title: DateTimeService.dateTimeStr(flight.departureTime, full: true),
+          ),
+          BookingScreenField(
+            label: "ARRIVAL",
+            title: DateTimeService.dateTimeStr(flight.arrivalTime, full: true),
           ),
           Row(
             children: [
               Expanded(
-                flex: 2,
                 child: BookingScreenField(
                   label: "ECONOMY",
-                  title: '${flight.economyCost} USD',
+                  title: '\$ ${flight.economyCost}',
                 ),
               ),
               Expanded(
-                child: BookingScreenField(
-                  label: "SEATS",
-                  title: '${flight.economySeats}',
-                ),
-              ),
-            ],
-          ),
-          Row(
-            children: [
-              Expanded(
-                flex: 2,
                 child: BookingScreenField(
                   label: "BUSINESS",
-                  title: '${flight.businesCost} USD',
-                ),
-              ),
-              Expanded(
-                child: BookingScreenField(
-                  label: "SEATS",
-                  title: '${flight.businessSeats}',
+                  title: '\$ ${flight.businesCost}',
                 ),
               ),
             ],

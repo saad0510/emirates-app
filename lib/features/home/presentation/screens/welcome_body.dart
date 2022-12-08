@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
 
-import '../../../../app/assets.dart';
 import '../../../../app/sizes.dart';
 import '../../../../core/extensions/context_ext.dart';
 import '../../../../core/extensions/text_ext.dart';
@@ -20,14 +19,14 @@ class WelcomeBody extends StatefulWidget {
 }
 
 class _WelcomeBodyState extends State<WelcomeBody> {
-  List<City> cities = [];
+  List<Destination> dests = [];
 
   @override
   void initState() {
     Future.delayed(
       Duration.zero,
       context.read<CityController>().getPopularDestinations,
-    ).then((x) => cities = x);
+    ).then((x) => dests = x);
     super.initState();
   }
 
@@ -50,7 +49,9 @@ class _WelcomeBodyState extends State<WelcomeBody> {
               "Where are you going?",
               style: context.textTheme.headline1,
             ),
-            Divider(height: 70.h),
+            AppSizes.normalY,
+            const Divider(),
+            AppSizes.normalY,
             Text(
               "Popular Destinations",
               textAlign: TextAlign.center,
@@ -66,7 +67,7 @@ class _WelcomeBodyState extends State<WelcomeBody> {
                     width: context.width,
                     height: 400.h,
                     child: Swiper(
-                      itemCount: cities.length,
+                      itemCount: dests.length,
                       autoplay: true,
                       autoplayDelay: 4000,
                       loop: true,
@@ -76,10 +77,10 @@ class _WelcomeBodyState extends State<WelcomeBody> {
                         return Padding(
                           padding: AppPaddings.normalX,
                           child: DestinationCard(
-                            city: cities[i].name,
-                            country: cities[i].country,
+                            city: dests[i].name,
+                            country: dests[i].country,
                             rating: "4.8",
-                            image: AppAssets.islandView,
+                            image: dests[i].image,
                           ),
                         );
                       },

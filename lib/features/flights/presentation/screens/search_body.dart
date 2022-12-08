@@ -4,6 +4,7 @@ import 'package:provider/provider.dart';
 import '../../../../app/routes.dart';
 import '../../../../app/sizes.dart';
 import '../../../../core/extensions/context_ext.dart';
+import '../../../common/presentation/widgets/appearance_animation.dart';
 import '../../../home/presentation/widgets/flight_view.dart';
 import '../../data/entities/city.dart';
 import '../controllers/flight/flight_controller.dart';
@@ -77,12 +78,15 @@ class _SearchBodyState extends State<SearchBody> {
                       children: List.generate(
                         state.flights.length,
                         (i) {
-                          return InkWell(
-                            onTap: () => onSelected(i),
-                            child: Padding(
-                              padding: AppPaddings.smallY,
-                              child: FlightView(
-                                flight: state.flights.elementAt(i),
+                          return AppearanceAnimation(
+                            delay: i / (state.flights.length),
+                            child: InkWell(
+                              onTap: () => onSelected(i),
+                              child: Padding(
+                                padding: AppPaddings.smallY,
+                                child: FlightView(
+                                  flight: state.flights.elementAt(i),
+                                ),
                               ),
                             ),
                           );

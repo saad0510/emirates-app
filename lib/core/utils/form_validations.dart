@@ -7,7 +7,7 @@ class FormValidations {
 
   static String? name(String? text) {
     if (text == null) return null;
-    return text.length >= 4 ? null : nameError;
+    return text.trim().length >= 4 ? null : nameError;
   }
 
   static String? email(String? text) {

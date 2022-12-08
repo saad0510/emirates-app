@@ -26,3 +26,23 @@ class CityModel extends City {
     );
   }
 }
+
+class DestinationModel extends Destination {
+  const DestinationModel({
+    required super.code,
+    required super.name,
+    required super.airport,
+    required super.country,
+    required super.image,
+  });
+
+  factory DestinationModel.fromMap(Map<String, dynamic> map) {
+    return DestinationModel(
+      code: map['code'],
+      name: map['name'],
+      airport: map['airport'],
+      country: map['country'],
+      image: map['image_url'],
+    );
+  }
+}

@@ -5,6 +5,7 @@ import '../../../../app/routes.dart';
 import '../../../../app/sizes.dart';
 import '../../../../core/extensions/context_ext.dart';
 import '../../../auth/presentation/controllers/auth/auth_controller.dart';
+import '../../../common/presentation/widgets/appearance_animation.dart';
 import '../../../home/presentation/widgets/flight_ticket.dart';
 import '../../data/entities/ticket.dart';
 import '../controllers/ticket/ticket_controller.dart';
@@ -70,18 +71,31 @@ class _TripsBodyState extends State<TripsBody> {
                 heightFactor: 1.5,
                 child: ErrorIcon(errorMsg: state.failure.message),
               )
+            else if (state is TicketLoadedState && state.tickets.isEmpty)
+              const Center(
+                heightFactor: 1.5,
+                child: NotFoundIcon(message: "No trips found"),
+              )
             else if (state is TicketLoadedState)
-              ...state.tickets.map<Widget>(
-                (ticket) => InkWell(
-                  onTap: () => context.push(
-                    AppRoutes.boardingPass,
-                    arguments: [ticket],
-                  ),
-                  child: Padding(
-                    padding: AppPaddings.normalY.copyWith(top: 0),
-                    child: FlightTicket(ticket: ticket),
-                  ),
-                ),
+              ...List.generate(
+                state.tickets.length,
+                (i) {
+                  final ticket = state.tickets.elementAt(i);
+                  return AppearanceAnimation(
+                    delay: i / state.tickets.length,
+                    duration: 1000,
+                    child: InkWell(
+                      onTap: () => context.push(
+                        AppRoutes.boardingPass,
+                        arguments: [ticket],
+                      ),
+                      child: Padding(
+                        padding: AppPaddings.normalY.copyWith(top: 0),
+                        child: FlightTicket(ticket: ticket),
+                      ),
+                    ),
+                  );
+                },
               ),
           ],
         ),

@@ -36,7 +36,7 @@ class DestinationCard extends StatelessWidget {
           Expanded(
             child: ClipRRect(
               borderRadius: borderRadius,
-              child: Image.asset(image, fit: BoxFit.cover),
+              child: Image.network(image, fit: BoxFit.cover),
             ),
           ),
           Padding(

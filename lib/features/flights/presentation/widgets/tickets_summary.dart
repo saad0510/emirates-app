@@ -24,22 +24,46 @@ class TicketsSummary extends StatelessWidget {
         children: tickets.map(
           (ticket) {
             amount += ticket.price;
-            return ListTile(
-              contentPadding: AppPaddings.smallY,
-              subtitle: Text(
-                ticket.name,
-                style: context.textTheme.headline5!.regular,
-              ),
-              minLeadingWidth: 60.w,
-              leading: Text(
-                ticket.seatId,
-                style: context.textTheme.headline5!.regular,
-              ),
-              trailing: Text(
-                '\$ ${ticket.price}',
-                style: context.textTheme.headline5!.medium,
-              ),
-            );
+            return true
+                ? Padding(
+                    padding: AppPaddings.smallY,
+                    child: Row(
+                      children: [
+                        AppSizes.smallX,
+                        Text(
+                          ticket.seatId,
+                          style: context.textTheme.headline5!.regular,
+                        ),
+                        const Spacer(),
+                        Text(
+                          ticket.name,
+                          style: context.textTheme.headline5!.regular,
+                        ),
+                        const Spacer(),
+                        Text(
+                          '\$ ${ticket.price}',
+                          style: context.textTheme.headline5!.medium,
+                        ),
+                        AppSizes.smallX,
+                      ],
+                    ),
+                  )
+                : ListTile(
+                    contentPadding: AppPaddings.smallY,
+                    subtitle: Text(
+                      ticket.name,
+                      style: context.textTheme.headline5!.regular,
+                    ),
+                    minLeadingWidth: 60.w,
+                    leading: Text(
+                      ticket.seatId,
+                      style: context.textTheme.headline5!.regular,
+                    ),
+                    trailing: Text(
+                      '\$ ${ticket.price}',
+                      style: context.textTheme.headline5!.medium,
+                    ),
+                  );
           },
         ).toList(),
       ),
