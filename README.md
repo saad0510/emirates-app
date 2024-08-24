@@ -9,6 +9,8 @@ A mock flight booking application for Emirates Airline which includes:
 - 🎟️ Generating tickets with PDFs
 - 📝 Upcoming trips & Past flights history
 
+The design philosophy follows the "Clean Architecture"
+
 ## Technologies
 
 <div>
