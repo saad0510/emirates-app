@@ -16,6 +16,11 @@ A mock flight booking application for Emirates Airline which includes:
   <img src="https://supabase.com/_next/image?url=%2F_next%2Fstatic%2Fmedia%2Fsupabase-logo-wordmark--light.daaeffd3.png&w=256&q=75" height=30px /> &nbsp;
 </div>
 
+## Links
+
+Video 📷: [Click here](https://github.com/saad0510/emirates-app/main/doc/demo.mp4) <br>
+APK 📲: [Click here](https://github.com/saad0510/emirates-app/main/doc/emirates.apk)
+
 ## Screenshots
 
 ### Home
