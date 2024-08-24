@@ -1,3 +1,5 @@
+<img src="https://raw.githubusercontent.com/saad0510/emirates-app/main/doc/cover.png" /> 
+
 # <img src="https://raw.githubusercontent.com/saad0510/emirates-app/main/assets/images/favicon.jpg" width=30px height=30px /> Emirates App
 
 A mock flight booking application for Emirates Airline which includes:
