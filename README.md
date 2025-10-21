@@ -16,7 +16,7 @@ The design philosophy follows the "Clean Architecture"
 
 <div>
   <img src="https://storage.googleapis.com/cms-storage-bucket/6a07d8a62f4308d2b854.svg" height=30px /> &nbsp;
-  <img src="https://zone-www-dot-com-git-self-hosted-supabase.vercel.app/_next/image?url=%2F_next%2Fstatic%2Fmedia%2Fsupabase-logo-wordmark--light.ba3d6f54.png&w=256&q=75" height=30px /> &nbsp;
+  <img src="https://companieslogo.com/img/orig/supabase_BIG-51982037.png" height=30px /> &nbsp;
 </div>
 
 ## Links
