@@ -21,8 +21,8 @@ The design philosophy follows the "Clean Architecture"
 
 ## Links
 
-Video 📷: [Click here](https://firebasestorage.googleapis.com/v0/b/saadbinkhalid-portfolio.appspot.com/o/emirates%2Fdemo.mp4?alt=media&token=6932518c-97f6-4ab6-8651-b600be3665a7) <br>
-APK 📲: [Click here](https://github.com/saad0510/emirates-app/releases/tag/apk)
+📽️ Video : [Click here](https://firebasestorage.googleapis.com/v0/b/saadbinkhalid-portfolio.appspot.com/o/emirates%2Fdemo.mp4?alt=media&token=6932518c-97f6-4ab6-8651-b600be3665a7) <br>
+📲 APK : [Click here](https://github.com/saad0510/emirates-app/releases/tag/apk)
 
 ## Screenshots
 
