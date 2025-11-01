@@ -2,6 +2,10 @@
 
 # <img src="https://raw.githubusercontent.com/saad0510/emirates-app/main/assets/images/favicon.jpg" width=30px height=30px /> Emirates App
 
+[![Star this repo](https://img.shields.io/badge/Star-⭐_this_repo-FFEC86?style=for-the-badge&logo=github&logoColor=white)](https://github.com/saad0510/emirates-app)
+[![Watch Demo](https://img.shields.io/badge/Watch-Demo-CD2F30?style=for-the-badge&logo=youtube&logoColor=white)](https://firebasestorage.googleapis.com/v0/b/saadbinkhalid-portfolio.appspot.com/o/emirates%2Fdemo.mp4?alt=media&token=6932518c-97f6-4ab6-8651-b600be3665a7)
+[![Download APK](https://img.shields.io/badge/Download-APK-3DDC84?style=for-the-badge&logo=android&logoColor=white)](https://github.com/saad0510/emirates-app/releases/tag/apk)
+
 A mock flight booking application for Emirates Airline which includes:
 
 - 🔍 Searching for available flights
@@ -18,11 +22,6 @@ The design philosophy follows the "Clean Architecture"
   <img src="https://storage.googleapis.com/cms-storage-bucket/6a07d8a62f4308d2b854.svg" height=30px /> &nbsp;
   <img src="https://companieslogo.com/img/orig/supabase_BIG-51982037.png" height=30px /> &nbsp;
 </div>
-
-## Links
-
-📽️ Video : [Click here](https://firebasestorage.googleapis.com/v0/b/saadbinkhalid-portfolio.appspot.com/o/emirates%2Fdemo.mp4?alt=media&token=6932518c-97f6-4ab6-8651-b600be3665a7) <br>
-📲 APK : [Click here](https://github.com/saad0510/emirates-app/releases/tag/apk)
 
 ## Screenshots
 
