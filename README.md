@@ -57,3 +57,6 @@ The design philosophy follows the "Clean Architecture"
   <img src="https://raw.githubusercontent.com/saad0510/emirates-app/main/doc/ticket.png" height=500px /> &nbsp;
   <img src="https://raw.githubusercontent.com/saad0510/emirates-app/main/doc/pdf.png" height=500px /> &nbsp;
 </div>
+
+## Developer
+saadbinkhalid.dev@gmail.com
